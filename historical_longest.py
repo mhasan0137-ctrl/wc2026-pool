@@ -9,7 +9,7 @@ import json
 import urllib.request
 from pathlib import Path
 
-from longest_names import name_letters
+from longest_names_wiki import name_letters
 
 OUT = Path(__file__).parent / "out"
 SOURCES = {

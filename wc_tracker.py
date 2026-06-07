@@ -283,15 +283,11 @@ QUESTION_GUIDE = [
      "stage. Pick a band — <b>&lt;£25k · £25–50k · £50–75k · £75–100k · £100–150k · £150–200k · £200k+</b>. "
      "<b>Hint:</b> our best single match at the last Euros was ~<b>£40k</b>, and we made ~<b>£44k</b> on the "
      "last UCL final. Settled from our own numbers after the groups; right-band pickers split the pot."),
-    ("13. Most we lose on a single group-stage match (net P&amp;L, £)",
-     "💷 <b>Insider question.</b> The flip side: our <b>worst single-match net P&amp;L</b> in the group "
-     "stage. Closest £ wins — enter it as a positive number. <b>Hint:</b> our worst single match at the last "
-     "Euros was ~<b>£13k</b>. <b>Mismappings don't count 😬</b>. Settled from our own book afterwards."),
-    ("14. Most we trade on a single group-stage match (£)",
-     "💷 <b>Insider question.</b> The single group game we <b>trade the most money on</b> — total matched, "
-     "not P&amp;L. Pick a band — <b>&lt;£2m · £2–4m · £4–6m · £6–8m · £8–10m · £10–15m · £15m+</b>. "
-     "<b>Hint:</b> our biggest single game at Euro 2024 was ~<b>£3.3m</b>, and a World Cup pulls bigger "
-     "volume. Settled from our own numbers after the groups."),
+    ("13. Most we trade on a single group-stage match (turnover, £)",
+     "💷 <b>Insider question.</b> The single group game we <b>trade the most money on</b> — total matched "
+     "(turnover), not P&amp;L. Pick a band — <b>&lt;£2m · £2–4m · £4–6m · £6–8m · £8–10m · £10–15m · £15m+</b>. "
+     "<b>Hint:</b> our highest group-stage turnover at the last Euros was ~<b>£3.3m</b>, and the last UCL "
+     "final did ~<b>£3m</b> — and a World Cup pulls bigger volume. Settled from our own numbers after the groups."),
 ]
 
 # Best-effort long-named players LIKELY in 2026 squads (hand-picked — NOT exhaustive;
@@ -429,7 +425,7 @@ def write_guide():
     # ★ = quick stats in the tables below · ★★ = its own dedicated section below.
     MARKERS = {1: "★★", 2: "★", 3: "★", 4: "★", 5: "★", 6: "★★",
                8: "★★", 10: "★★", 11: "★"}
-    INSIDER = {12, 13, 14}
+    INSIDER = {12, 13}
 
     def q_block(title, body):
         num = int(title.split(".")[0])
