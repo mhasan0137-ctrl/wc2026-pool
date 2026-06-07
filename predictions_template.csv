@@ -1,3 +1,3 @@
-name,q1_total_goals,q2_red_cards,q3_highest_match,q4_pen_shootouts,q5_own_goals,q6_final_goals,q7_golden_boot_tally,q8_longest_name_letters,q9_final_pens,q10_any_5plus,q11_all_hosts_ko,q12_winner,q13_finalist,q14_continent,q15_fewest_goals
-Hasan,160,12,7,4,8,3,7,20,N,Y,N,Brazil,France,South America,Saudi Arabia
-EXAMPLE_ROW_delete_me,,,,,,,,,Y/N,Y/N,Y/N,TeamName,TeamName,Continent,TeamName
+name,q1_longest_name_letters,q2_own_goals,q3_red_cards,q4_pen_shootouts,q5_final_goals,q6_continent,q7_goal_bracket,q8_top_scorer,q9_group_fewest_goals,q10_youngest_age,q11_gk_scores,q12_scoreline_once
+Hasan,22,11,7,7,3,Europe,86-90+,Mbappe,Group H,18y 90d,N,3-2
+EXAMPLE_ROW_delete_me,,,,,,Continent,bracket,PlayerName,Group X,##y ##d,Y/N,#-#

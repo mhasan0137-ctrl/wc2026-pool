@@ -1,48 +1,36 @@
 # ⚽ WC 2026 Office Pool — Prediction Sheet
 
-Fill in **all 15** before the first kickoff (**11 June, 18:00 BST**). One entry per person.
+Fill in **all 12** before the first kickoff (**11 June, 18:00 BST**). One entry per person.
+📊 **Read the [stats guide](https://mhasan0137-ctrl.github.io/wc2026-pool/guide.html) first** —
+especially: 2026 has **104 matches, not 64**, so scale every total up ~1.6×.
 
-**How scoring works (tote / pari-mutuel):** every question has its own pot. After
-the tournament, the people who got that question right **split its pot equally**.
-So a popular correct answer pays little; a contrarian correct answer pays big. You
-don't need to know football — you need to think about where the crowd *isn't*.
-For the "pick" questions I'll circulate the real bookies' odds so you can calibrate.
-
-Closest-wins questions: nearest number takes the pot; **exact ties split it.**
-
----
-
-## A. Closest number wins (no football knowledge needed)
-
-1. **Total goals** scored in the whole tournament: ______
-2. **Total red cards** in the tournament: ______
-3. Goals in the **highest-scoring single match** (e.g. a 4–3 = 7): ______
-4. Number of matches decided by a **penalty shootout**: ______
-5. Number of **own goals** in the tournament: ______
-6. **Goals scored in the final** (both teams combined): ______
-7. The **Golden Boot winner's goal tally** (the number, not the player): ______
-8. **Letters in the longest name** of any goalscorer — first + last name only,
-   double-barrelled counts, hyphens/spaces don't.
-   *(e.g. Trent Alexander-Arnold = 20)*: ______
-
-## B. Yes / No
-
-9. Will the **final go to penalties**?   Y / N
-10. Will **any team score 5+** in a single match?   Y / N
-11. Will **all three hosts** (USA, Mexico, Canada) reach the knockout stage?   Y / N
-
-## C. Picks (odds will be provided — tote means longshots pay big)
-
-12. **Tournament winner**: ____________________
-13. **Beaten finalist** (the other team in the final): ____________________
-14. **Winning continent / confederation**
-    (Europe / South America / Africa / Asia / N. America / Other): ____________________
-15. **Fewest goals scored** by a team *that reaches the last 16*: ____________________
+**Scoring — points tote (pari-mutuel):** each question is worth a **100-point pot**.
+After the tournament, everyone who got that question right **splits its 100 points
+equally** — right on your own = 100, shared with 9 others = 10 each. So being right
+*and contrarian* is what wins. Closest-number questions: nearest value wins (ties split).
+Add every question's points → one leaderboard → prizes to the top.
 
 ---
 
-### Tracking notes (for the organiser)
-- Q1, Q3, Q4, Q6, Q9, Q10 — rock-solid from the free openfootball feed.
-- Q2, Q5, Q7, Q8, Q15 — best taken from the API-Football key (fuller data).
-- Q8 needs full scorer names → API-Football, not openfootball's abbreviations.
-- Q15 — restricting to "teams reaching the last 16" avoids a messy 48-way tie on 0–1 goals.
+| # | Question | Type | Your answer |
+|---|----------|------|-------------|
+| 1 | **Letters in the longest name** of any goalscorer — first name + surname; particles (De/van/Mac) count, plain middle names don't, hyphen double-barrels count *(Trent Alexander-Arnold = 20)* | closest number | ______ |
+| 2 | **Own goals** in the tournament | closest number | ______ |
+| 3 | **Red cards** in the tournament | closest number | ______ |
+| 4 | **Penalty shootouts** (how many matches decided on pens) | closest number | ______ |
+| 5 | **Goals in the final** (both teams combined) | closest number | ______ |
+| 6 | **Winning continent** (Europe / S. America / Africa / Asia / N. America / Other) | pick | ______ |
+| 7 | **Highest-scoring 10-minute bracket** (1–10, 11–20 … 76–85, 86–90+) | pick | ______ |
+| 8 | **Top goalscorer** — the player who wins the Golden Boot | pick (odds given) | ______ |
+| 9 | **Group with the fewest total goals** (Groups A–L) | pick | ______ |
+| 10 | **Youngest goalscorer's age** — give it as years + days, e.g. 18y 110d | closest number | ______ |
+| 11 | Will a **goalkeeper score** a goal? | Yes / No | ______ |
+| 12 | **Pick a scoreline that happens exactly once** in the whole tournament (e.g. 3–2) | pick | ______ |
+
+---
+
+### Notes
+- **Q11 (goalkeeper scores):** no keeper has *ever* scored in men's senior World Cup history — "No" is the heavy favourite, so a "Yes" pays a fortune.
+- **Q12:** you win if your exact scoreline occurs **exactly once** across all 104 matches. Several people can win (different once-only scorelines) — they split.
+- **Q8** ties: pot splits among everyone who picked a player tied on the most goals.
+- 🔑 Questions 1, 2, 3, 8, 10, 11 are scored from the API-Football data; the rest from the free openfootball feed.
