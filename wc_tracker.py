@@ -220,9 +220,9 @@ GOAL_BRACKETS = ["0–10", "10–20", "20–30", "30–40", "40–HT (45+)",
 QUESTION_GUIDE = [
     ("1. Longest-named goalscorer (letters)",
      "First name + surname; particles (De, van, Mac) count, plain middle names don't, "
-     "hyphen double-barrels count — Trent Alexander-Arnold = 20. <b>Only goalscorers count</b>, "
-     "so the squad's longest name is the ceiling, not the answer. The top-10 longest names in "
-     "this World Cup's squads are listed below (auto-filled when longest_names.py is run with the API key)."),
+     "hyphen double-barrels count — Trent Alexander-Arnold = 20. Only goalscorers count."
+     "</p><p><i>See below for the top-10 longest names in the 2026 squads, and the longest-named "
+     "goalscorers from recent tournaments.</i>"),
     ("2. Own goals in the tournament",
      "Per game, in order: WC '14 <b>0.08</b>, WC '18 <b>0.19</b>, Euro '20 <b>0.22</b>, WC '22 <b>0.03</b>, "
      "Euro '24 <b>0.20</b> — wildly swingy. Recent tournaments run high (~0.20/g → ~20 over 104 games), but "
