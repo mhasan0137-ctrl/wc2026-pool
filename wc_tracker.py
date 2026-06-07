@@ -164,6 +164,76 @@ def write_csv(path, rows, header):
         w.writerows(rows)
 
 
+# Static historical helper notes, one per pool question. Pure reference — these
+# don't change during the tournament, they just help people calibrate guesses.
+# All totals carry the BIG caveat: 2026 has 104 matches vs 64 in past World Cups.
+QUESTION_GUIDE = [
+    ("1. Longest-named goalscorer (letters)",
+     "First + last name only; double-barrels count, spaces/hyphens don't. "
+     "Trent Alexander-Arnold = 20. Squad maxes run into the mid-20s, but only "
+     "<i>goalscorers</i> count — so a regular striker with a long name is the real ceiling. "
+     "Run longest_names.py (needs the API key) for the exact squad ranking."),
+    ("2. Own goals in the tournament",
+     "Wildly swingy: WC 2018 = <b>12</b> (record), WC 2022 = <b>2</b>; Euro 2020 = 11, Euro 2024 = 10. "
+     "No safe number. Scaled to 104 games, ~<b>8–14</b> is a sane band."),
+    ("3. Red cards in the tournament",
+     "VAR era is low: WC 2018 = <b>4</b>, 2022 = <b>4</b> (vs 2010 = 17, 2014 = 10); Euro 2024 = 6. "
+     "Per-match rate × 104 games → ~<b>6–10</b>."),
+    ("4. Penalty shootouts",
+     "WC 2018 = <b>4</b>, 2022 = <b>5</b> (record); Euro 2020 = 4. 2026 adds a Round of 32, so there are "
+     "<b>32 knockout games vs 16</b> before — double the shootout chances. Think ~<b>6–9</b>."),
+    ("5. Goals in the final",
+     "Total coin-flip: 2010 = 1, 2014 = 1, 2018 = <b>6</b>, 2022 = <b>6</b> (incl. extra time). Range 1–6."),
+    ("6. Winning continent",
+     "Only <b>Europe</b> and <b>South America</b> have <i>ever</i> won a World Cup. "
+     "“Other” has literally never happened — so it pays huge if it ever does."),
+    ("7. Highest-scoring 10-minute bracket",
+     "Historically the <b>final 10 minutes (76–90+)</b> score the most — tiring legs + stoppage time. "
+     "It's the favourite, so the tote pays little; a contrarian early bracket pays big if it lands."),
+    ("8. Top goalscorer (Golden Boot)",
+     "Recent tallies: 2010 = 5, 2014 = 6, 2018 = 6, 2022 = <b>8</b>. The 2026 winner can play <b>8</b> games "
+     "(extra round), so expect ~<b>7–9</b> goals to win it."),
+    ("9. Group with fewest total goals",
+     "12 groups of 4 (six games each). Defensive / 'group of death' style groups bottom out low; "
+     "watch for a group stacked with cagey teams."),
+    ("10. Youngest goalscorer (age)",
+     "2022: Gavi <b>18y 110d</b>. All-time record: Pelé <b>17y 239d</b> (1958) — the only sub-18 scorer ever. "
+     "Expect a youngest scorer around <b>18</b>; anything under that is historic."),
+    ("11. Will a goalkeeper score?",
+     "<b>No keeper has ever scored in men's senior World Cup history.</b> So 'No' is the heavy favourite "
+     "and pays peanuts — which is exactly why a 'Yes' would pay a fortune."),
+    ("12. Pick a scoreline that happens exactly once",
+     "Common scorelines (1–0, 2–1, 1–1) recur many times; rarer ones (4–3, 5–2, 3–3) often happen "
+     "0 or 1 times. The sweet spot is a scoreline plausible enough to occur, rare enough to occur only once."),
+]
+
+
+def write_guide():
+    """Render guide.html — static helpful stats for every pool question."""
+    blocks = "\n".join(
+        f'<div class="q"><h3>{title}</h3><p>{body}</p></div>'
+        for title, body in QUESTION_GUIDE
+    )
+    html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WC 2026 Pool — Question Guide</title>
+<style>
+ body{{font:15px/1.6 system-ui,sans-serif;max-width:760px;margin:2rem auto;padding:0 1rem;color:#1a1a1a}}
+ h1{{margin-bottom:.2rem}} .sub{{color:#666;margin-top:0}}
+ .warn{{background:#fff6e5;border:1px solid #ffd58a;border-radius:8px;padding:.8rem 1rem;margin:1rem 0}}
+ .q{{border-bottom:1px solid #e3e6ea;padding:.7rem 0}} .q h3{{margin:.2rem 0;font-size:1.05rem}}
+ .q p{{margin:.3rem 0;color:#333}} a{{color:#2563eb}}
+</style></head><body>
+<h1>📊 Question guide — helpful stats</h1>
+<p class="sub">Calibrate your guesses. <a href="index.html">← back to live standings</a></p>
+<div class="warn"><b>Read this first:</b> 2026 has <b>104 matches</b> (48 teams), vs <b>64</b> in every
+past World Cup. Every tournament total — goals, own goals, red cards, shootouts — scales up by
+roughly <b>1.6×</b>. Most people will anchor on old 64-game numbers. Don't.</div>
+{blocks}
+</body></html>"""
+    (OUT / "guide.html").write_text(html)
+
+
 def write_html(agg, players):
     """Render a single self-contained index.html for GitHub Pages."""
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
@@ -199,7 +269,7 @@ def write_html(agg, players):
  a{{color:#2563eb}}
 </style></head><body>
 <h1>⚽ WC 2026 Office Pool</h1>
-<p class="sub">Auto-updated {updated} · {agg['matches_played']}/{agg['matches_total']} matches played</p>
+<p class="sub">Auto-updated {updated} · {agg['matches_played']}/{agg['matches_total']} matches played · <a href="guide.html">📊 question guide &amp; stats</a></p>
 <div class="cards">
  <div class="card"><div class="n">{agg['total_goals']}</div><div class="l">Total goals (avg {agg['avg_goals_per_match']}/match)</div></div>
  <div class="card"><div class="n">{len(agg['five_plus_games'])}</div><div class="l">Games with 5+ goals</div></div>
@@ -287,7 +357,8 @@ def main():
         print("   -> wrote players_apifootball.csv")
 
     write_html(agg, players)
-    print(f"\nWrote CSVs + index.html to {OUT}/")
+    write_guide()
+    print(f"\nWrote CSVs + index.html + guide.html to {OUT}/")
 
 
 if __name__ == "__main__":
