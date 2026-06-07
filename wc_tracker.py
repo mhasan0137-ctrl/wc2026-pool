@@ -233,23 +233,20 @@ QUESTION_GUIDE = [
      "</p><p><i>See below for the top-10 longest names in the 2026 squads, and the longest-named "
      "goalscorers from recent tournaments.</i>"),
     ("2. Own goals in the tournament",
-     "Per game, in order: WC '14 <b>0.08</b>, WC '18 <b>0.19</b>, Euro '20 <b>0.22</b>, WC '22 <b>0.03</b>, "
-     "Euro '24 <b>0.20</b> — wildly swingy. Over 104 games that's anywhere from ~<b>3</b> (a WC '22-style "
-     "crash) to ~<b>22</b> (recent high rate). <i>(Excludes shootouts.)</i>"
-     "</p><p><i>See below for the per-game ranges in the reference table.</i>"),
+     "Wildly swingy and impossible to call precisely. Based on recent tournaments, over 104 games the total "
+     "might land somewhere between ~<b>3</b> and ~<b>22</b>. <i>(Excludes shootouts.)</i>"
+     "</p><p><i>See below for the per-game ranges (from recent tournaments) in the reference table.</i>"),
     ("3. Red cards in the tournament",
-     "Per game, in order: WC '14 <b>0.16</b>, WC '18 <b>0.06</b>, Euro '20 <b>0.02</b>, WC '22 <b>0.06</b>, "
-     "Euro '24 <b>0.12</b>. VAR keeps modern World Cups low (~0.06/g, the <b>~6–7</b> end over 104 games), "
-     "but the full range across these is ~<b>2–16</b>."
-     "</p><p><i>See below for the per-game range in the reference table.</i>"),
+     "VAR keeps modern World Cups low. Based on recent tournaments, over 104 games it might land somewhere "
+     "between ~<b>2</b> and ~<b>16</b> (the recent norm is nearer ~6–7)."
+     "</p><p><i>See below for the per-game range (from recent tournaments) in the reference table.</i>"),
     ("4. Penalty shootouts",
-     "Per game, in order: WC '14 <b>0.06</b>, WC '18 <b>0.06</b>, Euro '20 <b>0.08</b>, WC '22 <b>0.08</b>, "
-     "Euro '24 <b>0.06</b>. Over 104 games that's ~<b>6–8</b> — but it's a floor: the new Round of 32 "
-     "(32 knockout games vs 16) pushes the realistic number to ~<b>8–10</b>."
-     "</p><p><i>See below for the per-game range and the floor note.</i>"),
+     "Based on recent tournaments, over 104 games this might land around ~<b>6–8</b> — but that's a floor: "
+     "the new Round of 32 doubles the knockout games, so realistically nearer ~<b>8–10</b>."
+     "</p><p><i>See below for the per-game range (from recent tournaments) and the floor note.</i>"),
     ("5. Goals in the final",
-     "In order: WC '14 <b>1</b>, WC '18 <b>6</b>, Euro '20 <b>2</b>, WC '22 <b>6</b>, Euro '24 <b>3</b>. "
-     "Coin-flip, range 1–6. Goals in play incl. extra time — shootout kicks don't count."
+     "A coin-flip. Based on recent finals it's typically somewhere in the <b>1–6</b> range. Goals in play "
+     "incl. extra time — shootout kicks don't count."
      "</p><p><i>See below for every recent final in the summary table.</i>"),
     ("6. Winning continent",
      "Only <b>Europe (UEFA)</b> and <b>South America (CONMEBOL)</b> have <i>ever</i> won a World Cup. "
@@ -288,10 +285,10 @@ QUESTION_GUIDE = [
      "under a minute."
      "</p><p><i>See below for the fastest goal in each of the last 5 tournaments.</i>"),
     ("13. Total goals in the whole tournament",
-     "WC '22 = 172 in 64 games (2.69/g). Over <b>104 games</b> at the same rate → ~<b>280</b>; the trend says "
-     "<b>≈285</b>. Even a below-average 2.29/g gives ~<b>239</b> — so the all-time record of 172 (a 64-game "
-     "number) is a terrible anchor. <i>(Excludes shootout kicks.)</i>"
-     "</p><p><i>See below for the goals-per-game range in the projection table.</i>"),
+     "Goals/game has trended up and there are far more games now. Based on recent tournaments, over 104 games "
+     "expect somewhere between ~<b>239</b> and ~<b>290</b> — <b>≈285</b> is the central call. The all-time "
+     "record of 172 (a 64-game number) is a terrible anchor. <i>(Excludes shootout kicks.)</i>"
+     "</p><p><i>See below for the goals-per-game range (from recent tournaments) in the projection table.</i>"),
     ("14. Most we make on a single group-stage match (£)",
      "An insider one: our trading book's <b>best single-match P&amp;L</b> across the group stage. Pick a band — "
      "<b>&lt;£50k · £50–100k · £100–150k · £150–200k · £200–250k · £250k+</b>. Settled from our own numbers "
