@@ -284,8 +284,7 @@ QUESTION_GUIDE = [
      "stat exists for this — it's settled from our own numbers after the groups. Closest £ wins."),
     ("15. Most we lose on a single group-stage match (£)",
      "The flip side: our <b>worst single-match P&amp;L</b> in the group stage. Also settled from our own book "
-     "afterwards. Closest £ wins — enter it as a positive number. <b>Mismappings don't count 😬</b> — "
-     "genuine trading losses only."),
+     "afterwards. Closest £ wins — enter it as a positive number. <b>Mismappings don't count 😬</b>"),
 ]
 
 # Best-effort long-named players LIKELY in 2026 squads (hand-picked — NOT exhaustive;
