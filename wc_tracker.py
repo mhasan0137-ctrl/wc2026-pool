@@ -293,8 +293,9 @@ QUESTION_GUIDE = [
      "number) is a terrible anchor. <i>(Excludes shootout kicks.)</i>"
      "</p><p><i>See below for the goals-per-game range in the projection table.</i>"),
     ("14. Most we make on a single group-stage match (£)",
-     "An insider one: our trading book's <b>best single-match P&amp;L</b> across the group stage. No public "
-     "stat exists for this — it's settled from our own numbers after the groups. Closest £ wins."),
+     "An insider one: our trading book's <b>best single-match P&amp;L</b> across the group stage. Pick a band — "
+     "<b>&lt;£50k · £50–100k · £100–150k · £150–200k · £200–250k · £250k+</b>. Settled from our own numbers "
+     "after the groups; whoever picked the right band splits the pot."),
     ("15. Most we lose on a single group-stage match (£)",
      "The flip side: our <b>worst single-match P&amp;L</b> in the group stage. Also settled from our own book "
      "afterwards. Closest £ wins — enter it as a positive number. <b>Mismappings don't count 😬</b>"),
