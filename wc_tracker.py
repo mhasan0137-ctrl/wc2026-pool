@@ -230,20 +230,26 @@ QUESTION_GUIDE = [
      "</p><p><i>See below for the per-game ranges in the reference table.</i>"),
     ("3. Red cards in the tournament",
      "Per game, in order: WC '14 <b>0.16</b>, WC '18 <b>0.06</b>, Euro '20 <b>0.02</b>, WC '22 <b>0.06</b>, "
-     "Euro '24 <b>0.12</b>. VAR keeps modern World Cups low (~0.06/g → <b>~6–7</b> over 104 games); full range ~2–16."),
+     "Euro '24 <b>0.12</b>. VAR keeps modern World Cups low (~0.06/g, the <b>~6–7</b> end over 104 games), "
+     "but the full range across these is ~<b>2–16</b>."
+     "</p><p><i>See below for the per-game range in the reference table.</i>"),
     ("4. Penalty shootouts",
-     "Per knockout game, in order: WC '18 <b>0.25</b> (4 of 16), Euro '20 <b>0.27</b> (4/15), WC '22 <b>0.31</b> (5/16). "
-     "2026 has <b>32 knockout games</b> (double the old 16) → ~<b>8–10</b>."),
+     "Per game, in order: WC '14 <b>0.06</b>, WC '18 <b>0.06</b>, Euro '20 <b>0.08</b>, WC '22 <b>0.08</b>, "
+     "Euro '24 <b>0.06</b>. Over 104 games that's ~<b>6–8</b> — but it's a floor: the new Round of 32 "
+     "(32 knockout games vs 16) pushes the realistic number to ~<b>8–10</b>."
+     "</p><p><i>See below for the per-game range and the floor note.</i>"),
     ("5. Goals in the final",
      "In order: WC '14 <b>1</b>, WC '18 <b>6</b>, Euro '20 <b>2</b>, WC '22 <b>6</b>, Euro '24 <b>3</b>. "
-     "Coin-flip, range 1–6. <i>Goals in play incl. extra time — shootout kicks don't count.</i>"),
+     "Coin-flip, range 1–6. Goals in play incl. extra time — shootout kicks don't count."
+     "</p><p><i>See below for every recent final in the summary table.</i>"),
     ("6. Winning continent",
      "Only <b>Europe (UEFA)</b> and <b>South America (CONMEBOL)</b> have <i>ever</i> won a World Cup. "
-     "No African, Asian, CONCACAF or Oceanian team ever has — so 'Other' pays a fortune if it lands. "
-     "Full team-by-confederation breakdown below."),
+     "No African, Asian, CONCACAF or Oceanian team ever has — so 'Other' pays a fortune if it lands."
+     "</p><p><i>See below for the 48 teams by confederation and each continent's win chance.</i>"),
     ("7. Highest-scoring 10-minute bracket",
      "Historically the <b>final bracket (85–FT)</b> scores most — tiring legs + stoppage time pile up there. "
-     "It's the favourite, so the tote pays little; a contrarian early bracket pays big. Bracket list below."),
+     "It's the favourite, so the tote pays little; a contrarian early bracket pays big."
+     "</p><p><i>See below for the full list of brackets.</i>"),
     ("8. Top goalscorer (Golden Boot)",
      "Recent tallies: 2010 = 5, 2014 = 6, 2018 = 6, 2022 = <b>8</b>. The 2026 winner can play <b>8</b> games "
      "(extra round), so expect ~<b>7–9</b> goals to win it."),
@@ -251,9 +257,10 @@ QUESTION_GUIDE = [
      "12 groups of 4 (six games each). Defensive / 'group of death' style groups bottom out low; "
      "watch for a group stacked with cagey, low-scoring teams."),
     ("10. Youngest goalscorer (age)",
-     "Give it as years + days. Youngest scorer per tournament is listed below — they range from "
-     "<b>Lamine Yamal 16y 362d</b> (Euro '24) to Damsgaard's 20y. The last World Cup's youngest was "
-     "Gavi at <b>18y 110d</b>. A guess around <b>18–19</b> is the historical sweet spot."),
+     "Give it as years + days. Recent youngest scorers range from <b>Lamine Yamal 16y 362d</b> (Euro '24) to "
+     "Damsgaard's 20y; the last World Cup's youngest was Gavi at <b>18y 110d</b>. A guess around <b>18–19</b> "
+     "is the historical sweet spot."
+     "</p><p><i>See below for the youngest scorer in each recent tournament, and the youngest players in the 2026 squads.</i>"),
     ("11. Pick a scoreline that happens exactly once",
      "Common scorelines (1–0, 2–1, 1–1) recur many times; rarer ones (4–3, 5–2, 3–3) often happen "
      "0 or 1 times. The sweet spot is a scoreline plausible enough to occur, rare enough to occur only once. "
@@ -264,8 +271,9 @@ QUESTION_GUIDE = [
      "well under a minute."),
     ("13. Total goals in the whole tournament",
      "WC '22 = 172 in 64 games (2.69/g). Over <b>104 games</b> at the same rate → ~<b>280</b>; the trend says "
-     "<b>≈285</b>. Even a below-average 2.29/g gives 238 — so the all-time record of 172 (a 64-game number) is "
-     "a terrible anchor. See the projection table below. <i>(Excludes shootout kicks.)</i>"),
+     "<b>≈285</b>. Even a below-average 2.29/g gives ~<b>239</b> — so the all-time record of 172 (a 64-game "
+     "number) is a terrible anchor. <i>(Excludes shootout kicks.)</i>"
+     "</p><p><i>See below for the goals-per-game range in the projection table.</i>"),
 ]
 
 # Best-effort long-named players LIKELY in 2026 squads (hand-picked — NOT exhaustive;
