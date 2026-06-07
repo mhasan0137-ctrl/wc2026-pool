@@ -164,72 +164,213 @@ def write_csv(path, rows, header):
         w.writerows(rows)
 
 
-# Static historical helper notes, one per pool question. Pure reference — these
-# don't change during the tournament, they just help people calibrate guesses.
-# All totals carry the BIG caveat: 2026 has 104 matches vs 64 in past World Cups.
+# ----- Static reference data for the guide page (all verified historical figures) -----
+# Per-tournament totals. GOALS AND FINAL-GOALS EXCLUDE PENALTY-SHOOTOUT KICKS.
+# cols: label, matches, goals, own goals, red cards, final (score + goals in play)
+TOURNAMENT_STATS = [
+    ("WC 2014 (Brazil)", 64, 171, 5, 10, "Germany 1–0 Argentina (a.e.t.) — 1"),
+    ("WC 2018 (Russia)", 64, 169, 12, 4, "France 4–2 Croatia — 6"),
+    ("WC 2022 (Qatar)", 64, 172, 2, 4, "Argentina 3–3 France* — 6"),
+    ("Euro 2020", 51, 142, 11, 1, "Italy 1–1 England* — 2"),
+    ("Euro 2024", 51, 117, 10, 6, "Spain 2–1 England — 3"),
+    ("WC 2026 ← you're predicting", 104, "?", "?", "?", "? (the final)"),
+]
+
+# 2026 teams by confederation (the "winning continent" question). Counts = 48 total.
+CONFEDERATIONS = [
+    ("UEFA — Europe", 16,
+     "England, France, Germany, Spain, Portugal, Netherlands, Belgium, Croatia, "
+     "Switzerland, Austria, Norway, Scotland, Sweden, Turkey, Bosnia & Herzegovina, Czech Republic"),
+    ("CONMEBOL — South America", 6,
+     "Argentina, Brazil, Uruguay, Colombia, Ecuador, Paraguay"),
+    ("CAF — Africa", 10,
+     "Morocco, Senegal, Egypt, Algeria, Tunisia, Ivory Coast, Ghana, South Africa, Cape Verde, DR Congo"),
+    ("AFC — Asia", 9,
+     "Japan, South Korea, Iran, Australia, Saudi Arabia, Qatar, Uzbekistan, Jordan, Iraq"),
+    ("CONCACAF — N./C. America", 6,
+     "USA, Mexico, Canada, Panama, Haiti, Curaçao"),
+    ("OFC — Oceania", 1, "New Zealand"),
+]
+
+# Youngest goalscorers on record (World Cup), plus the Euros note.
+YOUNGEST_SCORERS = [
+    ("Pelé", "Brazil", "1958", "17y 239d"),
+    ("Manuel Rosas", "Mexico", "1930", "18y 93d"),
+    ("Gavi", "Spain", "2022", "18y 110d"),
+    ("Michael Owen", "England", "1998", "18y 190d"),
+    ("Divock Origi", "Belgium", "2014", "19y 65d"),
+    ("Martin Hoffmann", "East Germany", "1974", "19y 88d"),
+    ("Julian Green", "USA", "2014", "19y 25d"),
+]
+
+# Redefined 10-minute brackets for the "highest-scoring bracket" question.
+GOAL_BRACKETS = ["0–10", "10–20", "20–30", "30–40", "40–HT (45+)",
+                 "45–55", "55–65", "65–75", "75–85", "85–FT (90+)"]
+
+# Static helper notes, one per pool question.
 QUESTION_GUIDE = [
     ("1. Longest-named goalscorer (letters)",
-     "First + last name only; double-barrels count, spaces/hyphens don't. "
-     "Trent Alexander-Arnold = 20. Squad maxes run into the mid-20s, but only "
-     "<i>goalscorers</i> count — so a regular striker with a long name is the real ceiling. "
-     "Run longest_names.py (needs the API key) for the exact squad ranking."),
+     "First name + surname; particles (De, van, Mac) count, plain middle names don't, "
+     "hyphen double-barrels count — Trent Alexander-Arnold = 20. <b>Only goalscorers count</b>, "
+     "so the squad's longest name is the ceiling, not the answer. The top-10 longest names in "
+     "this World Cup's squads are listed below (auto-filled when longest_names.py is run with the API key)."),
     ("2. Own goals in the tournament",
      "Wildly swingy: WC 2018 = <b>12</b> (record), WC 2022 = <b>2</b>; Euro 2020 = 11, Euro 2024 = 10. "
-     "No safe number. Scaled to 104 games, ~<b>8–14</b> is a sane band."),
+     "No safe number. Scaled to 104 games, ~<b>8–14</b> is a sane band. <i>(Excludes shootouts.)</i>"),
     ("3. Red cards in the tournament",
-     "VAR era is low: WC 2018 = <b>4</b>, 2022 = <b>4</b> (vs 2010 = 17, 2014 = 10); Euro 2024 = 6. "
+     "VAR era is low: WC 2018 = <b>4</b>, 2022 = <b>4</b> (vs 2010 = 17, 2014 = 10); Euro 2024 = 6, Euro 2020 = 1. "
      "Per-match rate × 104 games → ~<b>6–10</b>."),
     ("4. Penalty shootouts",
      "WC 2018 = <b>4</b>, 2022 = <b>5</b> (record); Euro 2020 = 4. 2026 adds a Round of 32, so there are "
      "<b>32 knockout games vs 16</b> before — double the shootout chances. Think ~<b>6–9</b>."),
     ("5. Goals in the final",
-     "Total coin-flip: 2010 = 1, 2014 = 1, 2018 = <b>6</b>, 2022 = <b>6</b> (incl. extra time). Range 1–6."),
+     "Coin-flip: WC '14 = 1, '18 = <b>6</b>, '22 = <b>6</b>; Euro '20 = 2, '24 = 3. Range 1–6. "
+     "<i>Goals in play incl. extra time — penalty-shootout kicks do NOT count.</i>"),
     ("6. Winning continent",
-     "Only <b>Europe</b> and <b>South America</b> have <i>ever</i> won a World Cup. "
-     "“Other” has literally never happened — so it pays huge if it ever does."),
+     "Only <b>Europe (UEFA)</b> and <b>South America (CONMEBOL)</b> have <i>ever</i> won a World Cup. "
+     "No African, Asian, CONCACAF or Oceanian team ever has — so 'Other' pays a fortune if it lands. "
+     "Full team-by-confederation breakdown below."),
     ("7. Highest-scoring 10-minute bracket",
-     "Historically the <b>final 10 minutes (76–90+)</b> score the most — tiring legs + stoppage time. "
-     "It's the favourite, so the tote pays little; a contrarian early bracket pays big if it lands."),
+     "Historically the <b>final bracket (85–FT)</b> scores most — tiring legs + stoppage time pile up there. "
+     "It's the favourite, so the tote pays little; a contrarian early bracket pays big. Bracket list below."),
     ("8. Top goalscorer (Golden Boot)",
      "Recent tallies: 2010 = 5, 2014 = 6, 2018 = 6, 2022 = <b>8</b>. The 2026 winner can play <b>8</b> games "
      "(extra round), so expect ~<b>7–9</b> goals to win it."),
     ("9. Group with fewest total goals",
      "12 groups of 4 (six games each). Defensive / 'group of death' style groups bottom out low; "
-     "watch for a group stacked with cagey teams."),
+     "watch for a group stacked with cagey, low-scoring teams."),
     ("10. Youngest goalscorer (age)",
-     "2022: Gavi <b>18y 110d</b>. All-time record: Pelé <b>17y 239d</b> (1958) — the only sub-18 scorer ever. "
-     "Expect a youngest scorer around <b>18</b>; anything under that is historic."),
-    ("11. Will a goalkeeper score?",
-     "<b>No keeper has ever scored in men's senior World Cup history.</b> So 'No' is the heavy favourite "
-     "and pays peanuts — which is exactly why a 'Yes' would pay a fortune."),
-    ("12. Pick a scoreline that happens exactly once",
+     "Last three: Gavi <b>18y 110d</b> (WC '22), Kylian Mbappé 19y (WC '18), and at Euro 2024 "
+     "<b>Lamine Yamal scored at 16y 362d</b> — the youngest scorer in Euros history. All-time WC record: "
+     "Pelé <b>17y 239d</b> (1958), still the only sub-18 WC scorer. Expect ~<b>18</b>. Full list below."),
+    ("11. Pick a scoreline that happens exactly once",
      "Common scorelines (1–0, 2–1, 1–1) recur many times; rarer ones (4–3, 5–2, 3–3) often happen "
-     "0 or 1 times. The sweet spot is a scoreline plausible enough to occur, rare enough to occur only once."),
+     "0 or 1 times. The sweet spot is a scoreline plausible enough to occur, rare enough to occur only once. "
+     "<i>(Shootout results don't change a match's scoreline.)</i>"),
+    ("12. Fastest goal of the tournament (time)",
+     "Give it in seconds / minute. Record is Hakan Şükür's <b>10.8 seconds</b> (2002) — the fastest WC goal "
+     "ever. Most tournaments produce a goal inside the opening minute somewhere, and the fastest is usually "
+     "well under a minute."),
+]
+
+# Per-game rates and what they imply over 2026's 104 games (the "scale it up" table).
+# cols: metric, per-game basis, implied 2026 total
+PROJECTIONS = [
+    ("Total goals", "2.64–2.69 / game (recent WCs)", "~275–285"),
+    ("Own goals", "0.03 / g (2022) … 0.19 / g (2018)", "~3 … ~20 (huge swing)"),
+    ("Red cards", "~0.06 / game (VAR-era WCs)", "~6–7 (up to ~12 in card-happy years)"),
+    ("Penalty shootouts", "0.25–0.31 per knockout game × 32 KO games", "~8–10"),
+]
+
+# A few extra fun options with historical anchors, if you ever want to swap/add.
+BONUS_IDEAS = [
+    ("Most common scoreline", "1–0 is historically the single most common World Cup result (~17%)."),
+    ("First half vs second half — more goals?",
+     "More goals are scored in second halves at almost every tournament (tiring legs, chasing games)."),
+    ("Total goals in the whole tournament",
+     "WC '22 = 172 in 64 games (2.69/game). Over 104 games at that rate → ~<b>280</b>."),
 ]
 
 
+def _longest_names_rows():
+    """Read top 10 from out/longest_names.csv if longest_names.py has been run."""
+    path = OUT / "longest_names.csv"
+    if not path.exists():
+        return None
+    rows = []
+    with open(path) as f:
+        for r in list(csv.DictReader(f))[:10]:
+            rows.append((r["letters"], r["player"], r.get("position", "?"), r["team"]))
+    return rows
+
+
 def write_guide():
-    """Render guide.html — static helpful stats for every pool question."""
+    """Render guide.html — helpful stats + reference tables for every pool question."""
+    def tbl(header, body_rows):
+        head = "".join(f"<th>{h}</th>" for h in header)
+        body = "\n".join("<tr>" + "".join(f"<td>{c}</td>" for c in r) + "</tr>"
+                         for r in body_rows)
+        return f"<table><tr>{head}</tr>{body}</table>"
+
+    summary_rows = []
+    for label, m, g, og, rc, fin in TOURNAMENT_STATS:
+        per_game = f"{g / m:.2f}" if isinstance(g, int) else "?"
+        summary_rows.append((label, m, g, per_game, og, rc, fin))
+    summary = tbl(["Tournament", "Matches", "Goals", "Goals/game", "Own goals", "Red cards",
+                   "Final (goals in play)"], summary_rows)
+    projections = tbl(["Metric", "Recent rate (per game)", "If repeated over 2026's 104 games"],
+                      PROJECTIONS)
+    confeds = tbl(["Confederation", "Teams", "Who"],
+                  [(c, n, who) for c, n, who in CONFEDERATIONS])
+    youngest = tbl(["Player", "Country", "Edition", "Age"], YOUNGEST_SCORERS)
+    brackets = " · ".join(f"<code>{b}</code>" for b in GOAL_BRACKETS)
+    bonus = "".join(f"<li><b>{t}</b> — {d}</li>" for t, d in BONUS_IDEAS)
+
+    ln = _longest_names_rows()
+    if ln:
+        longest_block = "<p>Top 10 longest names in the 2026 squads (pool rule applied):</p>" + \
+            tbl(["Letters", "Player", "Pos", "Team"], ln)
+    else:
+        longest_block = ('<p><i>Run <code>longest_names.py</code> with the API key to auto-fill the '
+                         'top-10 longest squad names here.</i></p>')
+
     blocks = "\n".join(
         f'<div class="q"><h3>{title}</h3><p>{body}</p></div>'
         for title, body in QUESTION_GUIDE
     )
+
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>WC 2026 Pool — Question Guide</title>
 <style>
- body{{font:15px/1.6 system-ui,sans-serif;max-width:760px;margin:2rem auto;padding:0 1rem;color:#1a1a1a}}
- h1{{margin-bottom:.2rem}} .sub{{color:#666;margin-top:0}}
+ body{{font:15px/1.6 system-ui,sans-serif;max-width:820px;margin:2rem auto;padding:0 1rem;color:#1a1a1a}}
+ h1{{margin-bottom:.2rem}} h2{{margin-top:2rem;font-size:1.2rem}} .sub{{color:#666;margin-top:0}}
  .warn{{background:#fff6e5;border:1px solid #ffd58a;border-radius:8px;padding:.8rem 1rem;margin:1rem 0}}
+ .note{{background:#eef4ff;border:1px solid #bcd2ff;border-radius:8px;padding:.6rem 1rem;margin:1rem 0;font-size:.92rem}}
  .q{{border-bottom:1px solid #e3e6ea;padding:.7rem 0}} .q h3{{margin:.2rem 0;font-size:1.05rem}}
  .q p{{margin:.3rem 0;color:#333}} a{{color:#2563eb}}
+ table{{border-collapse:collapse;width:100%;margin:.6rem 0 1rem;font-size:.92rem}}
+ th,td{{text-align:left;padding:.4rem .6rem;border-bottom:1px solid #e3e6ea;vertical-align:top}}
+ th{{background:#fafbfc}} code{{background:#f2f4f7;padding:.05rem .3rem;border-radius:4px}}
 </style></head><body>
 <h1>📊 Question guide — helpful stats</h1>
 <p class="sub">Calibrate your guesses. <a href="index.html">← back to live standings</a></p>
+
 <div class="warn"><b>Read this first:</b> 2026 has <b>104 matches</b> (48 teams), vs <b>64</b> in every
-past World Cup. Every tournament total — goals, own goals, red cards, shootouts — scales up by
-roughly <b>1.6×</b>. Most people will anchor on old 64-game numbers. Don't.</div>
+past World Cup (and 51 at a Euro). Every tournament total scales up by roughly <b>1.6×</b> vs an old
+World Cup. Most people will anchor on 64-game numbers — don't.</div>
+
+<div class="note">📌 <b>All goal counts on this page exclude penalty-shootout kicks.</b> A shootout decides
+who advances, but those penalties are <b>not</b> goals — so "goals in the final" and "total goals" only
+count goals in play (including extra time).</div>
+
+<h2>Recent tournaments at a glance</h2>
+{summary}
+<p class="sub">* won on penalties; the shootout kicks are excluded from the goal totals shown.</p>
+
+<h2>Per game → what it means for 2026 (104 games)</h2>
+<p class="sub">The whole trick: take the recent <i>per-game</i> rate and stretch it over 104 games.</p>
+{projections}
+
 {blocks}
+
+<h2>Q1 — longest names in the 2026 squads</h2>
+{longest_block}
+
+<h2>Q6 — the 48 teams by confederation</h2>
+{confeds}
+<p class="sub">Only UEFA &amp; CONMEBOL have ever won. (A "winning <i>time-zone</i>" version is messier —
+the three hosts alone span four US zones — so continent is the clean cut.)</p>
+
+<h2>Q7 — the 10-minute brackets</h2>
+<p>{brackets}</p>
+
+<h2>Q10 — youngest World Cup goalscorers on record</h2>
+{youngest}
+<p class="sub">At Euro 2024, Lamine Yamal scored at <b>16y 362d</b> — youngest in Euros history.</p>
+
+<h2>More fun ideas (with historical anchors)</h2>
+<ul>{bonus}</ul>
 </body></html>"""
     (OUT / "guide.html").write_text(html)
 

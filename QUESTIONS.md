@@ -1,6 +1,6 @@
 # ⚽ WC 2026 Office Pool — Prediction Sheet
 
-Fill in **all 12** before the first kickoff (**11 June, 18:00 BST**). One entry per person.
+Fill in **all 13** before the first kickoff (**11 June, 18:00 BST**). One entry per person.
 📊 **Read the [stats guide](https://mhasan0137-ctrl.github.io/wc2026-pool/guide.html) first** —
 especially: 2026 has **104 matches, not 64**, so scale every total up ~1.6×.
 
@@ -20,17 +20,17 @@ Add every question's points → one leaderboard → prizes to the top.
 | 4 | **Penalty shootouts** (how many matches decided on pens) | closest number | ______ |
 | 5 | **Goals in the final** (both teams combined) | closest number | ______ |
 | 6 | **Winning continent** (Europe / S. America / Africa / Asia / N. America / Other) | pick | ______ |
-| 7 | **Highest-scoring 10-minute bracket** (1–10, 11–20 … 76–85, 86–90+) | pick | ______ |
+| 7 | **Highest-scoring 10-minute bracket** — 0–10, 10–20, 20–30, 30–40, 40–HT(45+), 45–55, 55–65, 65–75, 75–85, 85–FT(90+) | pick | ______ |
 | 8 | **Top goalscorer** — the player who wins the Golden Boot | pick (odds given) | ______ |
 | 9 | **Group with the fewest total goals** (Groups A–L) | pick | ______ |
 | 10 | **Youngest goalscorer's age** — give it as years + days, e.g. 18y 110d | closest number | ______ |
-| 11 | Will a **goalkeeper score** a goal? | Yes / No | ______ |
-| 12 | **Pick a scoreline that happens exactly once** in the whole tournament (e.g. 3–2) | pick | ______ |
+| 11 | **Pick a scoreline that happens exactly once** in the whole tournament (e.g. 3–2) | pick | ______ |
+| 12 | **Fastest goal** of the tournament — how many seconds after kickoff (of its match)? | closest number | ______ |
 
 ---
 
 ### Notes
-- **Q11 (goalkeeper scores):** no keeper has *ever* scored in men's senior World Cup history — "No" is the heavy favourite, so a "Yes" pays a fortune.
-- **Q12:** you win if your exact scoreline occurs **exactly once** across all 104 matches. Several people can win (different once-only scorelines) — they split.
+- **Q11:** you win if your exact scoreline occurs **exactly once** across all 104 matches. Several people can win (different once-only scorelines) — they split.
+- **Q12 (fastest goal):** closest to the actual fastest goal time wins; give it in seconds.
 - **Q8** ties: pot splits among everyone who picked a player tied on the most goals.
-- 🔑 Questions 1, 2, 3, 8, 10, 11 are scored from the API-Football data; the rest from the free openfootball feed.
+- 🔑 Questions 1, 2, 3, 8, 10 are scored from the API-Football data; the rest from the free openfootball feed.
