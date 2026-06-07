@@ -444,6 +444,8 @@ count goals in play (including extra time).</div>
 <h2>Per game → what it means for 2026 (104 games) <span class="mark">★</span></h2>
 <p class="sub">The whole trick: take the recent <i>per-game</i> rate and stretch it over 104 games.</p>
 {projections}
+<p class="sub">⚠️ Shootouts: ~6–8 is the <b>floor</b> (old per-game rate). 2026 adds a Round of 32 —
+<b>32 knockout games vs 16</b>, roughly double the chances — so the realistic number is nearer <b>8–10</b>.</p>
 <p class="sub">Total goals, by goals-per-game rate (recent World Cups land ~2.65–2.69):</p>
 {scenarios}
 
