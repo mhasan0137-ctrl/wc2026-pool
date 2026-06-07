@@ -225,8 +225,9 @@ QUESTION_GUIDE = [
      "goalscorers from recent tournaments.</i>"),
     ("2. Own goals in the tournament",
      "Per game, in order: WC '14 <b>0.08</b>, WC '18 <b>0.19</b>, Euro '20 <b>0.22</b>, WC '22 <b>0.03</b>, "
-     "Euro '24 <b>0.20</b> — wildly swingy. Recent tournaments run high (~0.20/g → ~20 over 104 games), but "
-     "WC '22 crashed to 3. Sane band ~<b>10–18</b>. <i>(Excludes shootouts.)</i>"),
+     "Euro '24 <b>0.20</b> — wildly swingy. Over 104 games that's anywhere from ~<b>3</b> (a WC '22-style "
+     "crash) to ~<b>22</b> (recent high rate). <i>(Excludes shootouts.)</i>"
+     "</p><p><i>See below for the per-game ranges in the reference table.</i>"),
     ("3. Red cards in the tournament",
      "Per game, in order: WC '14 <b>0.16</b>, WC '18 <b>0.06</b>, Euro '20 <b>0.02</b>, WC '22 <b>0.06</b>, "
      "Euro '24 <b>0.12</b>. VAR keeps modern World Cups low (~0.06/g → <b>~6–7</b> over 104 games); full range ~2–16."),
