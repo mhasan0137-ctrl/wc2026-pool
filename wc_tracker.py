@@ -214,16 +214,12 @@ YOUNGEST_BY_TOURNAMENT = [
 
 # Fastest goal in each of the last five tournaments (chronological).
 FASTEST_GOALS = [
-    ("WC 2014", "Clint Dempsey", "USA", "30s"),
-    ("WC 2018", "Mathias Jørgensen", "Denmark", "55s"),
-    ("Euro 2020", "Emil Forsberg", "Sweden", "81s (1:21)"),
-    ("WC 2022", "Alphonso Davies", "Canada", "67s"),
-    ("Euro 2024", "Nedim Bajrami", "Albania", "23s — fastest Euros ever"),
+    ("WC 2014", "Clint Dempsey", "USA", "30s", "30–40s"),
+    ("WC 2018", "Mathias Jørgensen", "Denmark", "55s", "50–60s"),
+    ("Euro 2020", "Emil Forsberg", "Sweden", "81s (1:21)", "80–90s"),
+    ("WC 2022", "Alphonso Davies", "Canada", "67s", "60–70s"),
+    ("Euro 2024", "Nedim Bajrami", "Albania", "23s", "20–30s"),
 ]
-
-# Redefined 10-minute brackets for the "highest-scoring bracket" question.
-GOAL_BRACKETS = ["0–10", "10–20", "20–30", "30–40", "40–HT (45+)",
-                 "45–55", "55–65", "65–75", "75–85", "85–FT (90+)"]
 
 # Static helper notes, one per pool question.
 QUESTION_GUIDE = [
@@ -252,50 +248,44 @@ QUESTION_GUIDE = [
      "Only <b>Europe (UEFA)</b> and <b>South America (CONMEBOL)</b> have <i>ever</i> won a World Cup. "
      "No African, Asian, CONCACAF or Oceanian team ever has — so 'Other' pays a fortune if it lands."
      "</p><p><i>See below for the 48 teams by confederation and each continent's win chance.</i>"),
-    ("7. Highest-scoring 10-minute bracket",
-     "Historically the <b>final bracket (85–FT)</b> scores most — tiring legs + stoppage time pile up there. "
-     "It's the favourite, so the tote pays little; a contrarian early bracket pays big."
-     "</p><p><i>See below for the full list of brackets.</i>"),
-    ("8. Top goalscorer (Golden Boot)",
-     "Recent tallies: 2010 = 5, 2014 = 6, 2018 = 6, 2022 = <b>8</b>. The 2026 winner can play <b>8</b> games "
-     "(extra round), so expect ~<b>7–9</b> goals to win it."),
-    ("9. Group with fewest total goals",
+    ("7. Group with fewest total goals",
      "12 groups of 4 (six games each). Defensive / 'group of death' style groups bottom out low; "
      "watch for a group stacked with cagey, low-scoring teams."),
-    ("10. Youngest goalscorer (age)",
-     "Give it as years + days. Recent youngest scorers range from <b>Lamine Yamal 16y 362d</b> (Euro '24) to "
-     "Damsgaard's 20y; the last World Cup's youngest was Gavi at <b>18y 110d</b>. A guess around <b>18–19</b> "
-     "is the historical sweet spot."
+    ("8. Youngest goalscorer (age)",
+     "Give it as years + days. Based on recent tournaments the youngest scorer is usually around <b>18–19</b> "
+     "(as low as ~16 at Euro '24)."
      "</p><p><i>See below for the youngest scorer in each recent tournament, and the youngest players in the 2026 squads.</i>"),
-    ("11. Pick a scoreline that happens exactly once",
+    ("9. Pick a scoreline that happens exactly once",
      "Common scorelines (1–0, 2–1, 1–1) recur many times; rarer ones (4–3, 5–2, 3–3) often happen 0 or 1 "
      "times. The sweet spot is a scoreline plausible enough to occur, rare enough to occur only once. "
      "Scorelines are <b>unordered</b> — <b>4–3 and 3–4 are the same result</b> (count the two goal tallies, "
      "not which team scored them)."
      "</p><p><i>Scoring: a scoreline <b>wins</b> if it occurred <b>exactly once</b> in the tournament. "
-     "Q11's 100-point pot splits <b>equally across the winning scorelines first</b>, then each scoreline's "
+     "Q9's 100-point pot splits <b>equally across the winning scorelines first</b>, then each scoreline's "
      "share splits among the people who picked it — so a unique pick banks a whole share. "
      "<b>Example:</b> 5–4 happens once and only you picked it; 3–3 happens once and two others picked it → "
      "two winning scorelines, <b>50 each</b> → you take the full <b>50</b> for 5–4, the two 3–3 pickers get "
      "<b>25</b> each. (One winning scoreline + one picker → the full 100.) Shootouts don't change a "
      "scoreline.</i>"),
-    ("12. Fastest goal of the tournament (time)",
-     "Give it in seconds. Record is Hakan Şükür's <b>10.8 seconds</b> (2002) — the fastest WC goal ever. "
-     "Most tournaments produce a goal inside the opening minute somewhere, and the fastest is usually well "
-     "under a minute."
-     "</p><p><i>See below for the fastest goal in each of the last 5 tournaments.</i>"),
-    ("13. Total goals in the whole tournament",
-     "Goals/game has trended up and there are far more games now. Based on recent tournaments, over 104 games "
-     "expect somewhere between ~<b>239</b> and ~<b>290</b> — <b>≈285</b> is the central call. The all-time "
-     "record of 172 (a 64-game number) is a terrible anchor. <i>(Excludes shootout kicks.)</i>"
+    ("10. Fastest goal of the tournament (band)",
+     "Pick a 10-second band for the tournament's fastest goal: <b>0–10s · 10–20s · 20–30s · 30–40s · 40–50s · "
+     "50–60s · 60–70s · 70–80s · 80–90s · 90s+ (1:30+)</b>. The all-time WC record is Şükür's 10.8s (2002)."
+     "</p><p><i>See below for the fastest goal in each of the last 5 tournaments (and the band it falls in).</i>"),
+    ("11. Total goals in the whole tournament (band)",
+     "Goals/game has trended up and there are far more games now — <b>≈285</b> is the central call. Pick a band "
+     "(symmetric around 285): <b>&lt;220 · 220–240 · 240–260 · 260–270 · 270–280 · 280–290 · 290–300 · "
+     "300–310 · 310–330 · 330–350 · 350+</b>. The all-time record of 172 (a 64-game number) is a terrible "
+     "anchor. <i>(Excludes shootout kicks.)</i>"
      "</p><p><i>See below for the goals-per-game range (from recent tournaments) in the projection table.</i>"),
-    ("14. Most we make on a single group-stage match (£)",
-     "An insider one: our trading book's <b>best single-match P&amp;L</b> across the group stage. Pick a band — "
-     "<b>&lt;£50k · £50–100k · £100–150k · £150–200k · £200–250k · £250k+</b>. Settled from our own numbers "
+    ("12. Most we make on a single group-stage match (net P&amp;L, £)",
+     "💷 <b>Insider question.</b> Our trading book's <b>best single-match net P&amp;L</b> across the group "
+     "stage. Pick a band — <b>&lt;£50k · £50–100k · £100–150k · £150–200k · £200–250k · £250k+</b>. "
+     "<b>Hint:</b> our best single match at the last World Cup was ~<b>£40k</b>. Settled from our own numbers "
      "after the groups; whoever picked the right band splits the pot."),
-    ("15. Most we lose on a single group-stage match (£)",
-     "The flip side: our <b>worst single-match P&amp;L</b> in the group stage. Also settled from our own book "
-     "afterwards. Closest £ wins — enter it as a positive number. <b>Mismappings don't count 😬</b>"),
+    ("13. Most we lose on a single group-stage match (net P&amp;L, £)",
+     "💷 <b>Insider question.</b> The flip side: our <b>worst single-match net P&amp;L</b> in the group "
+     "stage. Closest £ wins — enter it as a positive number. <b>Hint:</b> our worst single match last World "
+     "Cup was ~<b>£13k</b>. <b>Mismappings don't count 😬</b>. Settled from our own book afterwards."),
 ]
 
 # Best-effort long-named players LIKELY in 2026 squads (hand-picked — NOT exhaustive;
@@ -413,10 +403,14 @@ def write_guide():
                   [(c, n, who) for c, n, who in CONFEDERATIONS])
     youngest = tbl(["Tournament", "Youngest scorer", "Country", "Age"], YOUNGEST_BY_TOURNAMENT)
     ym = _youngest_members_rows()
-    youngest_members = (tbl(["Age (8 Jun '26)", "Player", "Pos", "Team"], ym) if ym
-                        else "<p class='sub'><i>(youngest-squad table populates when the squad scrape runs)</i></p>")
-    brackets = " · ".join(f"<code>{b}</code>" for b in GOAL_BRACKETS)
-    fastest = tbl(["Tournament", "Player", "Country", "Fastest goal"], FASTEST_GOALS)
+    # Scoring chance for these very young, fringe squad members is low — by position.
+    young_score = {"FW": 2, "MF": 1, "DF": 1, "GK": 0}
+    if ym:
+        ym_rows = [(age, p, pos, t, f"{young_score.get(pos, 1)}/10") for (age, p, pos, t) in ym]
+        youngest_members = tbl(["Age (8 Jun '26)", "Player", "Pos", "Team", "Score /10"], ym_rows)
+    else:
+        youngest_members = "<p class='sub'><i>(youngest-squad table populates when the squad scrape runs)</i></p>"
+    fastest = tbl(["Tournament", "Player", "Country", "Fastest goal", "Band"], FASTEST_GOALS)
     bonus = "".join(f"<li><b>{t}</b> — {d}</li>" for t, d in BONUS_IDEAS)
 
     ln = _longest_names_rows()
@@ -438,13 +432,15 @@ def write_guide():
     continent = tbl(["Continent", "Rough win chance"], CONTINENT_CHANCES)
 
     # ★ = quick stats in the tables below · ★★ = its own dedicated section below.
-    MARKERS = {1: "★★", 2: "★", 3: "★", 4: "★", 5: "★", 6: "★★", 7: "★★",
-               10: "★★", 12: "★★", 13: "★"}
+    MARKERS = {1: "★★", 2: "★", 3: "★", 4: "★", 5: "★", 6: "★★",
+               8: "★★", 10: "★★", 11: "★"}
+    INSIDER = {12, 13}
 
     def q_block(title, body):
         num = int(title.split(".")[0])
         mark = f' <span class="mark">{MARKERS[num]}</span>' if num in MARKERS else ""
-        return f'<div class="q"><h3>{title}{mark}</h3><p>{body}</p></div>'
+        cls = "q insider" if num in INSIDER else "q"
+        return f'<div class="{cls}"><h3>{title}{mark}</h3><p>{body}</p></div>'
 
     blocks = "\n".join(q_block(t, b) for t, b in QUESTION_GUIDE)
 
@@ -458,6 +454,8 @@ def write_guide():
  .note{{background:#eef4ff;border:1px solid #bcd2ff;border-radius:8px;padding:.6rem 1rem;margin:1rem 0;font-size:.92rem}}
  .q{{border-bottom:1px solid #e3e6ea;padding:.7rem 0}} .q h3{{margin:.2rem 0;font-size:1.05rem}}
  .q p{{margin:.3rem 0;color:#333}} a{{color:#2563eb}}
+ .q.insider{{background:#fdf2f8;border:1px solid #f3c6e2;border-left:4px solid #c026d3;border-radius:8px;padding:.6rem .9rem;margin:.5rem 0}}
+ .q.insider h3{{color:#a21caf}}
  table{{border-collapse:collapse;width:100%;margin:.6rem 0 1rem;font-size:.92rem}}
  th,td{{text-align:left;padding:.4rem .6rem;border-bottom:1px solid #e3e6ea;vertical-align:top}}
  th{{background:#fafbfc}} code{{background:#f2f4f7;padding:.05rem .3rem;border-radius:4px}}
@@ -509,20 +507,18 @@ count goals in play (including extra time).</div>
 genuine longshot that pays big on the tote. (A "winning <i>time-zone</i>" version is messier — the three
 hosts alone span four US zones — so continent is the clean cut.)</p>
 
-<h2>Q7 — the 10-minute brackets <span class="mark">★★</span></h2>
-<p>{brackets}</p>
-
-<h2>Q10 — youngest scorer in each of the last 6 tournaments <span class="mark">★★</span></h2>
+<h2>Q8 — youngest scorer in each of the last 6 tournaments <span class="mark">★★</span></h2>
 {youngest}
 <p class="sub">Youngest of the lot: Lamine Yamal <b>16y 362d</b> (Euro 2024) — youngest in Euros history.
 The guessing sweet spot is ~<b>18–19</b>.</p>
-<p class="sub" style="margin-top:1rem"><b>Youngest players in the 2026 squads</b> (age as of 8 June 2026) —
-the candidates to break that sweet spot if they get on and score:</p>
+<p class="sub" style="margin-top:1rem"><b>Youngest players in the 2026 squads</b> (age as of 8 June 2026).
+Score /10 is low — they're young and mostly fringe, so unlikely to play big minutes or score:</p>
 {youngest_members}
 
-<h2>Q12 — fastest goal in the last 5 tournaments <span class="mark">★★</span></h2>
+<h2>Q10 — fastest goal in the last 5 tournaments <span class="mark">★★</span></h2>
 {fastest}
-<p class="sub">Ranges from Bajrami's 23s (Euro '24) to ~81s; the all-time WC record is Şükür's 10.8s (2002).</p>
+<p class="sub">Recent fastest goals land all over (20–30s up to 80–90s) — no clear favourite band. Bajrami's
+23s (Euro '24) was the fastest Euros goal ever; the all-time WC record is Şükür's 10.8s (2002).</p>
 
 <h2>More fun ideas (with historical anchors)</h2>
 <ul>{bonus}</ul>
