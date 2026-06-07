@@ -1,7 +1,7 @@
 # ⚽ WC 2026 Office Pool — Prediction Sheet
 
-Fill in **all 13** before the first kickoff (**11 June, 18:00 BST**). One entry per person.
-<!-- 13 questions: Q1–12 as before, plus Q13 total goals. -->
+Fill in **all 15** before the first kickoff (**11 June, 18:00 BST**). One entry per person.
+<!-- 15 questions. Q14 & Q15 are settled from our own trading P&L after the group stage. -->
 
 📊 **Read the [stats guide](https://mhasan0137-ctrl.github.io/wc2026-pool/guide.html) first** —
 especially: 2026 has **104 matches, not 64**, so scale every total up ~1.6×.
@@ -29,11 +29,14 @@ Add every question's points → one leaderboard → prizes to the top.
 | 11 | **Pick a scoreline that happens exactly once** in the whole tournament (e.g. 3–2) | pick | ______ |
 | 12 | **Fastest goal** of the tournament — how many seconds after kickoff (of its match)? | closest number | ______ |
 | 13 | **Total goals** in the whole tournament (excludes shootout kicks) | closest number | ______ |
+| 14 | **Most money we make** on a single group-stage match (our trading P&L) | closest £ | ______ |
+| 15 | **Most money we lose** on a single group-stage match (enter as positive £) | closest £ | ______ |
 
 ---
 
 ### Notes
-- **Q11:** you win if your exact scoreline occurs **exactly once** across all 104 matches. Several people can win (different once-only scorelines) — they split.
+- **Q11 (scoreline once):** scorelines are **unordered** — 4–3 and 3–4 are the same. You win if your scoreline lands **exactly once** across all 104 matches; alone with a correct pick = the full 100, else split among correct pickers.
 - **Q12 (fastest goal):** closest to the actual fastest goal time wins; give it in seconds.
 - **Q8** ties: pot splits among everyone who picked a player tied on the most goals.
-- 🔑 Questions 1, 2, 3, 8, 10 are scored from the API-Football data; the rest from the free openfootball feed.
+- **Q14 & Q15** are settled from **our own trading P&L** after the group stage (not from any feed).
+- Tracking: own goals, red cards & top scorer (Q2, Q3, Q8) need the API-Football key; the longest-name list (Q1) comes from a keyless squad scrape; everything else from the free openfootball feed.

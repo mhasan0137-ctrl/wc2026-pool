@@ -262,9 +262,14 @@ QUESTION_GUIDE = [
      "is the historical sweet spot."
      "</p><p><i>See below for the youngest scorer in each recent tournament, and the youngest players in the 2026 squads.</i>"),
     ("11. Pick a scoreline that happens exactly once",
-     "Common scorelines (1–0, 2–1, 1–1) recur many times; rarer ones (4–3, 5–2, 3–3) often happen "
-     "0 or 1 times. The sweet spot is a scoreline plausible enough to occur, rare enough to occur only once. "
-     "<i>(Shootout results don't change a match's scoreline.)</i>"),
+     "Common scorelines (1–0, 2–1, 1–1) recur many times; rarer ones (4–3, 5–2, 3–3) often happen 0 or 1 "
+     "times. The sweet spot is a scoreline plausible enough to occur, rare enough to occur only once. "
+     "Scorelines are <b>unordered</b> — <b>4–3 and 3–4 are the same result</b> (count the two goal tallies, "
+     "not which team scored them)."
+     "</p><p><i>Scoring: you win Q11's 100-point pot if your scoreline lands <b>exactly once</b> across all "
+     "104 matches. If you're the only person with a correct pick, you take the full <b>100</b>; if three "
+     "people each nailed a different once-only scoreline, they split it (~33 each). Shootout results don't "
+     "change a match's scoreline.</i>"),
     ("12. Fastest goal of the tournament (time)",
      "Give it in seconds / minute. Record is Hakan Şükür's <b>10.8 seconds</b> (2002) — the fastest WC goal "
      "ever. Most tournaments produce a goal inside the opening minute somewhere, and the fastest is usually "
@@ -274,6 +279,12 @@ QUESTION_GUIDE = [
      "<b>≈285</b>. Even a below-average 2.29/g gives ~<b>239</b> — so the all-time record of 172 (a 64-game "
      "number) is a terrible anchor. <i>(Excludes shootout kicks.)</i>"
      "</p><p><i>See below for the goals-per-game range in the projection table.</i>"),
+    ("14. Most we make on a single group-stage match (£)",
+     "An insider one: our trading book's <b>best single-match P&amp;L</b> across the group stage. No public "
+     "stat exists for this — it's settled from our own numbers after the groups. Closest £ wins."),
+    ("15. Most we lose on a single group-stage match (£)",
+     "The flip side: our <b>worst single-match P&amp;L</b> in the group stage. Also settled from our own book "
+     "afterwards. Closest £ wins — enter it as a positive number."),
 ]
 
 # Best-effort long-named players LIKELY in 2026 squads (hand-picked — NOT exhaustive;
