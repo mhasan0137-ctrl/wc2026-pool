@@ -241,9 +241,10 @@ QUESTION_GUIDE = [
      "the new Round of 32 doubles the knockout games, so realistically nearer ~<b>8–10</b>."
      "</p><p><i>See below for the per-game range (from recent tournaments) and the floor note.</i>"),
     ("5. Goals in the final",
-     "A coin-flip. Based on recent finals it's typically somewhere in the <b>1–6</b> range. Goals in play "
-     "incl. extra time — shootout kicks don't count."
-     "</p><p><i>See below for every recent final in the summary table.</i>"),
+     "A coin-flip — and <b>shootout kicks count here</b>. If the final is settled in play it's typically "
+     "<b>1–6</b> goals; if it goes to penalties, add the shootout kicks scored (often ~6–10 more) on top."
+     "</p><p><i>See below for every recent final in the summary table (those marked * went to a shootout, "
+     "so you'd add its kicks).</i>"),
     ("6. Winning continent",
      "Only <b>Europe (UEFA)</b> and <b>South America (CONMEBOL)</b> have <i>ever</i> won a World Cup. "
      "No African, Asian, CONCACAF or Oceanian team ever has — so 'Other' pays a fortune if it lands."
@@ -279,13 +280,18 @@ QUESTION_GUIDE = [
      "</p><p><i>See below for the goals-per-game range (from recent tournaments) in the projection table.</i>"),
     ("12. Most we make on a single group-stage match (net P&amp;L, £)",
      "💷 <b>Insider question.</b> Our trading book's <b>best single-match net P&amp;L</b> across the group "
-     "stage. Pick a band — <b>&lt;£50k · £50–100k · £100–150k · £150–200k · £200–250k · £250k+</b>. "
-     "<b>Hint:</b> our best single match at the last World Cup was ~<b>£40k</b>. Settled from our own numbers "
-     "after the groups; whoever picked the right band splits the pot."),
+     "stage. Pick a band — <b>&lt;£25k · £25–50k · £50–75k · £75–100k · £100–150k · £150–200k · £200k+</b>. "
+     "<b>Hint:</b> our best single match at the last Euros was ~<b>£40k</b>, and we made ~<b>£44k</b> on the "
+     "last UCL final. Settled from our own numbers after the groups; right-band pickers split the pot."),
     ("13. Most we lose on a single group-stage match (net P&amp;L, £)",
      "💷 <b>Insider question.</b> The flip side: our <b>worst single-match net P&amp;L</b> in the group "
-     "stage. Closest £ wins — enter it as a positive number. <b>Hint:</b> our worst single match last World "
-     "Cup was ~<b>£13k</b>. <b>Mismappings don't count 😬</b>. Settled from our own book afterwards."),
+     "stage. Closest £ wins — enter it as a positive number. <b>Hint:</b> our worst single match at the last "
+     "Euros was ~<b>£13k</b>. <b>Mismappings don't count 😬</b>. Settled from our own book afterwards."),
+    ("14. Most we trade on a single group-stage match (£)",
+     "💷 <b>Insider question.</b> The single group game we <b>trade the most money on</b> — total matched, "
+     "not P&amp;L. Pick a band — <b>&lt;£2m · £2–4m · £4–6m · £6–8m · £8–10m · £10–15m · £15m+</b>. "
+     "<b>Hint:</b> our biggest single game at Euro 2024 was ~<b>£3.3m</b>, and a World Cup pulls bigger "
+     "volume. Settled from our own numbers after the groups."),
 ]
 
 # Best-effort long-named players LIKELY in 2026 squads (hand-picked — NOT exhaustive;
@@ -326,16 +332,6 @@ HISTORICAL_LONG_SCORERS = [
     (18, "Aurélien Tchouaméni", "France", "WC 2022 (vs England)"),
     (17, "Georges Mikautadze", "Georgia", "Euro 2024"),
 ]
-
-# A few extra fun options with historical anchors, if you ever want to swap/add.
-BONUS_IDEAS = [
-    ("Most common scoreline", "1–0 is historically the single most common World Cup result (~17%)."),
-    ("First half vs second half — more goals?",
-     "More goals are scored in second halves at almost every tournament (tiring legs, chasing games)."),
-    ("Total goals in the whole tournament",
-     "WC '22 = 172 in 64 games (2.69/game). Over 104 games at that rate → ~<b>280</b>."),
-]
-
 
 def _longest_names_rows():
     """Read top 10 from out/longest_names.csv if longest_names.py has been run."""
@@ -411,7 +407,6 @@ def write_guide():
     else:
         youngest_members = "<p class='sub'><i>(youngest-squad table populates when the squad scrape runs)</i></p>"
     fastest = tbl(["Tournament", "Player", "Country", "Fastest goal", "Band"], FASTEST_GOALS)
-    bonus = "".join(f"<li><b>{t}</b> — {d}</li>" for t, d in BONUS_IDEAS)
 
     ln = _longest_names_rows()
     if ln:
@@ -434,7 +429,7 @@ def write_guide():
     # ★ = quick stats in the tables below · ★★ = its own dedicated section below.
     MARKERS = {1: "★★", 2: "★", 3: "★", 4: "★", 5: "★", 6: "★★",
                8: "★★", 10: "★★", 11: "★"}
-    INSIDER = {12, 13}
+    INSIDER = {12, 13, 14}
 
     def q_block(title, body):
         num = int(title.split(".")[0])
@@ -471,7 +466,8 @@ World Cup. Most people will anchor on 64-game numbers — don't.</div>
 
 <div class="note">📌 <b>All goal counts on this page exclude penalty-shootout kicks.</b> A shootout decides
 who advances, but those penalties are <b>not</b> goals — so "goals in the final" and "total goals" only
-count goals in play (including extra time).</div>
+count goals in play (including extra time). <b>The one exception is Q5</b> (goals in the final), which
+explicitly counts shootout kicks if the final goes to penalties.</div>
 
 <p class="legend">Markers: <span class="mark">★</span> = stats in the reference tables below ·
 <span class="mark">★★</span> = its own detailed section below.</p>
@@ -520,8 +516,6 @@ Score /10 is low — they're young and mostly fringe, so unlikely to play big mi
 <p class="sub">Recent fastest goals land all over (20–30s up to 80–90s) — no clear favourite band. Bajrami's
 23s (Euro '24) was the fastest Euros goal ever; the all-time WC record is Şükür's 10.8s (2002).</p>
 
-<h2>More fun ideas (with historical anchors)</h2>
-<ul>{bonus}</ul>
 </body></html>"""
     (OUT / "guide.html").write_text(html)
 

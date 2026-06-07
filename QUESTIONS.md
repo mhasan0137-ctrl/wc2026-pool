@@ -1,7 +1,7 @@
 # ⚽ WC 2026 Office Pool — Prediction Sheet
 
-Fill in **all 13** before the first kickoff (**11 June, 18:00 BST**). One entry per person.
-<!-- 13 questions. 💷 Q12 & Q13 are settled from our own net trading P&L after the group stage. -->
+Fill in **all 14** before the first kickoff (**11 June, 18:00 BST**). One entry per person.
+<!-- 14 questions. 💷 Q12–Q14 are settled from our own trading numbers after the group stage. -->
 
 📊 **Read the [stats guide](https://mhasan0137-ctrl.github.io/wc2026-pool/guide.html) first** —
 especially: 2026 has **104 matches, not 64**, so scale every total up ~1.6×.
@@ -20,20 +20,22 @@ Add every question's points → one leaderboard → prizes to the top.
 | 2 | **Own goals** in the tournament | closest number | ______ |
 | 3 | **Red cards** in the tournament | closest number | ______ |
 | 4 | **Penalty shootouts** (how many matches decided on pens) | closest number | ______ |
-| 5 | **Goals in the final** (both teams combined) | closest number | ______ |
+| 5 | **Goals in the final** (both teams combined; **shootout kicks count** if it goes to pens) | closest number | ______ |
 | 6 | **Winning continent** (Europe / S. America / Africa / Asia / N. America / Other) | pick | ______ |
 | 7 | **Group with the fewest total goals** (Groups A–L) | pick | ______ |
 | 8 | **Youngest goalscorer's age** — years + days, e.g. 18y 110d | closest number | ______ |
 | 9 | **Pick a scoreline that happens exactly once** (e.g. 3–2; 4–3 = 3–4) | pick | ______ |
 | 10 | **Fastest goal** of the tournament — pick a 10-second band: `0–10s` … `80–90s` / `90s+` | pick band | ______ |
 | 11 | **Total goals** — pick a band: `<220` / `220–240` / `240–260` / `260–270` / `270–280` / `280–290` / `290–300` / `300–310` / `310–330` / `330–350` / `350+` (excl. shootout kicks) | pick band | ______ |
-| 💷 12 | **Most money we make** on a single group-stage match (**net P&L**) — band: `<£50k` / `£50–100k` / `£100–150k` / `£150–200k` / `£200–250k` / `£250k+`. *Hint: best last WC ≈ £40k* | pick band | ______ |
-| 💷 13 | **Most money we lose** on a single group-stage match (**net P&L**, positive £; mismappings don't count 😬). *Hint: worst last WC ≈ £13k* | closest £ | ______ |
+| 💷 12 | **Most money we make** on a single group-stage match (**net P&L**) — band: `<£25k` / `£25–50k` / `£50–75k` / `£75–100k` / `£100–150k` / `£150–200k` / `£200k+`. *Hint: best last Euros ≈ £40k; UCL final ≈ £44k* | pick band | ______ |
+| 💷 13 | **Most money we lose** on a single group-stage match (**net P&L**, positive £; mismappings don't count 😬). *Hint: worst last Euros ≈ £13k* | closest £ | ______ |
+| 💷 14 | **Most money we trade** on a single group-stage match (total matched, not P&L) — band: `<£2m` / `£2–4m` / `£4–6m` / `£6–8m` / `£8–10m` / `£10–15m` / `£15m+`. *Hint: Euro 2024 peak ≈ £3.3m* | pick band | ______ |
 
 ---
 
 ### Notes
 - **Q9 (scoreline once):** scorelines are **unordered** (4–3 = 3–4). The 100-pt pot splits **equally across the winning scorelines** (those that occurred exactly once), then each scoreline's share splits among its pickers. E.g. you alone pick 5–4 (once) and two pick 3–3 (once) → two winners, 50 each → you 50, the 3–3 pair 25 each.
 - **Q10 (fastest goal)** & **Q11 (total goals):** pick the band the actual figure lands in; everyone in the correct band splits the pot.
-- **💷 Q12 & Q13** are settled from **our own net trading P&L** after the group stage (not from any feed). Mismappings don't count 😬.
+- **💷 Q12–Q14** are settled from **our own trading numbers** after the group stage (Q12/Q13 net P&L; Q14 total matched). Not from any feed. Mismappings don't count for Q13 😬.
+- **Q5 (final):** **counts shootout kicks** if the final goes to penalties (the one goals question that does).
 - Tracking: own goals & red cards (Q2, Q3) need the API-Football key; the longest-name list (Q1) is a keyless squad scrape; everything else from the free openfootball feed.
