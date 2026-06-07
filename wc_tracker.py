@@ -30,7 +30,7 @@ import os
 import random
 import sys
 import urllib.request
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -101,11 +101,18 @@ def aggregate(matches):
     group_goals = defaultdict(int)
     scorers = defaultdict(int)
     pen_shootouts = []
+    own_goals = 0
+    scoreline_counts = Counter()
 
     for m in played:
         a, b = m["score"]["ft"]
         g = a + b
         total_goals += g
+        scoreline_counts["-".join(map(str, sorted((a, b))))] += 1
+        for gk in ("goals1", "goals2", "goals"):
+            for gg in m.get(gk) or []:
+                if isinstance(gg, dict) and gg.get("owngoal"):
+                    own_goals += 1
         team_for[m["team1"]] += a
         team_for[m["team2"]] += b
         team_against[m["team1"]] += b
@@ -134,6 +141,8 @@ def aggregate(matches):
         "team_against": dict(team_against),
         "group_goals": dict(group_goals),
         "scorers": scorers,
+        "own_goals": own_goals,
+        "scoreline_counts": dict(scoreline_counts),
     }
 
 
@@ -575,6 +584,41 @@ DEMO_OPTIONS = {
 }
 
 
+def _total_goals_band(n):
+    for hi, label in [(220, "<220"), (240, "220-240"), (260, "240-260"), (270, "260-270"),
+                      (280, "270-280"), (290, "280-290"), (300, "290-300"), (310, "300-310"),
+                      (330, "310-330"), (350, "330-350")]:
+        if n < hi:
+            return label
+    return "350+"
+
+
+def build_live_results(agg, live_feed):
+    """
+    Provisional results for the LIVE leaderboard, per the agreed per-question rules:
+      1 live · 2,3,4 per-game(×104) · 5,6 hold-until-final · 7,8,9,10 live · 11 per-game
+      12,13 manual (from live_feed.csv). Questions with no data yet are simply not scored.
+      (Q3 red cards, Q8 youngest scorer, Q10 fastest-second need the API key / manual feed.)
+    """
+    from longest_names_wiki import name_letters
+    res = {}
+    gp = agg["matches_played"]
+    if agg["scorers"]:                                            # 1 longest-named scorer (live)
+        res["q1_longest_name_letters"] = max(name_letters(n)[0] for (n, _t) in agg["scorers"])
+    if gp:                                                        # 2 own goals (per game)
+        res["q2_own_goals"] = round(agg["own_goals"] / gp * 104)
+    if gp:                                                        # 4 penalty shootouts (per game)
+        res["q4_pen_shootouts"] = round(len(agg["penalty_shootouts"]) / gp * 104)
+    if agg["group_goals"]:                                        # 7 group fewest (live)
+        res["q7_group_fewest_goals"] = min(agg["group_goals"], key=agg["group_goals"].get)
+    if gp:                                                        # 9 scoreline once (live)
+        res["q9_scoreline_once"] = ";".join(k for k, v in agg["scoreline_counts"].items() if v == 1)
+    if gp:                                                        # 11 total goals (per game -> band)
+        res["q11_total_goals_band"] = _total_goals_band(round(agg["total_goals"] / gp * 104))
+    res.update({k: v for k, v in (live_feed or {}).items() if v not in ("", None)})  # 12,13 + manual
+    return res
+
+
 def make_demo_predictions():
     """Stable (seeded) random demo entries, so the leaderboard previews with content."""
     rng = random.Random(2026)
@@ -587,8 +631,9 @@ def make_demo_predictions():
     return rows
 
 
-def write_html(agg, players, standings=None, is_demo=False):
+def write_html(agg, players, standings=None, is_demo=False, outcomes=None):
     """Render a single self-contained index.html for GitHub Pages."""
+    outcomes = outcomes or {}
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     h = agg["highest_scoring"]
     standings = standings or []
@@ -612,7 +657,13 @@ def write_html(agg, players, standings=None, is_demo=False):
                  'Drop real entries into <code>predictions.csv</code> and fill <code>results.csv</code> as the '
                  'tournament settles, and this becomes the real thing.</div>') if is_demo else ""
     proj_rows = "\n".join(
-        f"<tr><td>{QLABELS[k]}</td><td>{PROJECTED_RESULTS[k]}</td></tr>" for k in QLABELS)
+        f"<tr><td>{QLABELS[k]}</td><td>{outcomes.get(k) or '—'}</td></tr>" for k in QLABELS)
+    outcomes_heading = ("Projected outcomes (what the leaderboard scores against)" if is_demo
+                        else "Outcomes so far (live — drives the leaderboard)")
+    outcomes_sub = ("Central calls from the guide — they'll be replaced by the real results as games are played."
+                    if is_demo else
+                    "Live: ❶ longest scorer · ❷❹⓫ projected from per-game pace · ❼❾ current leader · "
+                    "❺❻ wait for the final · ❸❽❿ need the API key or manual feed · ⓬⓭ from live_feed.csv.")
     group_tbl = (rows(group_rows, lambda kv: (kv[0], kv[1]))
                  if group_rows else '<tr><td colspan="2">no matches played yet</td></tr>')
     scorer_tbl = (rows(scorer_src, lambda x: (x[0], x[1], x[2]))
@@ -642,9 +693,9 @@ def write_html(agg, players, standings=None, is_demo=False):
 {lb_rows}
 </table>
 
-<h2>Projected outcomes (what the leaderboard scores against)</h2>
-<p class="sub">Central calls from the guide — they'll be replaced by the real results as games are played.</p>
-<table><tr><th>Question</th><th>Projected</th></tr>
+<h2>{outcomes_heading}</h2>
+<p class="sub">{outcomes_sub}</p>
+<table><tr><th>Question</th><th>Result</th></tr>
 {proj_rows}
 </table>
 
@@ -771,29 +822,36 @@ def main():
     except Exception as e:
         print(f"(squad scrape skipped: {e})")
 
-    # Leaderboard: real if predictions.csv is committed, else a seeded demo preview.
-    standings, is_demo = [], False
+    # Leaderboard. Real predictions -> LIVE results (per-question rules) + manual live_feed.csv
+    # + results.csv overrides. No predictions yet -> seeded demo scored vs projected outcomes.
+    standings, is_demo, outcomes = [], False, PROJECTED_RESULTS
     try:
         import settle
         root = Path(__file__).parent
+
+        def _one_row(name):
+            p = root / name
+            if p.exists():
+                with open(p) as f:
+                    return (list(csv.DictReader(f)) or [{}])[0]
+            return {}
+
         if (root / "predictions.csv").exists():
             with open(root / "predictions.csv") as f:
                 preds = [r for r in csv.DictReader(f) if not r["name"].startswith("EXAMPLE_ROW")]
-            result = {}
-            if (root / "results.csv").exists():
-                with open(root / "results.csv") as f:
-                    result = (list(csv.DictReader(f)) or [{}])[0]
-            standings = settle.compute_standings(preds, result)
+            outcomes = build_live_results(agg, _one_row("live_feed.csv"))
+            outcomes.update({k: v for k, v in _one_row("results.csv").items() if v not in ("", None)})
+            standings = settle.compute_standings(preds, outcomes)
         else:
             standings = settle.compute_standings(make_demo_predictions(), PROJECTED_RESULTS)
             is_demo = True
         write_csv(OUT / "standings.csv",
                   [(i, n, p) for i, (n, p, _) in enumerate(standings, 1)], ["rank", "name", "points"])
-        print(f"Standings: {len(standings)} entries" + (" (demo preview)" if is_demo else ""))
+        print(f"Standings: {len(standings)} entries" + (" (demo preview)" if is_demo else " (live)"))
     except Exception as e:
         print(f"(standings skipped: {e})")
 
-    write_html(agg, players, standings, is_demo)
+    write_html(agg, players, standings, is_demo, outcomes)
     write_guide()
     print(f"\nWrote CSVs + index.html + guide.html to {OUT}/")
 
