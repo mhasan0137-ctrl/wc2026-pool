@@ -27,6 +27,7 @@ Stdlib only -- nothing to pip install.
 import csv
 import json
 import os
+import random
 import sys
 import urllib.request
 from collections import defaultdict
@@ -97,6 +98,7 @@ def aggregate(matches):
     five_plus = []
     team_for = defaultdict(int)
     team_against = defaultdict(int)
+    group_goals = defaultdict(int)
     scorers = defaultdict(int)
     pen_shootouts = []
 
@@ -108,6 +110,8 @@ def aggregate(matches):
         team_for[m["team2"]] += b
         team_against[m["team1"]] += b
         team_against[m["team2"]] += a
+        if m.get("group"):
+            group_goals[m["group"]] += g
         if g > high["goals"]:
             high = {"goals": g, "match": f'{m["team1"]} {a}-{b} {m["team2"]}'}
         if g >= 5:
@@ -128,6 +132,7 @@ def aggregate(matches):
         "penalty_shootouts": pen_shootouts,
         "team_for": dict(team_for),
         "team_against": dict(team_against),
+        "group_goals": dict(group_goals),
         "scorers": scorers,
     }
 
@@ -212,6 +217,14 @@ YOUNGEST_BY_TOURNAMENT = [
     ("Euro 2024", "Lamine Yamal", "Spain", "16y 362d"),
 ]
 
+# Scorelines (unordered) that occurred EXACTLY ONCE — computed from openfootball.
+SCORELINE_ONCE_HISTORY = [
+    ("WC 2018", 9, "0–0, 1–3, 0–5, 2–3, 3–3, 2–4, 2–5, 1–6, 3–4"),
+    ("WC 2022", 5, "2–4, 3–3, 0–7, 1–6, 2–6"),
+    ("Euro 2020", 3, "1–4, 0–5, 2–4"),
+    ("Euro 2024", 4, "2–2, 2–3, 1–4, 1–5"),
+]
+
 # Fastest goal in each of the last five tournaments (chronological).
 FASTEST_GOALS = [
     ("WC 2014", "Clint Dempsey", "USA", "30s", "30–40s"),
@@ -267,7 +280,7 @@ QUESTION_GUIDE = [
      "<b>Example:</b> 5–4 happens once and only you picked it; 3–3 happens once and two others picked it → "
      "two winning scorelines, <b>50 each</b> → you take the full <b>50</b> for 5–4, the two 3–3 pickers get "
      "<b>25</b> each. (One winning scoreline + one picker → the full 100.) Shootouts don't change a "
-     "scoreline.</i>"),
+     "scoreline.</i></p><p><i>See below for which scorelines landed exactly once in recent tournaments.</i>"),
     ("10. Fastest goal of the tournament (band)",
      "Pick a 10-second band for the tournament's fastest goal: <b>0–10s · 10–20s · 20–30s · 30–40s · 40–50s · "
      "50–60s · 60–70s · 70–80s · 80–90s · 90s+ (1:30+)</b>. The all-time WC record is Şükür's 10.8s (2002)."
@@ -281,12 +294,13 @@ QUESTION_GUIDE = [
     ("12. Most we make on a single group-stage match (net P&amp;L, £)",
      "💷 <b>Insider question.</b> Our trading book's <b>best single-match net P&amp;L</b> across the group "
      "stage. Pick a band — <b>&lt;£25k · £25–50k · £50–75k · £75–100k · £100–150k · £150–200k · £200k+</b>. "
-     "<b>Hint:</b> our best single match at the last Euros was ~<b>£40k</b>, and we made ~<b>£44k</b> on the "
-     "last UCL final. Settled from our own numbers after the groups; right-band pickers split the pot."),
+     "<b>Hint:</b> our best single match at the last Euros was ~<b>£40k</b>, and we made ~<b>£44k</b> on "
+     "this UCL final. Settled from our own numbers after the groups; right-band pickers split the pot."),
     ("13. Most we trade on a single group-stage match (turnover, £)",
      "💷 <b>Insider question.</b> The single group game we <b>trade the most money on</b> — total matched "
-     "(turnover), not P&amp;L. Pick a band — <b>&lt;£2m · £2–4m · £4–6m · £6–8m · £8–10m · £10–15m · £15m+</b>. "
-     "<b>Hint:</b> our highest group-stage turnover at the last Euros was ~<b>£3.3m</b>, and the last UCL "
+     "(turnover), not P&amp;L. Pick a band — <b>&lt;£1m · £1–2m · £2–3m · £3–4m · £4–6m · £6–8m · £8–10m · "
+     "£10–15m · £15m+</b>. "
+     "<b>Hint:</b> our highest group-stage turnover at the last Euros was ~<b>£3.3m</b>, and this UCL "
      "final did ~<b>£3m</b> — and a World Cup pulls bigger volume. Settled from our own numbers after the groups."),
 ]
 
@@ -403,6 +417,7 @@ def write_guide():
     else:
         youngest_members = "<p class='sub'><i>(youngest-squad table populates when the squad scrape runs)</i></p>"
     fastest = tbl(["Tournament", "Player", "Country", "Fastest goal", "Band"], FASTEST_GOALS)
+    scoreline_once = tbl(["Tournament", "# once-only", "The scorelines (unordered)"], SCORELINE_ONCE_HISTORY)
 
     ln = _longest_names_rows()
     if ln:
@@ -424,7 +439,7 @@ def write_guide():
 
     # ★ = quick stats in the tables below · ★★ = its own dedicated section below.
     MARKERS = {1: "★★", 2: "★", 3: "★", 4: "★", 5: "★", 6: "★★",
-               8: "★★", 10: "★★", 11: "★"}
+               8: "★★", 9: "★★", 10: "★★", 11: "★"}
     INSIDER = {12, 13}
 
     def q_block(title, body):
@@ -507,6 +522,12 @@ The guessing sweet spot is ~<b>18–19</b>.</p>
 Score /10 is low — they're young and mostly fringe, so unlikely to play big minutes or score:</p>
 {youngest_members}
 
+<h2>Q9 — scorelines that landed exactly once, recent tournaments <span class="mark">★★</span></h2>
+{scoreline_once}
+<p class="sub">Winners are nearly always <b>mid-rare</b> scorelines (3–3, 2–3, 2–4, 1–4); common results
+(1–0, 2–1, 1–1) recur far too often to land just once. With <b>104 games</b> in 2026 (vs 64), expect a few
+more once-only scorelines — and some very rare ones may now repeat.</p>
+
 <h2>Q10 — fastest goal in the last 5 tournaments <span class="mark">★★</span></h2>
 {fastest}
 <p class="sub">Recent fastest goals land all over (20–30s up to 80–90s) — no clear favourite band. Bajrami's
@@ -516,57 +537,136 @@ Score /10 is low — they're young and mostly fringe, so unlikely to play big mi
     (OUT / "guide.html").write_text(html)
 
 
-def write_html(agg, players):
+# Central projected final outcomes — used to PREVIEW the leaderboard before real
+# results land. Numeric ones are the guide's central calls (e.g. ~285 total goals).
+PROJECTED_RESULTS = {
+    "q1_longest_name_letters": "22", "q2_own_goals": "12", "q3_red_cards": "7",
+    "q4_pen_shootouts": "8", "q5_final_goals": "3", "q6_continent": "Europe",
+    "q7_group_fewest_goals": "Group D", "q8_youngest_age": "18y 150d",
+    "q9_scoreline_once": "3-2;4-1;5-3", "q10_fastest_goal_band": "20-30s",
+    "q11_total_goals_band": "280-290", "q12_best_match_pnl_band": "25-50k",
+    "q13_most_traded_band": "4-6m",
+}
+QLABELS = {
+    "q1_longest_name_letters": "Longest-named scorer (letters)", "q2_own_goals": "Own goals",
+    "q3_red_cards": "Red cards", "q4_pen_shootouts": "Penalty shootouts",
+    "q5_final_goals": "Goals in the final", "q6_continent": "Winning continent",
+    "q7_group_fewest_goals": "Group with fewest goals", "q8_youngest_age": "Youngest scorer age",
+    "q9_scoreline_once": "Scoreline that happens once", "q10_fastest_goal_band": "Fastest goal",
+    "q11_total_goals_band": "Total goals", "q12_best_match_pnl_band": "Best match net P&L",
+    "q13_most_traded_band": "Most traded (turnover)",
+}
+DEMO_NAMES = ["Alex", "Priya", "Sam", "Jordan", "Mia", "Tom", "Aisha", "Ben",
+              "Chloe", "Raj", "Ellie", "Marcus"]
+DEMO_OPTIONS = {
+    "q1_longest_name_letters": [str(x) for x in range(18, 25)],
+    "q2_own_goals": [str(x) for x in range(4, 20)],
+    "q3_red_cards": [str(x) for x in range(2, 16)],
+    "q4_pen_shootouts": [str(x) for x in range(5, 12)],
+    "q5_final_goals": [str(x) for x in range(1, 8)],
+    "q6_continent": ["Europe", "Europe", "Europe", "South America", "South America", "Africa", "Asia"],
+    "q7_group_fewest_goals": ["Group " + c for c in "ABCDEFGHIJKL"],
+    "q8_youngest_age": ["17y 300d", "18y 50d", "18y 150d", "18y 250d", "19y 10d"],
+    "q9_scoreline_once": ["3-2", "4-1", "5-3", "4-2", "3-3", "2-0", "5-2"],
+    "q10_fastest_goal_band": ["10-20s", "20-30s", "30-40s", "40-50s", "50-60s", "60-70s"],
+    "q11_total_goals_band": ["260-270", "270-280", "280-290", "290-300", "300-310"],
+    "q12_best_match_pnl_band": ["<25k", "25-50k", "50-75k", "75-100k", "100-150k"],
+    "q13_most_traded_band": ["<1m", "1-2m", "2-3m", "3-4m", "4-6m", "6-8m", "8-10m"],
+}
+
+
+def make_demo_predictions():
+    """Stable (seeded) random demo entries, so the leaderboard previews with content."""
+    rng = random.Random(2026)
+    rows = []
+    for name in DEMO_NAMES:
+        row = {"name": name}
+        for col, opts in DEMO_OPTIONS.items():
+            row[col] = rng.choice(opts)
+        rows.append(row)
+    return rows
+
+
+def write_html(agg, players, standings=None, is_demo=False):
     """Render a single self-contained index.html for GitHub Pages."""
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     h = agg["highest_scoring"]
-    team_rows = sorted(
-        ({"t": t, "f": agg["team_for"].get(t, 0), "a": agg["team_against"].get(t, 0)}
-         for t in set(agg["team_for"]) | set(agg["team_against"])),
-        key=lambda r: (-r["f"], r["a"]),
-    )
+    standings = standings or []
+    group_rows = sorted(agg["group_goals"].items(), key=lambda kv: kv[1])  # fewest first (Q7)
     scorer_src = (
-        [(p["player"], p["team"], p["goals"]) for p in players[:15]]
+        [(p["player"], p["team"], p["goals"]) for p in players[:10]]
         if players else
         [(n, t, g) for (n, t), g in
-         sorted(agg["scorers"].items(), key=lambda kv: -kv[1])[:15]]
+         sorted(agg["scorers"].items(), key=lambda kv: -kv[1])[:10]]
     )
 
     def rows(items, cells):
         return "\n".join("<tr>" + "".join(f"<td>{c}</td>" for c in cells(x))
                          + "</tr>" for x in items)
 
+    lb_rows = "\n".join(
+        f'<tr><td>{i}</td><td>{n}</td><td>{p:g}</td></tr>'
+        for i, (n, p, _) in enumerate(standings, 1)) or '<tr><td colspan="3">—</td></tr>'
+    demo_note = ('<div class="note">👀 <b>Preview only.</b> These are <b>placeholder names</b> scored against '
+                 '<b>projected</b> final outcomes (e.g. ~285 total goals) — to show how the leaderboard works. '
+                 'Drop real entries into <code>predictions.csv</code> and fill <code>results.csv</code> as the '
+                 'tournament settles, and this becomes the real thing.</div>') if is_demo else ""
+    proj_rows = "\n".join(
+        f"<tr><td>{QLABELS[k]}</td><td>{PROJECTED_RESULTS[k]}</td></tr>" for k in QLABELS)
+    group_tbl = (rows(group_rows, lambda kv: (kv[0], kv[1]))
+                 if group_rows else '<tr><td colspan="2">no matches played yet</td></tr>')
+    scorer_tbl = (rows(scorer_src, lambda x: (x[0], x[1], x[2]))
+                  if scorer_src else '<tr><td colspan="3">no goals yet</td></tr>')
+
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>WC 2026 Office Pool</title>
 <style>
  body{{font:15px/1.5 system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;color:#1a1a1a}}
- h1{{margin-bottom:.2rem}} .sub{{color:#666;margin-top:0}}
+ h1{{margin-bottom:.2rem}} h2{{margin-top:2rem;font-size:1.2rem}} .sub{{color:#666;margin-top:0}}
+ .note{{background:#fff6e5;border:1px solid #ffd58a;border-radius:8px;padding:.7rem 1rem;margin:1rem 0;font-size:.92rem}}
  .cards{{display:flex;flex-wrap:wrap;gap:1rem;margin:1.5rem 0}}
  .card{{flex:1 1 160px;background:#f4f6f8;border-radius:10px;padding:1rem}}
  .card .n{{font-size:1.8rem;font-weight:700}} .card .l{{color:#666;font-size:.85rem}}
  table{{border-collapse:collapse;width:100%;margin:.5rem 0 2rem}}
  th,td{{text-align:left;padding:.4rem .6rem;border-bottom:1px solid #e3e6ea}}
  th{{background:#fafbfc}} td:not(:first-child){{text-align:right}}
- a{{color:#2563eb}}
+ a{{color:#2563eb}} code{{background:#f2f4f7;padding:.05rem .3rem;border-radius:4px}}
 </style></head><body>
 <h1>⚽ WC 2026 Office Pool</h1>
 <p class="sub">Auto-updated {updated} · {agg['matches_played']}/{agg['matches_total']} matches played · <a href="guide.html">📊 question guide &amp; stats</a></p>
+
+<h2>🏆 Leaderboard {'(preview)' if is_demo else ''}</h2>
+{demo_note}
+<table><tr><th>#</th><th>Name</th><th>Points</th></tr>
+{lb_rows}
+</table>
+
+<h2>Projected outcomes (what the leaderboard scores against)</h2>
+<p class="sub">Central calls from the guide — they'll be replaced by the real results as games are played.</p>
+<table><tr><th>Question</th><th>Projected</th></tr>
+{proj_rows}
+</table>
+
+<h2>Live so far</h2>
 <div class="cards">
  <div class="card"><div class="n">{agg['total_goals']}</div><div class="l">Total goals (avg {agg['avg_goals_per_match']}/match)</div></div>
  <div class="card"><div class="n">{len(agg['five_plus_games'])}</div><div class="l">Games with 5+ goals</div></div>
  <div class="card"><div class="n">{len(agg['penalty_shootouts'])}</div><div class="l">Penalty shootouts</div></div>
  <div class="card"><div class="n">{h['goals'] if h['match'] else 0}</div><div class="l">Highest match: {h['match'] or '—'}</div></div>
 </div>
+
+<h2>Group goals (Q7 — fewest first)</h2>
+<table><tr><th>Group</th><th>Goals</th></tr>
+{group_tbl}
+</table>
+
 <h2>Top scorers</h2>
 <table><tr><th>Player</th><th>Team</th><th>Goals</th></tr>
-{rows(scorer_src, lambda x: (x[0], x[1], x[2]))}
+{scorer_tbl}
 </table>
-<h2>Goals by team</h2>
-<table><tr><th>Team</th><th>For</th><th>Against</th></tr>
-{rows(team_rows, lambda r: (r['t'], r['f'], r['a']))}
-</table>
-<p><a href="fixtures.csv">fixtures.csv</a> · <a href="team_goals.csv">team_goals.csv</a> · <a href="scorers_openfootball.csv">scorers.csv</a></p>
+
+<p><a href="fixtures.csv">fixtures.csv</a> · <a href="standings.csv">standings.csv</a> · <a href="scorers_openfootball.csv">scorers.csv</a></p>
 </body></html>"""
     (OUT / "index.html").write_text(html)
 
@@ -589,12 +689,11 @@ def main():
         ["round", "date", "group", "team1", "team2", "score1", "score2"],
     )
 
-    # team_goals.csv -- handy for the sweepstake (whose drawn country is scoring)
-    teams = sorted(set(agg["team_for"]) | set(agg["team_against"]))
+    # group_goals.csv -- goals per group, for Q7 (group with fewest goals)
     write_csv(
-        OUT / "team_goals.csv",
-        [[t, agg["team_for"].get(t, 0), agg["team_against"].get(t, 0)] for t in teams],
-        ["team", "goals_for", "goals_against"],
+        OUT / "group_goals.csv",
+        sorted(agg["group_goals"].items(), key=lambda kv: kv[1]),
+        ["group", "goals"],
     )
 
     # scorers from openfootball (best-effort)
@@ -672,7 +771,29 @@ def main():
     except Exception as e:
         print(f"(squad scrape skipped: {e})")
 
-    write_html(agg, players)
+    # Leaderboard: real if predictions.csv is committed, else a seeded demo preview.
+    standings, is_demo = [], False
+    try:
+        import settle
+        root = Path(__file__).parent
+        if (root / "predictions.csv").exists():
+            with open(root / "predictions.csv") as f:
+                preds = [r for r in csv.DictReader(f) if not r["name"].startswith("EXAMPLE_ROW")]
+            result = {}
+            if (root / "results.csv").exists():
+                with open(root / "results.csv") as f:
+                    result = (list(csv.DictReader(f)) or [{}])[0]
+            standings = settle.compute_standings(preds, result)
+        else:
+            standings = settle.compute_standings(make_demo_predictions(), PROJECTED_RESULTS)
+            is_demo = True
+        write_csv(OUT / "standings.csv",
+                  [(i, n, p) for i, (n, p, _) in enumerate(standings, 1)], ["rank", "name", "points"])
+        print(f"Standings: {len(standings)} entries" + (" (demo preview)" if is_demo else ""))
+    except Exception as e:
+        print(f"(standings skipped: {e})")
+
+    write_html(agg, players, standings, is_demo)
     write_guide()
     print(f"\nWrote CSVs + index.html + guide.html to {OUT}/")
 
