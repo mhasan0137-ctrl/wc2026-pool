@@ -192,15 +192,14 @@ CONFEDERATIONS = [
     ("OFC — Oceania", 1, "New Zealand"),
 ]
 
-# Youngest goalscorers on record (World Cup), plus the Euros note.
-YOUNGEST_SCORERS = [
-    ("Pelé", "Brazil", "1958", "17y 239d"),
-    ("Manuel Rosas", "Mexico", "1930", "18y 93d"),
-    ("Gavi", "Spain", "2022", "18y 110d"),
-    ("Michael Owen", "England", "1998", "18y 190d"),
-    ("Divock Origi", "Belgium", "2014", "19y 65d"),
-    ("Martin Hoffmann", "East Germany", "1974", "19y 88d"),
-    ("Julian Green", "USA", "2014", "19y 25d"),
+# Youngest goalscorer in each of the last six tournaments (chronological order).
+YOUNGEST_BY_TOURNAMENT = [
+    ("WC 2014", "Julian Green", "USA", "19y 25d"),
+    ("Euro 2016", "Renato Sanches", "Portugal", "18y 317d"),
+    ("WC 2018", "Kylian Mbappé", "France", "19y 183d"),
+    ("Euro 2020", "Mikkel Damsgaard", "Denmark", "20y 353d"),
+    ("WC 2022", "Gavi", "Spain", "18y 110d"),
+    ("Euro 2024", "Lamine Yamal", "Spain", "16y 362d"),
 ]
 
 # Redefined 10-minute brackets for the "highest-scoring bracket" question.
@@ -215,17 +214,18 @@ QUESTION_GUIDE = [
      "so the squad's longest name is the ceiling, not the answer. The top-10 longest names in "
      "this World Cup's squads are listed below (auto-filled when longest_names.py is run with the API key)."),
     ("2. Own goals in the tournament",
-     "Wildly swingy: WC 2018 = <b>12</b> (record), WC 2022 = <b>2</b>; Euro 2020 = 11, Euro 2024 = 10. "
-     "No safe number. Scaled to 104 games, ~<b>8–14</b> is a sane band. <i>(Excludes shootouts.)</i>"),
+     "Per game, in order: WC '14 <b>0.08</b>, WC '18 <b>0.19</b>, Euro '20 <b>0.22</b>, WC '22 <b>0.03</b>, "
+     "Euro '24 <b>0.20</b> — wildly swingy. Recent tournaments run high (~0.20/g → ~20 over 104 games), but "
+     "WC '22 crashed to 3. Sane band ~<b>10–18</b>. <i>(Excludes shootouts.)</i>"),
     ("3. Red cards in the tournament",
-     "VAR era is low: WC 2018 = <b>4</b>, 2022 = <b>4</b> (vs 2010 = 17, 2014 = 10); Euro 2024 = 6, Euro 2020 = 1. "
-     "Per-match rate × 104 games → ~<b>6–10</b>."),
+     "Per game, in order: WC '14 <b>0.16</b>, WC '18 <b>0.06</b>, Euro '20 <b>0.02</b>, WC '22 <b>0.06</b>, "
+     "Euro '24 <b>0.12</b>. VAR keeps modern World Cups low (~0.06/g → <b>~6–7</b> over 104 games); full range ~2–16."),
     ("4. Penalty shootouts",
-     "WC 2018 = <b>4</b>, 2022 = <b>5</b> (record); Euro 2020 = 4. 2026 adds a Round of 32, so there are "
-     "<b>32 knockout games vs 16</b> before — double the shootout chances. Think ~<b>6–9</b>."),
+     "Per knockout game, in order: WC '18 <b>0.25</b> (4 of 16), Euro '20 <b>0.27</b> (4/15), WC '22 <b>0.31</b> (5/16). "
+     "2026 has <b>32 knockout games</b> (double the old 16) → ~<b>8–10</b>."),
     ("5. Goals in the final",
-     "Coin-flip: WC '14 = 1, '18 = <b>6</b>, '22 = <b>6</b>; Euro '20 = 2, '24 = 3. Range 1–6. "
-     "<i>Goals in play incl. extra time — penalty-shootout kicks do NOT count.</i>"),
+     "In order: WC '14 <b>1</b>, WC '18 <b>6</b>, Euro '20 <b>2</b>, WC '22 <b>6</b>, Euro '24 <b>3</b>. "
+     "Coin-flip, range 1–6. <i>Goals in play incl. extra time — shootout kicks don't count.</i>"),
     ("6. Winning continent",
      "Only <b>Europe (UEFA)</b> and <b>South America (CONMEBOL)</b> have <i>ever</i> won a World Cup. "
      "No African, Asian, CONCACAF or Oceanian team ever has — so 'Other' pays a fortune if it lands. "
@@ -240,9 +240,9 @@ QUESTION_GUIDE = [
      "12 groups of 4 (six games each). Defensive / 'group of death' style groups bottom out low; "
      "watch for a group stacked with cagey, low-scoring teams."),
     ("10. Youngest goalscorer (age)",
-     "Last three: Gavi <b>18y 110d</b> (WC '22), Kylian Mbappé 19y (WC '18), and at Euro 2024 "
-     "<b>Lamine Yamal scored at 16y 362d</b> — the youngest scorer in Euros history. All-time WC record: "
-     "Pelé <b>17y 239d</b> (1958), still the only sub-18 WC scorer. Expect ~<b>18</b>. Full list below."),
+     "Give it as years + days. Youngest scorer per tournament is listed below — they range from "
+     "<b>Lamine Yamal 16y 362d</b> (Euro '24) to Damsgaard's 20y. The last World Cup's youngest was "
+     "Gavi at <b>18y 110d</b>. A guess around <b>18–19</b> is the historical sweet spot."),
     ("11. Pick a scoreline that happens exactly once",
      "Common scorelines (1–0, 2–1, 1–1) recur many times; rarer ones (4–3, 5–2, 3–3) often happen "
      "0 or 1 times. The sweet spot is a scoreline plausible enough to occur, rare enough to occur only once. "
@@ -253,14 +253,49 @@ QUESTION_GUIDE = [
      "well under a minute."),
 ]
 
-# Per-game rates and what they imply over 2026's 104 games (the "scale it up" table).
-# cols: metric, per-game basis, implied 2026 total
-PROJECTIONS = [
-    ("Total goals", "2.64–2.69 / game (recent WCs)", "~275–285"),
-    ("Own goals", "0.03 / g (2022) … 0.19 / g (2018)", "~3 … ~20 (huge swing)"),
-    ("Red cards", "~0.06 / game (VAR-era WCs)", "~6–7 (up to ~12 in card-happy years)"),
-    ("Penalty shootouts", "0.25–0.31 per knockout game × 32 KO games", "~8–10"),
+# Best-effort long-named players LIKELY in 2026 squads (hand-picked — NOT exhaustive;
+# longest_names.py with the API key produces the definitive ranking and replaces this).
+# cols: letters, player, position, team, "plays & scores?" likelihood
+LONGEST_NAMES_ESTIMATE = [
+    (20, "Giorgian de Arrascaeta", "AM", "Uruguay", "Likely starts; scores occasionally — Med"),
+    (20, "Trent Alexander-Arnold", "RB", "England", "Likely squad; rarely scores — Low"),
+    (18, "Aurélien Tchouaméni", "DM", "France", "Starter; scores rarely — Low/Med"),
+    (17, "Christopher Nkunku", "FW", "France", "Squad uncertain; scores if he plays — Med"),
+    (17, "Alexis Mac Allister", "CM", "Argentina", "Starter; scores sometimes — Med"),
+    (16, "Cristiano Ronaldo", "FW", "Portugal", "Likely captain; scores often — High"),
+    (16, "Federico Valverde", "CM", "Uruguay", "Starter; scores sometimes — Med"),
+    (15, "Youssef En-Nesyri", "ST", "Morocco", "Starter striker; scores often — High"),
+    (15, "Teun Koopmeiners", "CM", "Netherlands", "Squad; scores sometimes — Med"),
+    (15, "Randal Kolo Muani", "ST", "France", "Squad; scores sometimes — Med"),
 ]
+
+# Score chance /10 derived purely from position (a scorer-propensity proxy).
+POS_SCORE = {"FW": 6, "MF": 4, "DF": 2, "GK": 0}
+# Start chance /10 — rough subjective estimate per player (role in their national team).
+START_CHANCE = {
+    "Amirhossein Hosseinzadeh": 3, "Amirmohammad Razzaghinia": 2,
+    "Alexander Bernhardsson": 3, "Hossein Kanaanizadegan": 7,
+    "Adalberto Carrasquilla": 8, "Jean-Ricner Bellegarde": 8,
+    "Crysencio Summerville": 3, "Matias Fernandez-Pardo": 2,
+    "Giorgian de Arrascaeta": 8, "Jaloliddin Masharipov": 7,
+}
+
+# Notable LONG-named goalscorers from recent tournaments (verified goals).
+# Computed from openfootball (WC '18/'22, full names) + verified Euro '24 names.
+HISTORICAL_LONG_SCORERS = [
+    (22, "Jean-Charles Castelletto", "Cameroon", "WC 2022 (vs Serbia)"),
+    (21, "Sergej Milinković-Savić", "Serbia", "WC 2022"),
+    (20, "Giorgian de Arrascaeta", "Uruguay", "WC 2022 (vs Ghana)"),
+    (20, "Khvicha Kvaratskhelia", "Georgia", "Euro 2024 (vs Portugal)"),
+    (20, "Christoph Baumgartner", "Austria", "Euro 2024"),
+    (18, "Aurélien Tchouaméni", "France", "WC 2022 (vs England)"),
+    (17, "Georges Mikautadze", "Georgia", "Euro 2024"),
+]
+
+# Penalty-shootout history. Note the denominator is KNOCKOUT games, not all games.
+# WC '18: 4 in 16 KO games; WC '22: 5 in 16; Euro '20: 4 in 15. 2026 has 32 KO games.
+SHOOTOUT_HISTORY = [("WC 2018", 4, 16), ("WC 2022", 5, 16), ("Euro 2020", 4, 15)]
+WC2026_KO_GAMES = 32
 
 # A few extra fun options with historical anchors, if you ever want to swap/add.
 BONUS_IDEAS = [
@@ -292,27 +327,62 @@ def write_guide():
                          for r in body_rows)
         return f"<table><tr>{head}</tr>{body}</table>"
 
+    def pg(v, m, dp):
+        return f"{v / m:.{dp}f}" if isinstance(v, int) else "?"
+
     summary_rows = []
     for label, m, g, og, rc, fin in TOURNAMENT_STATS:
-        per_game = f"{g / m:.2f}" if isinstance(g, int) else "?"
-        summary_rows.append((label, m, g, per_game, og, rc, fin))
-    summary = tbl(["Tournament", "Matches", "Goals", "Goals/game", "Own goals", "Red cards",
-                   "Final (goals in play)"], summary_rows)
-    projections = tbl(["Metric", "Recent rate (per game)", "If repeated over 2026's 104 games"],
-                      PROJECTIONS)
+        summary_rows.append((label, m, g, pg(g, m, 2), og, pg(og, m, 3), rc, pg(rc, m, 3), fin))
+    summary = tbl(["Tournament", "Matches", "Goals", "Goals/game", "Own goals", "OG/game",
+                   "Red cards", "Reds/game", "Final (goals in play)"], summary_rows)
+    # Historical per-game RANGES, computed from the tournaments above, scaled to 104 games.
+    numeric = [(g, og, rc, m) for (_, m, g, og, rc, _) in TOURNAMENT_STATS if isinstance(g, int)]
+
+    def rng(idx):
+        rates = [row[idx] / row[3] for row in numeric]
+        return min(rates), max(rates)
+
+    og_lo, og_hi = rng(1)
+    rc_lo, rc_hi = rng(2)
+    sh = [s / k for _, s, k in SHOOTOUT_HISTORY]
+    sh_lo, sh_hi = min(sh), max(sh)
+    proj_rows = [
+        ("Own goals", f"{og_lo:.2f} – {og_hi:.2f} / game",
+         f"~{round(og_lo * 104)} – {round(og_hi * 104)}"),
+        ("Red cards", f"{rc_lo:.2f} – {rc_hi:.2f} / game (VAR-era WCs ~0.06)",
+         f"~{round(rc_lo * 104)} – {round(rc_hi * 104)}"),
+        ("Penalty shootouts", f"{sh_lo:.2f} – {sh_hi:.2f} per knockout game",
+         f"~{round(sh_lo * WC2026_KO_GAMES)} – {round(sh_hi * WC2026_KO_GAMES)} (over {WC2026_KO_GAMES} KO games)"),
+    ]
+    projections = tbl(["Metric", "Historical range (per game)", "Range over 2026 (104 games)"], proj_rows)
+
+    # Total goals: rate → total, anchored to the high/low of the tournaments shown.
+    scenarios = tbl(["If goals/game is…", "…total goals over 104 games"],
+                    [("2.29  (Euro 2024 — lowest shown)", round(2.29 * 104)),
+                     ("2.50", round(2.50 * 104)),
+                     ("2.69  (recent World Cup)", round(2.69 * 104)),
+                     ("2.78  (Euro 2020 — highest shown)", round(2.78 * 104))])
     confeds = tbl(["Confederation", "Teams", "Who"],
                   [(c, n, who) for c, n, who in CONFEDERATIONS])
-    youngest = tbl(["Player", "Country", "Edition", "Age"], YOUNGEST_SCORERS)
+    youngest = tbl(["Tournament", "Youngest scorer", "Country", "Age"], YOUNGEST_BY_TOURNAMENT)
     brackets = " · ".join(f"<code>{b}</code>" for b in GOAL_BRACKETS)
     bonus = "".join(f"<li><b>{t}</b> — {d}</li>" for t, d in BONUS_IDEAS)
 
     ln = _longest_names_rows()
     if ln:
-        longest_block = "<p>Top 10 longest names in the 2026 squads (pool rule applied):</p>" + \
-            tbl(["Letters", "Player", "Pos", "Team"], ln)
+        body = [(L, p, pos, t, POS_SCORE.get(pos, "?"), START_CHANCE.get(p, "?"))
+                for (L, p, pos, t) in ln]
+        longest_block = ("<p>Top 10 longest names in the 2026 squads (pool rule applied, scraped from the "
+                         "official squad lists). <b>Score /10</b> = scoring chance from position "
+                         "(FW 6 · MF 4 · DF 2 · GK 0); <b>Start /10</b> = rough estimate of starting "
+                         "(subjective — don't take to the bank):</p>"
+                         + tbl(["Letters", "Player", "Pos", "Team", "Score /10", "Start /10"], body))
     else:
-        longest_block = ('<p><i>Run <code>longest_names.py</code> with the API key to auto-fill the '
-                         'top-10 longest squad names here.</i></p>')
+        longest_block = (
+            '<p><b>Best-effort estimate</b> — hand-picked, likely squad members, <b>not exhaustive</b>. '
+            'Run <code>longest_names.py</code> with the API key for the definitive top-10 from live squad data:</p>'
+            + tbl(["Letters", "Player", "Pos", "Team", "Plays &amp; scores?"], LONGEST_NAMES_ESTIMATE))
+    historical_block = tbl(["Letters", "Player", "Country", "When"], HISTORICAL_LONG_SCORERS)
 
     blocks = "\n".join(
         f'<div class="q"><h3>{title}</h3><p>{body}</p></div>'
@@ -351,11 +421,15 @@ count goals in play (including extra time).</div>
 <h2>Per game → what it means for 2026 (104 games)</h2>
 <p class="sub">The whole trick: take the recent <i>per-game</i> rate and stretch it over 104 games.</p>
 {projections}
+<p class="sub">Total goals, by goals-per-game rate (recent World Cups land ~2.65–2.69):</p>
+{scenarios}
 
 {blocks}
 
 <h2>Q1 — longest names in the 2026 squads</h2>
 {longest_block}
+<p class="sub" style="margin-top:1rem"><b>Long-named goalscorers from recent tournaments</b> (verified goals — your ceiling is a name like these that actually scores):</p>
+{historical_block}
 
 <h2>Q6 — the 48 teams by confederation</h2>
 {confeds}
@@ -365,9 +439,10 @@ the three hosts alone span four US zones — so continent is the clean cut.)</p>
 <h2>Q7 — the 10-minute brackets</h2>
 <p>{brackets}</p>
 
-<h2>Q10 — youngest World Cup goalscorers on record</h2>
+<h2>Q10 — youngest scorer in each of the last 6 tournaments</h2>
 {youngest}
-<p class="sub">At Euro 2024, Lamine Yamal scored at <b>16y 362d</b> — youngest in Euros history.</p>
+<p class="sub">Youngest of the lot: Lamine Yamal <b>16y 362d</b> (Euro 2024) — youngest in Euros history.
+The guessing sweet spot is ~<b>18–19</b>.</p>
 
 <h2>More fun ideas (with historical anchors)</h2>
 <ul>{bonus}</ul>
@@ -496,6 +571,17 @@ def main():
         print(f"\nAPI-Football: {len(players)} players, total red cards (from "
               f"scorers list — not all players): {total_reds}")
         print("   -> wrote players_apifootball.csv")
+
+    # Refresh the 2026 longest-squad-names list from Wikipedia (keyless). Best-effort:
+    # if it fails (offline / page moved), the guide falls back to the hand estimate.
+    try:
+        from longest_names_wiki import scrape
+        rows = scrape()
+        if rows:
+            write_csv(OUT / "longest_names.csv", rows, ["letters", "player", "position", "team"])
+            print(f"Scraped {len(rows)} squad names from Wikipedia for the longest-names list.")
+    except Exception as e:
+        print(f"(longest-names scrape skipped: {e})")
 
     write_html(agg, players)
     write_guide()
