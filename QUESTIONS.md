@@ -35,7 +35,7 @@ Add every question's points → one leaderboard → prizes to the top.
 ---
 
 ### Notes
-- **Q11 (scoreline once):** scorelines are **unordered** — 4–3 and 3–4 are the same. You win if your scoreline lands **exactly once** across all 104 matches; alone with a correct pick = the full 100, else split among correct pickers.
+- **Q11 (scoreline once):** scorelines are **unordered** (4–3 = 3–4). The 100-pt pot splits **equally across the winning scorelines** (those that occurred exactly once), then each scoreline's share splits among its pickers. E.g. you alone pick 5–4 (once) and two pick 3–3 (once) → two winners, 50 each → you 50, the 3–3 pair 25 each.
 - **Q12 (fastest goal):** closest to the actual fastest goal time wins; give it in seconds.
 - **Q8** ties: pot splits among everyone who picked a player tied on the most goals.
 - **Q14 & Q15** are settled from **our own trading P&L** after the group stage (not from any feed).

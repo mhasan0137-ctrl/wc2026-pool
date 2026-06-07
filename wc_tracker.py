@@ -212,6 +212,15 @@ YOUNGEST_BY_TOURNAMENT = [
     ("Euro 2024", "Lamine Yamal", "Spain", "16y 362d"),
 ]
 
+# Fastest goal in each of the last five tournaments (chronological).
+FASTEST_GOALS = [
+    ("WC 2014", "Clint Dempsey", "USA", "30s"),
+    ("WC 2018", "Mathias Jørgensen", "Denmark", "55s"),
+    ("Euro 2020", "Emil Forsberg", "Sweden", "81s (1:21)"),
+    ("WC 2022", "Alphonso Davies", "Canada", "67s"),
+    ("Euro 2024", "Nedim Bajrami", "Albania", "23s — fastest Euros ever"),
+]
+
 # Redefined 10-minute brackets for the "highest-scoring bracket" question.
 GOAL_BRACKETS = ["0–10", "10–20", "20–30", "30–40", "40–HT (45+)",
                  "45–55", "55–65", "65–75", "75–85", "85–FT (90+)"]
@@ -266,14 +275,18 @@ QUESTION_GUIDE = [
      "times. The sweet spot is a scoreline plausible enough to occur, rare enough to occur only once. "
      "Scorelines are <b>unordered</b> — <b>4–3 and 3–4 are the same result</b> (count the two goal tallies, "
      "not which team scored them)."
-     "</p><p><i>Scoring: you win Q11's 100-point pot if your scoreline lands <b>exactly once</b> across all "
-     "104 matches. If you're the only person with a correct pick, you take the full <b>100</b>; if three "
-     "people each nailed a different once-only scoreline, they split it (~33 each). Shootout results don't "
-     "change a match's scoreline.</i>"),
+     "</p><p><i>Scoring: a scoreline <b>wins</b> if it occurred <b>exactly once</b> in the tournament. "
+     "Q11's 100-point pot splits <b>equally across the winning scorelines first</b>, then each scoreline's "
+     "share splits among the people who picked it — so a unique pick banks a whole share. "
+     "<b>Example:</b> 5–4 happens once and only you picked it; 3–3 happens once and two others picked it → "
+     "two winning scorelines, <b>50 each</b> → you take the full <b>50</b> for 5–4, the two 3–3 pickers get "
+     "<b>25</b> each. (One winning scoreline + one picker → the full 100.) Shootouts don't change a "
+     "scoreline.</i>"),
     ("12. Fastest goal of the tournament (time)",
-     "Give it in seconds / minute. Record is Hakan Şükür's <b>10.8 seconds</b> (2002) — the fastest WC goal "
-     "ever. Most tournaments produce a goal inside the opening minute somewhere, and the fastest is usually "
-     "well under a minute."),
+     "Give it in seconds. Record is Hakan Şükür's <b>10.8 seconds</b> (2002) — the fastest WC goal ever. "
+     "Most tournaments produce a goal inside the opening minute somewhere, and the fastest is usually well "
+     "under a minute."
+     "</p><p><i>See below for the fastest goal in each of the last 5 tournaments.</i>"),
     ("13. Total goals in the whole tournament",
      "WC '22 = 172 in 64 games (2.69/g). Over <b>104 games</b> at the same rate → ~<b>280</b>; the trend says "
      "<b>≈285</b>. Even a below-average 2.29/g gives ~<b>239</b> — so the all-time record of 172 (a 64-game "
@@ -405,6 +418,7 @@ def write_guide():
     youngest_members = (tbl(["Age (8 Jun '26)", "Player", "Pos", "Team"], ym) if ym
                         else "<p class='sub'><i>(youngest-squad table populates when the squad scrape runs)</i></p>")
     brackets = " · ".join(f"<code>{b}</code>" for b in GOAL_BRACKETS)
+    fastest = tbl(["Tournament", "Player", "Country", "Fastest goal"], FASTEST_GOALS)
     bonus = "".join(f"<li><b>{t}</b> — {d}</li>" for t, d in BONUS_IDEAS)
 
     ln = _longest_names_rows()
@@ -426,7 +440,8 @@ def write_guide():
     continent = tbl(["Continent", "Rough win chance"], CONTINENT_CHANCES)
 
     # ★ = quick stats in the tables below · ★★ = its own dedicated section below.
-    MARKERS = {1: "★★", 2: "★", 3: "★", 4: "★", 5: "★", 6: "★★", 7: "★★", 10: "★★", 13: "★"}
+    MARKERS = {1: "★★", 2: "★", 3: "★", 4: "★", 5: "★", 6: "★★", 7: "★★",
+               10: "★★", 12: "★★", 13: "★"}
 
     def q_block(title, body):
         num = int(title.split(".")[0])
@@ -506,6 +521,10 @@ The guessing sweet spot is ~<b>18–19</b>.</p>
 <p class="sub" style="margin-top:1rem"><b>Youngest players in the 2026 squads</b> (age as of 8 June 2026) —
 the candidates to break that sweet spot if they get on and score:</p>
 {youngest_members}
+
+<h2>Q12 — fastest goal in the last 5 tournaments <span class="mark">★★</span></h2>
+{fastest}
+<p class="sub">Ranges from Bajrami's 23s (Euro '24) to ~81s; the all-time WC record is Şükür's 10.8s (2002).</p>
 
 <h2>More fun ideas (with historical anchors)</h2>
 <ul>{bonus}</ul>
