@@ -1,6 +1,8 @@
 # ⚽ WC 2026 Office Pool — Prediction Sheet
 
 Fill in **all 13** before the first kickoff (**11 June, 18:00 BST**). One entry per person.
+<!-- 13 questions: Q1–12 as before, plus Q13 total goals. -->
+
 📊 **Read the [stats guide](https://mhasan0137-ctrl.github.io/wc2026-pool/guide.html) first** —
 especially: 2026 has **104 matches, not 64**, so scale every total up ~1.6×.
 
@@ -26,6 +28,7 @@ Add every question's points → one leaderboard → prizes to the top.
 | 10 | **Youngest goalscorer's age** — give it as years + days, e.g. 18y 110d | closest number | ______ |
 | 11 | **Pick a scoreline that happens exactly once** in the whole tournament (e.g. 3–2) | pick | ______ |
 | 12 | **Fastest goal** of the tournament — how many seconds after kickoff (of its match)? | closest number | ______ |
+| 13 | **Total goals** in the whole tournament (excludes shootout kicks) | closest number | ______ |
 
 ---
 

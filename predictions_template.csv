@@ -1,3 +1,3 @@
-name,q1_longest_name_letters,q2_own_goals,q3_red_cards,q4_pen_shootouts,q5_final_goals,q6_continent,q7_goal_bracket,q8_top_scorer,q9_group_fewest_goals,q10_youngest_age,q11_scoreline_once,q12_fastest_goal_seconds
-Hasan,22,11,7,7,3,Europe,85-FT,Mbappe,Group H,18y 90d,3-2,24
-EXAMPLE_ROW_delete_me,##,##,##,##,##,Continent,bracket,PlayerName,Group X,##y ##d,#-#,##
+name,q1_longest_name_letters,q2_own_goals,q3_red_cards,q4_pen_shootouts,q5_final_goals,q6_continent,q7_goal_bracket,q8_top_scorer,q9_group_fewest_goals,q10_youngest_age,q11_scoreline_once,q12_fastest_goal_seconds,q13_total_goals
+Hasan,22,11,7,7,3,Europe,85-FT,Mbappe,Group H,18y 90d,3-2,24,285
+EXAMPLE_ROW_delete_me,##,##,##,##,##,Continent,bracket,PlayerName,Group X,##y ##d,#-#,##,###

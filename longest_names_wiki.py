@@ -18,9 +18,10 @@ WIKI = "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_squads?action=raw"
 
 
 def scrape():
+    """Return one dict per squad player: name, pos, team, letters, born (y,m,d)|None."""
     req = urllib.request.Request(WIKI, headers={"User-Agent": "wc2026-pool-script"})
     txt = urllib.request.urlopen(req, timeout=30).read().decode("utf-8")
-    team, rows = None, []
+    team, players = None, []
     for line in txt.splitlines():
         head = re.match(r"^===\s*([^=].*?)\s*===\s*$", line)
         if head:
@@ -33,15 +34,26 @@ def scrape():
             continue
         name = nm.group(1).split("|")[-1].strip()   # [[Link|Display]] -> Display
         pos = re.search(r"pos=([A-Za-z]{2})", line)
+        # birth date and age2|<ref y>|<ref m>|<ref d>|<born y>|<born m>|<born d>
+        bd = re.search(r"birth date and age2\|\d+\|\d+\|\d+\|(\d+)\|(\d+)\|(\d+)", line)
         letters, _ = name_letters(name)
-        rows.append((letters, name, pos.group(1) if pos else "?", team))
+        players.append({
+            "name": name, "pos": pos.group(1) if pos else "?", "team": team,
+            "letters": letters,
+            "born": (int(bd.group(1)), int(bd.group(2)), int(bd.group(3))) if bd else None,
+        })
+    return players
+
+
+def longest(players):
+    rows = [(p["letters"], p["name"], p["pos"], p["team"]) for p in players]
     rows.sort(key=lambda r: -r[0])
     return rows
 
 
 def main():
     OUT.mkdir(exist_ok=True)
-    rows = scrape()
+    rows = longest(scrape())
     with open(OUT / "longest_names.csv", "w", newline="") as f:
         w = csv.writer(f)
         w.writerow(["letters", "player", "position", "team"])

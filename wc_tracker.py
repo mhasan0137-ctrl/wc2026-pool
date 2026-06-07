@@ -261,6 +261,10 @@ QUESTION_GUIDE = [
      "Give it in seconds / minute. Record is Hakan Şükür's <b>10.8 seconds</b> (2002) — the fastest WC goal "
      "ever. Most tournaments produce a goal inside the opening minute somewhere, and the fastest is usually "
      "well under a minute."),
+    ("13. Total goals in the whole tournament",
+     "WC '22 = 172 in 64 games (2.69/g). Over <b>104 games</b> at the same rate → ~<b>280</b>; the trend says "
+     "<b>≈285</b>. Even a below-average 2.29/g gives 238 — so the all-time record of 172 (a 64-game number) is "
+     "a terrible anchor. See the projection table below. <i>(Excludes shootout kicks.)</i>"),
 ]
 
 # Best-effort long-named players LIKELY in 2026 squads (hand-picked — NOT exhaustive;
@@ -324,6 +328,16 @@ def _longest_names_rows():
     return rows
 
 
+def _youngest_members_rows():
+    """Top 10 youngest squad players from out/youngest_members.csv (if scraped)."""
+    path = OUT / "youngest_members.csv"
+    if not path.exists():
+        return None
+    with open(path) as f:
+        return [(r["age"], r["player"], r.get("position", "?"), r["team"])
+                for r in list(csv.DictReader(f))[:10]]
+
+
 def write_guide():
     """Render guide.html — helpful stats + reference tables for every pool question."""
     def tbl(header, body_rows):
@@ -349,10 +363,13 @@ def write_guide():
         rates = [row[idx] / row[4] for row in numeric]
         return min(rates), max(rates)
 
+    g_lo, g_hi = rng(0)
     og_lo, og_hi = rng(1)
     rc_lo, rc_hi = rng(2)
     sh_lo, sh_hi = rng(3)
     proj_rows = [
+        ("Total goals", f"{g_lo:.2f} – {g_hi:.2f} / game (trending up at WCs)",
+         f"~{round(g_lo * 104)} – {round(g_hi * 104)} — <b>≈285 expected</b>"),
         ("Own goals", f"{og_lo:.2f} – {og_hi:.2f} / game",
          f"~{round(og_lo * 104)} – {round(og_hi * 104)}"),
         ("Red cards", f"{rc_lo:.2f} – {rc_hi:.2f} / game (VAR-era WCs ~0.06)",
@@ -361,16 +378,12 @@ def write_guide():
          f"~{round(sh_lo * 104)} – {round(sh_hi * 104)}"),
     ]
     projections = tbl(["Metric", "Historical range (per game)", "Range over 2026 (104 games)"], proj_rows)
-
-    # Total goals: rate → total, anchored to the high/low of the tournaments shown.
-    scenarios = tbl(["If goals/game is…", "…total goals over 104 games"],
-                    [("2.29  (Euro 2024 — lowest shown)", round(2.29 * 104)),
-                     ("2.50", round(2.50 * 104)),
-                     ("2.69  (recent World Cup)", round(2.69 * 104)),
-                     ("2.78  (Euro 2020 — highest shown)", round(2.78 * 104))])
     confeds = tbl(["Confederation", "Teams", "Who"],
                   [(c, n, who) for c, n, who in CONFEDERATIONS])
     youngest = tbl(["Tournament", "Youngest scorer", "Country", "Age"], YOUNGEST_BY_TOURNAMENT)
+    ym = _youngest_members_rows()
+    youngest_members = (tbl(["Age (8 Jun '26)", "Player", "Pos", "Team"], ym) if ym
+                        else "<p class='sub'><i>(youngest-squad table populates when the squad scrape runs)</i></p>")
     brackets = " · ".join(f"<code>{b}</code>" for b in GOAL_BRACKETS)
     bonus = "".join(f"<li><b>{t}</b> — {d}</li>" for t, d in BONUS_IDEAS)
 
@@ -393,7 +406,7 @@ def write_guide():
     continent = tbl(["Continent", "Rough win chance"], CONTINENT_CHANCES)
 
     # ★ = quick stats in the tables below · ★★ = its own dedicated section below.
-    MARKERS = {1: "★★", 2: "★", 3: "★", 4: "★", 5: "★", 6: "★★", 7: "★★", 10: "★★"}
+    MARKERS = {1: "★★", 2: "★", 3: "★", 4: "★", 5: "★", 6: "★★", 7: "★★", 10: "★★", 13: "★"}
 
     def q_block(title, body):
         num = int(title.split(".")[0])
@@ -444,10 +457,11 @@ count goals in play (including extra time).</div>
 <h2>Per game → what it means for 2026 (104 games) <span class="mark">★</span></h2>
 <p class="sub">The whole trick: take the recent <i>per-game</i> rate and stretch it over 104 games.</p>
 {projections}
+<p class="sub">📈 Goals/game has generally crept up at World Cups (2.27 in 1990 → ~2.65–2.69 lately), so
+<b>~285 total goals</b> is a sensible central call for 104 games — and the all-time record of 172 (set in a
+64-game tournament) is nowhere near the right anchor.</p>
 <p class="sub">⚠️ Shootouts: ~6–8 is the <b>floor</b> (old per-game rate). 2026 adds a Round of 32 —
 <b>32 knockout games vs 16</b>, roughly double the chances — so the realistic number is nearer <b>8–10</b>.</p>
-<p class="sub">Total goals, by goals-per-game rate (recent World Cups land ~2.65–2.69):</p>
-{scenarios}
 
 <h2>Q1 — longest names in the 2026 squads <span class="mark">★★</span></h2>
 {longest_block}
@@ -469,6 +483,9 @@ hosts alone span four US zones — so continent is the clean cut.)</p>
 {youngest}
 <p class="sub">Youngest of the lot: Lamine Yamal <b>16y 362d</b> (Euro 2024) — youngest in Euros history.
 The guessing sweet spot is ~<b>18–19</b>.</p>
+<p class="sub" style="margin-top:1rem"><b>Youngest players in the 2026 squads</b> (age as of 8 June 2026) —
+the candidates to break that sweet spot if they get on and score:</p>
+{youngest_members}
 
 <h2>More fun ideas (with historical anchors)</h2>
 <ul>{bonus}</ul>
@@ -598,16 +615,39 @@ def main():
               f"scorers list — not all players): {total_reds}")
         print("   -> wrote players_apifootball.csv")
 
-    # Refresh the 2026 longest-squad-names list from Wikipedia (keyless). Best-effort:
-    # if it fails (offline / page moved), the guide falls back to the hand estimate.
+    # Refresh longest-names + youngest-members from Wikipedia squads (keyless). Best-effort.
     try:
-        from longest_names_wiki import scrape
-        rows = scrape()
-        if rows:
-            write_csv(OUT / "longest_names.csv", rows, ["letters", "player", "position", "team"])
-            print(f"Scraped {len(rows)} squad names from Wikipedia for the longest-names list.")
+        from datetime import date
+        from longest_names_wiki import scrape, longest
+        squad = scrape()
+        if squad:
+            write_csv(OUT / "longest_names.csv", longest(squad),
+                      ["letters", "player", "position", "team"])
+
+            ref = date(2026, 6, 8)
+            def age_yd(born):
+                b = date(*born)
+                had_bday = (ref.month, ref.day) >= (b.month, b.day)
+                years = ref.year - b.year - (0 if had_bday else 1)
+                last = date(ref.year if had_bday else ref.year - 1, b.month, b.day)
+                return years, (ref - last).days
+
+            aged = []
+            for p in squad:
+                if not p["born"]:
+                    continue
+                try:
+                    y, d = age_yd(p["born"])
+                except ValueError:           # e.g. Feb 29 birthday
+                    continue
+                aged.append((y * 366 + d, f"{y}y {d}d", p["name"], p["pos"], p["team"]))
+            aged.sort()
+            write_csv(OUT / "youngest_members.csv",
+                      [(age, n, pos, t) for _, age, n, pos, t in aged],
+                      ["age", "player", "position", "team"])
+            print(f"Scraped {len(squad)} squad players (longest names + youngest members).")
     except Exception as e:
-        print(f"(longest-names scrape skipped: {e})")
+        print(f"(squad scrape skipped: {e})")
 
     write_html(agg, players)
     write_guide()
