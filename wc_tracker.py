@@ -166,14 +166,14 @@ def write_csv(path, rows, header):
 
 # ----- Static reference data for the guide page (all verified historical figures) -----
 # Per-tournament totals. GOALS AND FINAL-GOALS EXCLUDE PENALTY-SHOOTOUT KICKS.
-# cols: label, matches, goals, own goals, red cards, final (score + goals in play)
+# cols: label, matches, goals, own goals, red cards, penalty shootouts, final (goals in play)
 TOURNAMENT_STATS = [
-    ("WC 2014 (Brazil)", 64, 171, 5, 10, "Germany 1–0 Argentina (a.e.t.) — 1"),
-    ("WC 2018 (Russia)", 64, 169, 12, 4, "France 4–2 Croatia — 6"),
-    ("WC 2022 (Qatar)", 64, 172, 2, 4, "Argentina 3–3 France* — 6"),
-    ("Euro 2020", 51, 142, 11, 1, "Italy 1–1 England* — 2"),
-    ("Euro 2024", 51, 117, 10, 6, "Spain 2–1 England — 3"),
-    ("WC 2026 ← you're predicting", 104, "?", "?", "?", "? (the final)"),
+    ("WC 2014 (Brazil)", 64, 171, 5, 10, 4, "Germany 1–0 Argentina (a.e.t.) — 1"),
+    ("WC 2018 (Russia)", 64, 169, 12, 4, 4, "France 4–2 Croatia — 6"),
+    ("WC 2022 (Qatar)", 64, 172, 2, 4, 5, "Argentina 3–3 France* — 6"),
+    ("Euro 2020", 51, 142, 11, 1, 4, "Italy 1–1 England* — 2"),
+    ("Euro 2024", 51, 117, 10, 6, 3, "Spain 2–1 England — 3"),
+    ("WC 2026 ← you're predicting", 104, "?", "?", "?", "?", "? (the final)"),
 ]
 
 # 2026 teams by confederation (the "winning continent" question). Counts = 48 total.
@@ -190,6 +190,16 @@ CONFEDERATIONS = [
     ("CONCACAF — N./C. America", 6,
      "USA, Mexico, Canada, Panama, Haiti, Curaçao"),
     ("OFC — Oceania", 1, "New Zealand"),
+]
+
+# Rough win chance by continent, from market outright odds (June 2026), normalised to 100%.
+CONTINENT_CHANCES = [
+    ("Europe (UEFA)", "~71%"),
+    ("South America (CONMEBOL)", "~21%"),
+    ("Africa (CAF)", "~3%"),
+    ("N./C. America (CONCACAF)", "~3%"),
+    ("Asia (AFC)", "~2%"),
+    ("Oceania (OFC)", "<1%"),
 ]
 
 # Youngest goalscorer in each of the last six tournaments (chronological order).
@@ -292,11 +302,6 @@ HISTORICAL_LONG_SCORERS = [
     (17, "Georges Mikautadze", "Georgia", "Euro 2024"),
 ]
 
-# Penalty-shootout history. Note the denominator is KNOCKOUT games, not all games.
-# WC '18: 4 in 16 KO games; WC '22: 5 in 16; Euro '20: 4 in 15. 2026 has 32 KO games.
-SHOOTOUT_HISTORY = [("WC 2018", 4, 16), ("WC 2022", 5, 16), ("Euro 2020", 4, 15)]
-WC2026_KO_GAMES = 32
-
 # A few extra fun options with historical anchors, if you ever want to swap/add.
 BONUS_IDEAS = [
     ("Most common scoreline", "1–0 is historically the single most common World Cup result (~17%)."),
@@ -331,28 +336,29 @@ def write_guide():
         return f"{v / m:.{dp}f}" if isinstance(v, int) else "?"
 
     summary_rows = []
-    for label, m, g, og, rc, fin in TOURNAMENT_STATS:
-        summary_rows.append((label, m, g, pg(g, m, 2), og, pg(og, m, 3), rc, pg(rc, m, 3), fin))
+    for label, m, g, og, rc, sh, fin in TOURNAMENT_STATS:
+        summary_rows.append((label, m, g, pg(g, m, 2), og, pg(og, m, 3),
+                             rc, pg(rc, m, 3), sh, pg(sh, m, 3), fin))
     summary = tbl(["Tournament", "Matches", "Goals", "Goals/game", "Own goals", "OG/game",
-                   "Red cards", "Reds/game", "Final (goals in play)"], summary_rows)
+                   "Red cards", "Reds/game", "Pen shootouts", "Shootouts/game",
+                   "Final (goals in play)"], summary_rows)
     # Historical per-game RANGES, computed from the tournaments above, scaled to 104 games.
-    numeric = [(g, og, rc, m) for (_, m, g, og, rc, _) in TOURNAMENT_STATS if isinstance(g, int)]
+    numeric = [(g, og, rc, sh, m) for (_, m, g, og, rc, sh, _) in TOURNAMENT_STATS if isinstance(g, int)]
 
     def rng(idx):
-        rates = [row[idx] / row[3] for row in numeric]
+        rates = [row[idx] / row[4] for row in numeric]
         return min(rates), max(rates)
 
     og_lo, og_hi = rng(1)
     rc_lo, rc_hi = rng(2)
-    sh = [s / k for _, s, k in SHOOTOUT_HISTORY]
-    sh_lo, sh_hi = min(sh), max(sh)
+    sh_lo, sh_hi = rng(3)
     proj_rows = [
         ("Own goals", f"{og_lo:.2f} – {og_hi:.2f} / game",
          f"~{round(og_lo * 104)} – {round(og_hi * 104)}"),
         ("Red cards", f"{rc_lo:.2f} – {rc_hi:.2f} / game (VAR-era WCs ~0.06)",
          f"~{round(rc_lo * 104)} – {round(rc_hi * 104)}"),
-        ("Penalty shootouts", f"{sh_lo:.2f} – {sh_hi:.2f} per knockout game",
-         f"~{round(sh_lo * WC2026_KO_GAMES)} – {round(sh_hi * WC2026_KO_GAMES)} (over {WC2026_KO_GAMES} KO games)"),
+        ("Penalty shootouts", f"{sh_lo:.3f} – {sh_hi:.3f} / game",
+         f"~{round(sh_lo * 104)} – {round(sh_hi * 104)}"),
     ]
     projections = tbl(["Metric", "Historical range (per game)", "Range over 2026 (104 games)"], proj_rows)
 
@@ -384,10 +390,17 @@ def write_guide():
             + tbl(["Letters", "Player", "Pos", "Team", "Plays &amp; scores?"], LONGEST_NAMES_ESTIMATE))
     historical_block = tbl(["Letters", "Player", "Country", "When"], HISTORICAL_LONG_SCORERS)
 
-    blocks = "\n".join(
-        f'<div class="q"><h3>{title}</h3><p>{body}</p></div>'
-        for title, body in QUESTION_GUIDE
-    )
+    continent = tbl(["Continent", "Rough win chance"], CONTINENT_CHANCES)
+
+    # ★ = quick stats in the tables below · ★★ = its own dedicated section below.
+    MARKERS = {1: "★★", 2: "★", 3: "★", 4: "★", 5: "★", 6: "★★", 7: "★★", 10: "★★"}
+
+    def q_block(title, body):
+        num = int(title.split(".")[0])
+        mark = f' <span class="mark">{MARKERS[num]}</span>' if num in MARKERS else ""
+        return f'<div class="q"><h3>{title}{mark}</h3><p>{body}</p></div>'
+
+    blocks = "\n".join(q_block(t, b) for t, b in QUESTION_GUIDE)
 
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -402,6 +415,8 @@ def write_guide():
  table{{border-collapse:collapse;width:100%;margin:.6rem 0 1rem;font-size:.92rem}}
  th,td{{text-align:left;padding:.4rem .6rem;border-bottom:1px solid #e3e6ea;vertical-align:top}}
  th{{background:#fafbfc}} code{{background:#f2f4f7;padding:.05rem .3rem;border-radius:4px}}
+ .mark{{color:#c026d3;font-size:.8rem;vertical-align:super}}
+ .legend{{color:#666;font-size:.88rem}} hr{{border:0;border-top:2px solid #e3e6ea;margin:2.5rem 0 0}}
 </style></head><body>
 <h1>📊 Question guide — helpful stats</h1>
 <p class="sub">Calibrate your guesses. <a href="index.html">← back to live standings</a></p>
@@ -414,32 +429,41 @@ World Cup. Most people will anchor on 64-game numbers — don't.</div>
 who advances, but those penalties are <b>not</b> goals — so "goals in the final" and "total goals" only
 count goals in play (including extra time).</div>
 
-<h2>Recent tournaments at a glance</h2>
+<p class="legend">Markers: <span class="mark">★</span> = stats in the reference tables below ·
+<span class="mark">★★</span> = its own detailed section below.</p>
+
+{blocks}
+
+<hr>
+<h1 style="margin-top:1.5rem">📚 Reference &amp; stats</h1>
+
+<h2>Recent tournaments at a glance <span class="mark">★</span></h2>
 {summary}
 <p class="sub">* won on penalties; the shootout kicks are excluded from the goal totals shown.</p>
 
-<h2>Per game → what it means for 2026 (104 games)</h2>
+<h2>Per game → what it means for 2026 (104 games) <span class="mark">★</span></h2>
 <p class="sub">The whole trick: take the recent <i>per-game</i> rate and stretch it over 104 games.</p>
 {projections}
 <p class="sub">Total goals, by goals-per-game rate (recent World Cups land ~2.65–2.69):</p>
 {scenarios}
 
-{blocks}
-
-<h2>Q1 — longest names in the 2026 squads</h2>
+<h2>Q1 — longest names in the 2026 squads <span class="mark">★★</span></h2>
 {longest_block}
 <p class="sub" style="margin-top:1rem"><b>Long-named goalscorers from recent tournaments</b> (verified goals — your ceiling is a name like these that actually scores):</p>
 {historical_block}
 
-<h2>Q6 — the 48 teams by confederation</h2>
+<h2>Q6 — the 48 teams by confederation <span class="mark">★★</span></h2>
 {confeds}
-<p class="sub">Only UEFA &amp; CONMEBOL have ever won. (A "winning <i>time-zone</i>" version is messier —
-the three hosts alone span four US zones — so continent is the clean cut.)</p>
+<p class="sub">Win chance by continent, from the market's outright odds (normalised to 100%):</p>
+{continent}
+<p class="sub">Only UEFA &amp; CONMEBOL have ever won — so any non-European, non-South-American pick is a
+genuine longshot that pays big on the tote. (A "winning <i>time-zone</i>" version is messier — the three
+hosts alone span four US zones — so continent is the clean cut.)</p>
 
-<h2>Q7 — the 10-minute brackets</h2>
+<h2>Q7 — the 10-minute brackets <span class="mark">★★</span></h2>
 <p>{brackets}</p>
 
-<h2>Q10 — youngest scorer in each of the last 6 tournaments</h2>
+<h2>Q10 — youngest scorer in each of the last 6 tournaments <span class="mark">★★</span></h2>
 {youngest}
 <p class="sub">Youngest of the lot: Lamine Yamal <b>16y 362d</b> (Euro 2024) — youngest in Euros history.
 The guessing sweet spot is ~<b>18–19</b>.</p>
