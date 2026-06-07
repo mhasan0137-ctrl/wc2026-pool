@@ -30,7 +30,7 @@ Add every question's points → one leaderboard → prizes to the top.
 | 12 | **Fastest goal** of the tournament — how many seconds after kickoff (of its match)? | closest number | ______ |
 | 13 | **Total goals** in the whole tournament (excludes shootout kicks) | closest number | ______ |
 | 14 | **Most money we make** on a single group-stage match (our trading P&L) | closest £ | ______ |
-| 15 | **Most money we lose** on a single group-stage match (enter as positive £) | closest £ | ______ |
+| 15 | **Most money we lose** on a single group-stage match (enter as positive £; mismappings don't count 😬) | closest £ | ______ |
 
 ---
 
