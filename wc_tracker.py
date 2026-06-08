@@ -507,8 +507,9 @@ explicitly counts shootout kicks if the final goes to penalties.</div>
 <p class="sub">📈 Goals/game has generally crept up at World Cups (2.27 in 1990 → ~2.65–2.69 lately), so
 <b>~285 total goals</b> is a sensible central call for 104 games — and the all-time record of 172 (set in a
 64-game tournament) is nowhere near the right anchor.</p>
-<p class="sub">⚠️ Shootouts: ~6–8 is the <b>floor</b> (old per-game rate). 2026 adds a Round of 32 —
-<b>32 knockout games vs 16</b>, roughly double the chances — so the realistic number is nearer <b>8–10</b>.</p>
+<p class="sub">⚠️ Shootouts only happen in the knockouts, so the per-<i>total</i>-game figure above (~6–8) <b>undercounts</b>:
+2026 is more knockout-heavy — <b>32 knockout games</b> (double the old 16). On a per-<i>knockout</i>-game basis
+(~0.20–0.31 recently) over those 32 games, expect ~<b>8</b> (roughly a <b>6–10</b> spread).</p>
 
 <h2>Q1 — longest names in the 2026 squads <span class="mark">★★</span></h2>
 {longest_block}
