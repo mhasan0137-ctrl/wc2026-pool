@@ -182,28 +182,28 @@ def write_csv(path, rows, header):
 # Per-tournament totals. GOALS AND FINAL-GOALS EXCLUDE PENALTY-SHOOTOUT KICKS.
 # cols: label, matches, goals, own goals, red cards, penalty shootouts, final (goals in play)
 TOURNAMENT_STATS = [
-    ("WC 2014 (Brazil)", 64, 171, 5, 10, 4, "Germany 1–0 Argentina (a.e.t.) — 1"),
-    ("WC 2018 (Russia)", 64, 169, 12, 4, 4, "France 4–2 Croatia — 6"),
-    ("WC 2022 (Qatar)", 64, 172, 2, 4, 5, "Argentina 3–3 France, 4–2 pens — 12"),
-    ("Euro 2020", 51, 142, 11, 1, 4, "Italy 1–1 England, 3–2 pens — 7"),
-    ("Euro 2024", 51, 117, 10, 6, 3, "Spain 2–1 England — 3"),
+    ("WC 2014 (Brazil)", 64, 171, 5, 10, 4, "Germany 1-0 Argentina (a.e.t.) - 1"),
+    ("WC 2018 (Russia)", 64, 169, 12, 4, 4, "France 4-2 Croatia - 6"),
+    ("WC 2022 (Qatar)", 64, 172, 2, 4, 5, "Argentina 3-3 France, 4-2 pens - 12"),
+    ("Euro 2020", 51, 142, 11, 1, 4, "Italy 1-1 England, 3-2 pens - 7"),
+    ("Euro 2024", 51, 117, 10, 6, 3, "Spain 2-1 England - 3"),
     ("WC 2026 ← you're predicting", 104, "?", "?", "?", "?", "? (the final)"),
 ]
 
 # 2026 teams by confederation (the "winning continent" question). Counts = 48 total.
 CONFEDERATIONS = [
-    ("UEFA — Europe", 16,
+    ("UEFA - Europe", 16,
      "England, France, Germany, Spain, Portugal, Netherlands, Belgium, Croatia, "
      "Switzerland, Austria, Norway, Scotland, Sweden, Turkey, Bosnia & Herzegovina, Czech Republic"),
-    ("CONMEBOL — South America", 6,
+    ("CONMEBOL - South America", 6,
      "Argentina, Brazil, Uruguay, Colombia, Ecuador, Paraguay"),
-    ("CAF — Africa", 10,
+    ("CAF - Africa", 10,
      "Morocco, Senegal, Egypt, Algeria, Tunisia, Ivory Coast, Ghana, South Africa, Cape Verde, DR Congo"),
-    ("AFC — Asia", 9,
+    ("AFC - Asia", 9,
      "Japan, South Korea, Iran, Australia, Saudi Arabia, Qatar, Uzbekistan, Jordan, Iraq"),
-    ("CONCACAF — N./C. America", 6,
+    ("CONCACAF - N./C. America", 6,
      "USA, Mexico, Canada, Panama, Haiti, Curaçao"),
-    ("OFC — Oceania", 1, "New Zealand"),
+    ("OFC - Oceania", 1, "New Zealand"),
 ]
 
 # Rough win chance by continent, from market outright odds (June 2026), normalised to 100%.
@@ -226,29 +226,29 @@ YOUNGEST_BY_TOURNAMENT = [
     ("Euro 2024", "Lamine Yamal", "Spain", "16y 362d"),
 ]
 
-# Scorelines (unordered) that occurred EXACTLY ONCE — computed from openfootball.
+# Scorelines (unordered) that occurred EXACTLY ONCE - computed from openfootball.
 SCORELINE_ONCE_HISTORY = [
-    ("WC 2018", 9, "0–0, 1–3, 0–5, 2–3, 3–3, 2–4, 2–5, 1–6, 3–4"),
-    ("WC 2022", 5, "2–4, 3–3, 0–7, 1–6, 2–6"),
-    ("Euro 2020", 3, "1–4, 0–5, 2–4"),
-    ("Euro 2024", 4, "2–2, 2–3, 1–4, 1–5"),
+    ("WC 2018", 9, "0-0, 1-3, 0-5, 2-3, 3-3, 2-4, 2-5, 1-6, 3-4"),
+    ("WC 2022", 5, "2-4, 3-3, 0-7, 1-6, 2-6"),
+    ("Euro 2020", 3, "1-4, 0-5, 2-4"),
+    ("Euro 2024", 4, "2-2, 2-3, 1-4, 1-5"),
 ]
 
 # Fastest goal in each of the last five tournaments (chronological).
 FASTEST_GOALS = [
-    ("WC 2014", "Clint Dempsey", "USA", "30s", "30–40s"),
-    ("WC 2018", "Mathias Jørgensen", "Denmark", "55s", "50–60s"),
-    ("Euro 2020", "Emil Forsberg", "Sweden", "81s (1:21)", "80–90s"),
-    ("WC 2022", "Alphonso Davies", "Canada", "67s", "60–70s"),
-    ("Euro 2024", "Nedim Bajrami", "Albania", "23s", "20–30s"),
+    ("WC 2014", "Clint Dempsey", "USA", "30s", "30-40s"),
+    ("WC 2018", "Mathias Jørgensen", "Denmark", "55s", "50-60s"),
+    ("Euro 2020", "Emil Forsberg", "Sweden", "81s (1:21)", "80-90s"),
+    ("WC 2022", "Alphonso Davies", "Canada", "67s", "60-70s"),
+    ("Euro 2024", "Nedim Bajrami", "Albania", "23s", "20-30s"),
 ]
 
 # Static helper notes, one per pool question.
 QUESTION_GUIDE = [
     ("1. Longest-named goalscorer (letters)",
      "First name + surname; particles (De, van, Mac) count, plain middle names don't, "
-     "hyphen double-barrels count — Trent Alexander-Arnold = 20. Only goalscorers count."
-     "</p><p><i>See the “Q1 — longest names in the 2026 squads” section below (plus the longest-named "
+     "hyphen double-barrels count - Trent Alexander-Arnold = 20. Only goalscorers count."
+     "</p><p><i>See the “Q1 - longest names in the 2026 squads” section below (plus the longest-named "
      "goalscorers from recent tournaments).</i>"),
     ("2. Own goals in the tournament",
      "Wildly swingy and impossible to call precisely. Based on recent tournaments, over 104 games the total "
@@ -256,82 +256,82 @@ QUESTION_GUIDE = [
      "</p><p><i>See the “Recent tournaments at a glance” and “Per game → what it means for 2026 (104 games)” tables below (own-goals row).</i>"),
     ("3. Red cards in the tournament",
      "VAR keeps modern World Cups low. Based on recent tournaments, over 104 games it might land somewhere "
-     "between ~<b>2</b> and ~<b>16</b> (the recent norm is nearer ~6–7)."
+     "between ~<b>2</b> and ~<b>16</b> (the recent norm is nearer ~6-7)."
      "</p><p><i>See the “Recent tournaments at a glance” and “Per game → what it means for 2026 (104 games)” tables below (red-cards row).</i>"),
     ("4. Penalty shootouts",
-     "Recent tournaments had <b>3–5</b>. 2026 has <b>double the knockout games</b> (32 vs 16), so just double "
-     "it: expect ~<b>6–10</b>."
+     "Recent tournaments had <b>3-5</b>. 2026 has <b>double the knockout games</b> (32 vs 16), so just double "
+     "it: expect ~<b>6-10</b>."
      "</p><p><i>See the “Recent tournaments at a glance” and “Per game → what it means for 2026 (104 games)” tables below (penalty-shootouts row).</i>"),
     ("5. Goals in the final",
-     "A coin-flip — and <b>shootout kicks count here</b>. If the final is settled in play it's typically "
-     "<b>1–6</b> goals; if it goes to penalties, add the shootout kicks scored (often ~6–10 more) on top."
-     "</p><p><i>See the “Recent tournaments at a glance” table below (Final column — it now includes the "
+     "A coin-flip - and <b>shootout kicks count here</b>. If the final is settled in play it's typically "
+     "<b>1-6</b> goals; if it goes to penalties, add the shootout kicks scored (often ~6-10 more) on top."
+     "</p><p><i>See the “Recent tournaments at a glance” table below (Final column - it now includes the "
      "shootout kicks).</i>"),
     ("6. Winning continent",
      "Only <b>Europe (UEFA)</b> and <b>South America (CONMEBOL)</b> have <i>ever</i> won a World Cup. "
-     "No African, Asian, CONCACAF or Oceanian team ever has — so 'Other' pays a fortune if it lands."
-     "</p><p><i>See the “Q6 — the 48 teams by confederation” section below (teams + continent win chances).</i>"),
+     "No African, Asian, CONCACAF or Oceanian team ever has - so 'Other' pays a fortune if it lands."
+     "</p><p><i>See the “Q6 - the 48 teams by confederation” section below (teams + continent win chances).</i>"),
     ("7. Group with fewest total goals",
      "12 groups of 4 (six games each). Defensive / 'group of death' style groups bottom out low; "
      "watch for a group stacked with cagey, low-scoring teams."),
     ("8. Youngest goalscorer (age)",
-     "Give it as years + days. Based on recent tournaments the youngest scorer is usually around <b>18–19</b> "
+     "Give it as years + days. Based on recent tournaments the youngest scorer is usually around <b>18-19</b> "
      "(as low as ~16 at Euro '24)."
-     "</p><p><i>See the “Q8 — youngest scorer in each of the last 6 tournaments” section below (and the youngest 2026 squad players).</i>"),
+     "</p><p><i>See the “Q8 - youngest scorer in each of the last 6 tournaments” section below (and the youngest 2026 squad players).</i>"),
     ("9. Pick a scoreline that happens exactly once",
-     "Common scorelines (1–0, 2–1, 1–1) recur many times; rarer ones (4–3, 5–2, 3–3) often happen 0 or 1 "
+     "Common scorelines (1-0, 2-1, 1-1) recur many times; rarer ones (4-3, 5-2, 3-3) often happen 0 or 1 "
      "times. The sweet spot is a scoreline plausible enough to occur, rare enough to occur only once. "
-     "Scorelines are <b>unordered</b> — <b>reversed scores are treated as the same</b>: it doesn't matter which "
-     "team scored what, so a 4–3 and a 3–4 are one and the same result and count together."
+     "Scorelines are <b>unordered</b> - <b>reversed scores are treated as the same</b>: it doesn't matter which "
+     "team scored what, so a 4-3 and a 3-4 are one and the same result and count together."
      "</p><p><i>Scoring: a scoreline <b>wins</b> if it occurred <b>exactly once</b> in the tournament. "
      "Q9's 100-point pot splits <b>equally across the winning scorelines first</b>, then each scoreline's "
-     "share splits among the people who picked it — so a unique pick banks a whole share. "
-     "<b>Example:</b> 5–4 happens once and only you picked it; 3–3 happens once and two others picked it → "
-     "two winning scorelines, <b>50 each</b> → you take the full <b>50</b> for 5–4, the two 3–3 pickers get "
+     "share splits among the people who picked it - so a unique pick banks a whole share. "
+     "<b>Example:</b> 5-4 happens once and only you picked it; 3-3 happens once and two others picked it → "
+     "two winning scorelines, <b>50 each</b> → you take the full <b>50</b> for 5-4, the two 3-3 pickers get "
      "<b>25</b> each. (One winning scoreline + one picker → the full 100.) Shootouts don't change a "
-     "scoreline.</i></p><p><i>See the “Q9 — scorelines that landed exactly once, recent tournaments” section below.</i>"),
+     "scoreline.</i></p><p><i>See the “Q9 - scorelines that landed exactly once, recent tournaments” section below.</i>"),
     ("10. Fastest goal of the tournament (band)",
-     "Pick a 10-second band for the tournament's fastest goal: <b>0–10s · 10–20s · 20–30s · 30–40s · 40–50s · "
-     "50–60s · 60–70s · 70–80s · 80–90s · 90s+ (1:30+)</b>. The all-time WC record is Şükür's 10.8s (2002)."
-     "</p><p><i>See the “Q10 — fastest goal in the last 5 tournaments” section below (and the band each falls in).</i>"),
+     "Pick a 10-second band for the tournament's fastest goal: <b>0-10s · 10-20s · 20-30s · 30-40s · 40-50s · "
+     "50-60s · 60-70s · 70-80s · 80-90s · 90s+ (1:30+)</b>. The all-time WC record is Şükür's 10.8s (2002)."
+     "</p><p><i>See the “Q10 - fastest goal in the last 5 tournaments” section below (and the band each falls in).</i>"),
     ("11. Total goals in the whole tournament (band)",
-     "Goals/game has trended up and there are far more games now — <b>≈285</b> is the central call. Pick a band "
-     "(symmetric around 285): <b>&lt;220 · 220–240 · 240–260 · 260–270 · 270–280 · 280–290 · 290–300 · "
-     "300–310 · 310–330 · 330–350 · 350+</b>. The all-time record of 172 (a 64-game number) is a terrible "
+     "Goals/game has trended up and there are far more games now - <b>≈285</b> is the central call. Pick a band "
+     "(symmetric around 285): <b>&lt;220 · 220-240 · 240-260 · 260-270 · 270-280 · 280-290 · 290-300 · "
+     "300-310 · 310-330 · 330-350 · 350+</b>. The all-time record of 172 (a 64-game number) is a terrible "
      "anchor. <i>(Excludes shootout kicks.)</i>"
      "</p><p><i>See the “Recent tournaments at a glance” and “Per game → what it means for 2026 (104 games)” tables below (total-goals row).</i>"),
     ("12. Most we make on a single group-stage match (net P&amp;L, £)",
      "💷 <b>Insider question.</b> Our trading book's <b>best single-match net P&amp;L</b> across the group "
-     "stage. Pick a band — <b>&lt;£25k · £25–50k · £50–75k · £75–100k · £100–150k · £150–200k · £200k+</b>. "
+     "stage. Pick a band - <b>&lt;£25k · £25-50k · £50-75k · £75-100k · £100-150k · £150-200k · £200k+</b>. "
      "<b>Hint:</b> our best single match at the last Euros was ~<b>£40k</b>, and we made ~<b>£44k</b> on "
      "this UCL final. Settled from our own numbers after the groups; right-band pickers split the pot."),
     ("13. Most we trade on a single group-stage match (turnover, £)",
-     "💷 <b>Insider question.</b> The single group game we <b>trade the most money on</b> — total matched "
-     "(turnover), not P&amp;L. Pick a band — <b>&lt;£1m · £1–2m · £2–3m · £3–4m · £4–6m · £6–8m · £8–10m · "
-     "£10–15m · £15m+</b>. "
+     "💷 <b>Insider question.</b> The single group game we <b>trade the most money on</b> (turnover). "
+     "Pick a band: <b>&lt;£1m · £1-2m · £2-3m · £3-4m · £4-6m · £6-8m · £8-10m · "
+     "£10-15m · £15m+</b>. "
      "<b>Hint:</b> our highest group-stage turnover at the last Euros was ~<b>£3.3m</b>, and this UCL "
-     "final did ~<b>£3m</b> — and a World Cup pulls bigger volume. Settled from our own numbers after the groups."),
+     "final did ~<b>£3m</b> - and a World Cup pulls bigger volume. Settled from our own numbers after the groups."),
 ]
 
-# Best-effort long-named players LIKELY in 2026 squads (hand-picked — NOT exhaustive;
+# Best-effort long-named players LIKELY in 2026 squads (hand-picked - NOT exhaustive;
 # longest_names.py with the API key produces the definitive ranking and replaces this).
 # cols: letters, player, position, team, "plays & scores?" likelihood
 LONGEST_NAMES_ESTIMATE = [
-    (20, "Giorgian de Arrascaeta", "AM", "Uruguay", "Likely starts; scores occasionally — Med"),
-    (20, "Trent Alexander-Arnold", "RB", "England", "Likely squad; rarely scores — Low"),
-    (18, "Aurélien Tchouaméni", "DM", "France", "Starter; scores rarely — Low/Med"),
-    (17, "Christopher Nkunku", "FW", "France", "Squad uncertain; scores if he plays — Med"),
-    (17, "Alexis Mac Allister", "CM", "Argentina", "Starter; scores sometimes — Med"),
-    (16, "Cristiano Ronaldo", "FW", "Portugal", "Likely captain; scores often — High"),
-    (16, "Federico Valverde", "CM", "Uruguay", "Starter; scores sometimes — Med"),
-    (15, "Youssef En-Nesyri", "ST", "Morocco", "Starter striker; scores often — High"),
-    (15, "Teun Koopmeiners", "CM", "Netherlands", "Squad; scores sometimes — Med"),
-    (15, "Randal Kolo Muani", "ST", "France", "Squad; scores sometimes — Med"),
+    (20, "Giorgian de Arrascaeta", "AM", "Uruguay", "Likely starts; scores occasionally - Med"),
+    (20, "Trent Alexander-Arnold", "RB", "England", "Likely squad; rarely scores - Low"),
+    (18, "Aurélien Tchouaméni", "DM", "France", "Starter; scores rarely - Low/Med"),
+    (17, "Christopher Nkunku", "FW", "France", "Squad uncertain; scores if he plays - Med"),
+    (17, "Alexis Mac Allister", "CM", "Argentina", "Starter; scores sometimes - Med"),
+    (16, "Cristiano Ronaldo", "FW", "Portugal", "Likely captain; scores often - High"),
+    (16, "Federico Valverde", "CM", "Uruguay", "Starter; scores sometimes - Med"),
+    (15, "Youssef En-Nesyri", "ST", "Morocco", "Starter striker; scores often - High"),
+    (15, "Teun Koopmeiners", "CM", "Netherlands", "Squad; scores sometimes - Med"),
+    (15, "Randal Kolo Muani", "ST", "France", "Squad; scores sometimes - Med"),
 ]
 
 # Score chance /10 derived purely from position (a scorer-propensity proxy).
 POS_SCORE = {"FW": 6, "MF": 4, "DF": 2, "GK": 0}
-# Start chance /10 — rough subjective estimate per player (role in their national team).
+# Start chance /10 - rough subjective estimate per player (role in their national team).
 START_CHANCE = {
     "Amirhossein Hosseinzadeh": 3, "Amirmohammad Razzaghinia": 2,
     "Alexander Bernhardsson": 3, "Hossein Kanaanizadegan": 7,
@@ -375,7 +375,7 @@ def _youngest_members_rows():
 
 
 def write_guide():
-    """Render guide.html — helpful stats + reference tables for every pool question."""
+    """Render guide.html - helpful stats + reference tables for every pool question."""
     def tbl(header, body_rows):
         head = "".join(f"<th>{h}</th>" for h in header)
         body = "\n".join("<tr>" + "".join(f"<td>{c}</td>" for c in r) + "</tr>"
@@ -391,7 +391,7 @@ def write_guide():
                              rc, pg(rc, m, 3), sh, pg(sh, m, 3), fin))
     summary = tbl(["Tournament", "Matches", "Goals", "Goals/game", "Own goals", "OG/game",
                    "Red cards", "Reds/game", "Pen shootouts", "Shootouts/game",
-                   "Final (incl. shootout kicks — Q5)"], summary_rows)
+                   "Final (incl. shootout kicks - Q5)"], summary_rows)
     # Historical per-game RANGES, computed from the tournaments above, scaled to 104 games.
     numeric = [(g, og, rc, sh, m) for (_, m, g, og, rc, sh, _) in TOURNAMENT_STATS if isinstance(g, int)]
 
@@ -405,21 +405,21 @@ def write_guide():
     sh_counts = [s for (_, _, _, _, _, s, _) in TOURNAMENT_STATS if isinstance(s, int)]
     sh_lo, sh_hi = min(sh_counts), max(sh_counts)
     proj_rows = [
-        ("Total goals", f"{g_lo:.2f} – {g_hi:.2f} / game (trending up at WCs)",
-         f"~{round(g_lo * 104)} – {round(g_hi * 104)} — <b>≈285 expected</b>"),
-        ("Own goals", f"{og_lo:.2f} – {og_hi:.2f} / game",
-         f"~{round(og_lo * 104)} – {round(og_hi * 104)}"),
-        ("Red cards", f"{rc_lo:.2f} – {rc_hi:.2f} / game (VAR-era WCs ~0.06)",
-         f"~{round(rc_lo * 104)} – {round(rc_hi * 104)}"),
-        ("Penalty shootouts", f"{sh_lo}–{sh_hi} per tournament (in 16 KO games)",
-         f"~{sh_lo * 2}–{sh_hi * 2} — <b>double</b> (2026 has 32 KO games)"),
+        ("Total goals", f"{g_lo:.2f} - {g_hi:.2f} / game (trending up at WCs)",
+         f"~{round(g_lo * 104)} - {round(g_hi * 104)} - <b>≈285 expected</b>"),
+        ("Own goals", f"{og_lo:.2f} - {og_hi:.2f} / game",
+         f"~{round(og_lo * 104)} - {round(og_hi * 104)}"),
+        ("Red cards", f"{rc_lo:.2f} - {rc_hi:.2f} / game (VAR-era WCs ~0.06)",
+         f"~{round(rc_lo * 104)} - {round(rc_hi * 104)}"),
+        ("Penalty shootouts", f"{sh_lo}-{sh_hi} per tournament (in 16 KO games)",
+         f"~{sh_lo * 2}-{sh_hi * 2} - <b>double</b> (2026 has 32 KO games)"),
     ]
     projections = tbl(["Metric", "Historical range (per game)", "Range over 2026 (104 games)"], proj_rows)
     confeds = tbl(["Confederation", "Teams", "Who"],
                   [(c, n, who) for c, n, who in CONFEDERATIONS])
     youngest = tbl(["Tournament", "Youngest scorer", "Country", "Age"], YOUNGEST_BY_TOURNAMENT)
     ym = _youngest_members_rows()
-    # Scoring chance for these very young, fringe squad members is low — by position.
+    # Scoring chance for these very young, fringe squad members is low - by position.
     young_score = {"FW": 2, "MF": 1, "DF": 1, "GK": 0}
     if ym:
         ym_rows = [(age, p, pos, t, f"{young_score.get(pos, 1)}/10") for (age, p, pos, t) in ym]
@@ -436,11 +436,11 @@ def write_guide():
         longest_block = ("<p>Top 10 longest names in the 2026 squads (pool rule applied, scraped from the "
                          "official squad lists). <b>Score /10</b> = scoring chance from position "
                          "(FW 6 · MF 4 · DF 2 · GK 0); <b>Start /10</b> = rough estimate of starting "
-                         "(subjective — don't take to the bank):</p>"
+                         "(subjective - don't take to the bank):</p>"
                          + tbl(["Letters", "Player", "Pos", "Team", "Score /10", "Start /10"], body))
     else:
         longest_block = (
-            '<p><b>Best-effort estimate</b> — hand-picked, likely squad members, <b>not exhaustive</b>. '
+            '<p><b>Best-effort estimate</b> - hand-picked, likely squad members, <b>not exhaustive</b>. '
             'Run <code>longest_names.py</code> with the API key for the definitive top-10 from live squad data:</p>'
             + tbl(["Letters", "Player", "Pos", "Team", "Plays &amp; scores?"], LONGEST_NAMES_ESTIMATE))
     historical_block = tbl(["Letters", "Player", "Country", "When"], HISTORICAL_LONG_SCORERS)
@@ -462,7 +462,7 @@ def write_guide():
 
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>WC 2026 Pool — Question Guide</title>
+<title>WC 2026 Pool - Question Guide</title>
 <style>
  body{{font:15px/1.6 system-ui,sans-serif;max-width:820px;margin:2rem auto;padding:0 1rem;color:#1a1a1a}}
  h1{{margin-bottom:.2rem}} h2{{margin-top:2rem;font-size:1.2rem}} .sub{{color:#666;margin-top:0}}
@@ -478,15 +478,15 @@ def write_guide():
  .mark{{color:#c026d3;font-size:.8rem;vertical-align:super}}
  .legend{{color:#666;font-size:.88rem}} hr{{border:0;border-top:2px solid #e3e6ea;margin:2.5rem 0 0}}
 </style></head><body>
-<h1>📊 Question guide — helpful stats</h1>
+<h1>📊 Question guide - helpful stats</h1>
 <p class="sub">Calibrate your guesses. <a href="index.html">← back to live standings</a></p>
 
 <div class="warn"><b>Read this first:</b> 2026 has <b>104 matches</b> (48 teams), vs <b>64</b> in every
 past World Cup (and 51 at a Euro). Every tournament total scales up by roughly <b>1.6×</b> vs an old
-World Cup. Most people will anchor on 64-game numbers — don't.</div>
+World Cup. Most people will anchor on 64-game numbers - don't.</div>
 
 <div class="note">📌 <b>All goal counts on this page exclude penalty-shootout kicks.</b> A shootout decides
-who advances, but those penalties are <b>not</b> goals — so "goals in the final" and "total goals" only
+who advances, but those penalties are <b>not</b> goals - so "goals in the final" and "total goals" only
 count goals in play (including extra time). <b>The one exception is Q5</b> (goals in the final), which
 explicitly counts shootout kicks if the final goes to penalties.</div>
 
@@ -500,54 +500,54 @@ explicitly counts shootout kicks if the final goes to penalties.</div>
 
 <h2>Recent tournaments at a glance <span class="mark">★</span></h2>
 {summary}
-<p class="sub">* final won on penalties — the Final column ADDS those shootout kicks (Q5 counts them); the Goals column does not.</p>
+<p class="sub">* final won on penalties - the Final column ADDS those shootout kicks (Q5 counts them); the Goals column does not.</p>
 
 <h2>Per game → what it means for 2026 (104 games) <span class="mark">★</span></h2>
 <p class="sub">The whole trick: take the recent <i>per-game</i> rate and stretch it over 104 games.</p>
 {projections}
-<p class="sub">📈 Goals/game has generally crept up at World Cups (2.27 in 1990 → ~2.65–2.69 lately), so
-<b>~285 total goals</b> is a sensible central call for 104 games — and the all-time record of 172 (set in a
+<p class="sub">📈 Goals/game has generally crept up at World Cups (2.27 in 1990 → ~2.65-2.69 lately), so
+<b>~285 total goals</b> is a sensible central call for 104 games - and the all-time record of 172 (set in a
 64-game tournament) is nowhere near the right anchor.</p>
-<p class="sub">⚠️ Shootouts only happen in the knockouts. 2026 has <b>32 knockout games — double the old 16</b>, so just
-double the recent count: <b>3–5 → ~6–10</b>.</p>
+<p class="sub">⚠️ Shootouts only happen in the knockouts. 2026 has <b>32 knockout games - double the old 16</b>, so just
+double the recent count: <b>3-5 → ~6-10</b>.</p>
 
-<h2>Q1 — longest names in the 2026 squads <span class="mark">★★</span></h2>
+<h2>Q1 - longest names in the 2026 squads <span class="mark">★★</span></h2>
 {longest_block}
-<p class="sub" style="margin-top:1rem"><b>Long-named goalscorers from recent tournaments</b> (verified goals — your ceiling is a name like these that actually scores):</p>
+<p class="sub" style="margin-top:1rem"><b>Long-named goalscorers from recent tournaments</b> (verified goals - your ceiling is a name like these that actually scores):</p>
 {historical_block}
 
-<h2>Q6 — the 48 teams by confederation <span class="mark">★★</span></h2>
+<h2>Q6 - the 48 teams by confederation <span class="mark">★★</span></h2>
 {confeds}
 <p class="sub">Win chance by continent, from the market's outright odds (normalised to 100%):</p>
 {continent}
-<p class="sub">Only UEFA &amp; CONMEBOL have ever won — so any non-European, non-South-American pick is a
-genuine longshot that pays big on the tote. (A "winning <i>time-zone</i>" version is messier — the three
-hosts alone span four US zones — so continent is the clean cut.)</p>
+<p class="sub">Only UEFA &amp; CONMEBOL have ever won - so any non-European, non-South-American pick is a
+genuine longshot that pays big on the tote. (A "winning <i>time-zone</i>" version is messier - the three
+hosts alone span four US zones - so continent is the clean cut.)</p>
 
-<h2>Q8 — youngest scorer in each of the last 6 tournaments <span class="mark">★★</span></h2>
+<h2>Q8 - youngest scorer in each of the last 6 tournaments <span class="mark">★★</span></h2>
 {youngest}
-<p class="sub">Youngest of the lot: Lamine Yamal <b>16y 362d</b> (Euro 2024) — youngest in Euros history.
-The guessing sweet spot is ~<b>18–19</b>.</p>
+<p class="sub">Youngest of the lot: Lamine Yamal <b>16y 362d</b> (Euro 2024) - youngest in Euros history.
+The guessing sweet spot is ~<b>18-19</b>.</p>
 <p class="sub" style="margin-top:1rem"><b>Youngest players in the 2026 squads</b> (age as of 8 June 2026).
-Score /10 is low — they're young and mostly fringe, so unlikely to play big minutes or score:</p>
+Score /10 is low - they're young and mostly fringe, so unlikely to play big minutes or score:</p>
 {youngest_members}
 
-<h2>Q9 — scorelines that landed exactly once, recent tournaments <span class="mark">★★</span></h2>
+<h2>Q9 - scorelines that landed exactly once, recent tournaments <span class="mark">★★</span></h2>
 {scoreline_once}
-<p class="sub">Winners are nearly always <b>mid-rare</b> scorelines (3–3, 2–3, 2–4, 1–4); common results
-(1–0, 2–1, 1–1) recur far too often to land just once. With <b>104 games</b> in 2026 (vs 64), expect a few
-more once-only scorelines — and some very rare ones may now repeat.</p>
+<p class="sub">Winners are nearly always <b>mid-rare</b> scorelines (3-3, 2-3, 2-4, 1-4); common results
+(1-0, 2-1, 1-1) recur far too often to land just once. With <b>104 games</b> in 2026 (vs 64), expect a few
+more once-only scorelines - and some very rare ones may now repeat.</p>
 
-<h2>Q10 — fastest goal in the last 5 tournaments <span class="mark">★★</span></h2>
+<h2>Q10 - fastest goal in the last 5 tournaments <span class="mark">★★</span></h2>
 {fastest}
-<p class="sub">Recent fastest goals land all over (20–30s up to 80–90s) — no clear favourite band. Bajrami's
+<p class="sub">Recent fastest goals land all over (20-30s up to 80-90s) - no clear favourite band. Bajrami's
 23s (Euro '24) was the fastest Euros goal ever; the all-time WC record is Şükür's 10.8s (2002).</p>
 
 </body></html>"""
     (OUT / "guide.html").write_text(html)
 
 
-# Central projected final outcomes — used to PREVIEW the leaderboard before real
+# Central projected final outcomes - used to PREVIEW the leaderboard before real
 # results land. Numeric ones are the guide's central calls (e.g. ~285 total goals).
 PROJECTED_RESULTS = {
     "q1_longest_name_letters": "22", "q2_own_goals": "12", "q3_red_cards": "7",
@@ -652,16 +652,16 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None):
 
     lb_rows = "\n".join(
         f'<tr><td>{i}</td><td>{n}</td><td>{p:g}</td></tr>'
-        for i, (n, p, _) in enumerate(standings, 1)) or '<tr><td colspan="3">—</td></tr>'
+        for i, (n, p, _) in enumerate(standings, 1)) or '<tr><td colspan="3">-</td></tr>'
     demo_note = ('<div class="note">👀 <b>Preview only.</b> These are <b>placeholder names</b> scored against '
-                 '<b>projected</b> final outcomes (e.g. ~285 total goals) — to show how the leaderboard works. '
+                 '<b>projected</b> final outcomes (e.g. ~285 total goals) - to show how the leaderboard works. '
                  'Drop real entries into <code>predictions.csv</code> and fill <code>results.csv</code> as the '
                  'tournament settles, and this becomes the real thing.</div>') if is_demo else ""
     proj_rows = "\n".join(
-        f"<tr><td>{QLABELS[k]}</td><td>{outcomes.get(k) or '—'}</td></tr>" for k in QLABELS)
+        f"<tr><td>{QLABELS[k]}</td><td>{outcomes.get(k) or '-'}</td></tr>" for k in QLABELS)
     outcomes_heading = ("Projected outcomes (what the leaderboard scores against)" if is_demo
-                        else "Outcomes so far (live — drives the leaderboard)")
-    outcomes_sub = ("Central calls from the guide — they'll be replaced by the real results as games are played."
+                        else "Outcomes so far (live - drives the leaderboard)")
+    outcomes_sub = ("Central calls from the guide - they'll be replaced by the real results as games are played."
                     if is_demo else
                     "Live: ❶ longest scorer · ❷❹⓫ projected from per-game pace · ❼❾ current leader · "
                     "❺❻ wait for the final · ❸❽❿ need the API key or manual feed · ⓬⓭ from live_feed.csv.")
@@ -705,10 +705,10 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None):
  <div class="card"><div class="n">{agg['total_goals']}</div><div class="l">Total goals (avg {agg['avg_goals_per_match']}/match)</div></div>
  <div class="card"><div class="n">{len(agg['five_plus_games'])}</div><div class="l">Games with 5+ goals</div></div>
  <div class="card"><div class="n">{len(agg['penalty_shootouts'])}</div><div class="l">Penalty shootouts</div></div>
- <div class="card"><div class="n">{h['goals'] if h['match'] else 0}</div><div class="l">Highest match: {h['match'] or '—'}</div></div>
+ <div class="card"><div class="n">{h['goals'] if h['match'] else 0}</div><div class="l">Highest match: {h['match'] or '-'}</div></div>
 </div>
 
-<h2>Group goals (Q7 — fewest first)</h2>
+<h2>Group goals (Q7 - fewest first)</h2>
 <table><tr><th>Group</th><th>Goals</th></tr>
 {group_tbl}
 </table>
@@ -772,7 +772,7 @@ def main():
 
     players = []
     if want_players and not os.environ.get("API_FOOTBALL_KEY"):
-        print("\n--players requested but API_FOOTBALL_KEY not set — skipping "
+        print("\n--players requested but API_FOOTBALL_KEY not set - skipping "
               "player fetch, using openfootball scorers instead.")
         want_players = False
     if want_players:
@@ -786,7 +786,7 @@ def main():
         )
         total_reds = sum(p["red"] for p in players)
         print(f"\nAPI-Football: {len(players)} players, total red cards (from "
-              f"scorers list — not all players): {total_reds}")
+              f"scorers list - not all players): {total_reds}")
         print("   -> wrote players_apifootball.csv")
 
     # Refresh longest-names + youngest-members from Wikipedia squads (keyless). Best-effort.
