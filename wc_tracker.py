@@ -699,7 +699,7 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None):
  .card .n{{font-size:1.8rem;font-weight:700}} .card .l{{color:#666;font-size:.85rem}}
  table{{border-collapse:collapse;width:100%;margin:.5rem 0 2rem}}
  th,td{{text-align:left;padding:.4rem .6rem;border-bottom:1px solid #e3e6ea}}
- th{{background:#fafbfc}} td:not(:first-child){{text-align:right}}
+ th{{background:#fafbfc}} td:not(:first-child),th:not(:first-child){{text-align:right}}
  a{{color:#2563eb}} code{{background:#f2f4f7;padding:.05rem .3rem;border-radius:4px}}
 </style></head><body>
 <h1>⚽ WC 2026 Office Pool</h1>
@@ -761,7 +761,7 @@ def write_shares(standings, outcomes):
  .pot{{background:#eef2ff;color:#4338ca;border-radius:6px;padding:.05rem .4rem;font-size:.8rem;vertical-align:middle}}
  table{{border-collapse:collapse;width:100%;margin:.4rem 0 1rem}}
  th,td{{text-align:left;padding:.35rem .6rem;border-bottom:1px solid #e3e6ea}}
- th{{background:#fafbfc}} td:not(:first-child){{text-align:right}} a{{color:#2563eb}}
+ th{{background:#fafbfc}} td:not(:first-child),th:not(:first-child){{text-align:right}} a{{color:#2563eb}}
 </style></head><body>
 <h1>🔢 Point shares per question</h1>
 <p class="sub">How each question's pot is currently split, given the results so far.
