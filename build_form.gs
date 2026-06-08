@@ -27,7 +27,7 @@ function buildPool() {
   form.addTextItem().setTitle('Q9. A scoreline that happens exactly once, e.g. 3-2 (reversed scores are the same)').setRequired(true);
 
   form.addMultipleChoiceItem().setTitle('Q10. Fastest goal - 10-second band')
-      .setChoiceValues(['0-10s','10-20s','20-30s','30-40s','40-50s','50-60s','60-70s','70-80s','80-90s','90s+']).setRequired(true);
+      .setChoiceValues(['1-10s','11-20s','21-30s','31-40s','41-50s','51-60s','61-70s','71-80s','81-90s','90s+']).setRequired(true);
 
   form.addMultipleChoiceItem().setTitle('Q11. Total goals - band')
       .setChoiceValues(['<220','220-240','240-260','260-270','270-280','280-290',

@@ -239,11 +239,11 @@ SCORELINE_ONCE_HISTORY = [
 
 # Fastest goal in each of the last five tournaments (chronological).
 FASTEST_GOALS = [
-    ("WC 2014", "Clint Dempsey", "USA", "30s", "30-40s"),
-    ("WC 2018", "Mathias Jørgensen", "Denmark", "55s", "50-60s"),
-    ("Euro 2020", "Emil Forsberg", "Sweden", "81s (1:21)", "80-90s"),
-    ("WC 2022", "Alphonso Davies", "Canada", "67s", "60-70s"),
-    ("Euro 2024", "Nedim Bajrami", "Albania", "23s", "20-30s"),
+    ("WC 2014", "Clint Dempsey", "USA", "30s", "21-30s"),
+    ("WC 2018", "Mathias Jørgensen", "Denmark", "55s", "51-60s"),
+    ("Euro 2020", "Emil Forsberg", "Sweden", "81s (1:21)", "81-90s"),
+    ("WC 2022", "Alphonso Davies", "Canada", "67s", "61-70s"),
+    ("Euro 2024", "Nedim Bajrami", "Albania", "23s", "21-30s"),
 ]
 
 # Static helper notes, one per pool question.
@@ -296,8 +296,8 @@ QUESTION_GUIDE = [
      "<b>25</b> each. (One winning scoreline + one picker → the full 100.) Shootouts don't change a "
      "scoreline.</i></p><p><i>See the “Q9 - scorelines that landed exactly once, recent tournaments” section below.</i>"),
     ("10. Fastest goal of the tournament (band)",
-     "Pick a 10-second band for the tournament's fastest goal: <b>0-10s · 10-20s · 20-30s · 30-40s · 40-50s · "
-     "50-60s · 60-70s · 70-80s · 80-90s · 90s+ (1:30+)</b>. The all-time WC record is Şükür's 10.8s (2002)."
+     "Pick a 10-second band for the tournament's fastest goal: <b>1-10s · 11-20s · 21-30s · 31-40s · 41-50s · "
+     "51-60s · 61-70s · 71-80s · 81-90s · 90s+ (1:30+)</b>. The all-time WC record is Şükür's 10.8s (2002)."
      "</p><p><i>See the “Q10 - fastest goal in the last 5 tournaments” section below (and the band each falls in).</i>"),
     ("11. Total goals in the whole tournament (band)",
      "Goals/game has trended up and there are far more games now - <b>≈285</b> is the central call. Pick a band "
@@ -546,7 +546,7 @@ more once-only scorelines - and some very rare ones may now repeat.</p>
 
 <h2>Q10 - fastest goal in the last 5 tournaments <span class="mark">★★</span></h2>
 {fastest}
-<p class="sub">Recent fastest goals land all over (20-30s up to 80-90s) - no clear favourite band. Bajrami's
+<p class="sub">Recent fastest goals land all over (21-30s up to 81-90s) - no clear favourite band. Bajrami's
 23s (Euro '24) was the fastest Euros goal ever; the all-time WC record is Şükür's 10.8s (2002).</p>
 
 </body></html>"""
@@ -574,7 +574,7 @@ DEMO_OPTIONS = {
     "q7_group_fewest_goals": ["Group " + c for c in "ABCDEFGHIJKL"],
     "q8_youngest_age": ["17y 300d", "18y 50d", "18y 150d", "18y 250d", "19y 10d"],
     "q9_scoreline_once": ["3-2", "4-1", "5-3", "4-2", "3-3", "2-0", "5-2"],
-    "q10_fastest_goal_band": ["10-20s", "20-30s", "30-40s", "40-50s", "50-60s", "60-70s"],
+    "q10_fastest_goal_band": ["11-20s", "21-30s", "31-40s", "41-50s", "51-60s", "61-70s"],
     "q11_total_goals_band": ["260-270", "270-280", "280-290", "290-300", "300-310"],
     "q12_best_match_pnl_band": ["<25k", "25-50k", "50-75k", "75-100k", "100-150k"],
     "q13_most_traded_band": ["<1m", "1-2m", "2-3m", "3-4m", "4-6m", "6-8m", "8-10m"],
