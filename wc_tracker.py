@@ -281,8 +281,8 @@ QUESTION_GUIDE = [
     ("9. Pick a scoreline that happens exactly once",
      "Common scorelines (1–0, 2–1, 1–1) recur many times; rarer ones (4–3, 5–2, 3–3) often happen 0 or 1 "
      "times. The sweet spot is a scoreline plausible enough to occur, rare enough to occur only once. "
-     "Scorelines are <b>unordered</b> — <b>4–3 and 3–4 are the same result</b> (count the two goal tallies, "
-     "not which team scored them)."
+     "Scorelines are <b>unordered</b> — <b>reversed scores are treated as the same</b>: it doesn't matter which "
+     "team scored what, so a 4–3 and a 3–4 are one and the same result and count together."
      "</p><p><i>Scoring: a scoreline <b>wins</b> if it occurred <b>exactly once</b> in the tournament. "
      "Q9's 100-point pot splits <b>equally across the winning scorelines first</b>, then each scoreline's "
      "share splits among the people who picked it — so a unique pick banks a whole share. "

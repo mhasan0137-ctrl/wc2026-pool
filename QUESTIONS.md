@@ -24,7 +24,7 @@ Add every question's points → one leaderboard → prizes to the top.
 | 6 | **Winning continent** (Europe / S. America / Africa / Asia / N. America / Other) | pick | ______ |
 | 7 | **Group with the fewest total goals** (Groups A–L) | pick | ______ |
 | 8 | **Youngest goalscorer's age** — years + days, e.g. 18y 110d | closest number | ______ |
-| 9 | **Pick a scoreline that happens exactly once** (e.g. 3–2; 4–3 = 3–4) | pick | ______ |
+| 9 | **Pick a scoreline that happens exactly once** (e.g. 3–2). **Reversed scores are treated as the same scoreline** — it doesn't matter which team scored what, so a 4–3 and a 3–4 are the *same* result and count together | pick | ______ |
 | 10 | **Fastest goal** of the tournament — pick a 10-second band: `0–10s` … `80–90s` / `90s+` | pick band | ______ |
 | 11 | **Total goals** — pick a band: `<220` / `220–240` / `240–260` / `260–270` / `270–280` / `280–290` / `290–300` / `300–310` / `310–330` / `330–350` / `350+` (excl. shootout kicks) | pick band | ______ |
 | 💷 12 | **Most money we make** on a single group-stage match (**net P&L**) — band: `<£25k` / `£25–50k` / `£50–75k` / `£75–100k` / `£100–150k` / `£150–200k` / `£200k+`. *Hint: best last Euros ≈ £40k; UCL final ≈ £44k* | pick band | ______ |
