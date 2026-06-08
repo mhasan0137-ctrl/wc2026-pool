@@ -248,7 +248,7 @@ FASTEST_GOALS = [
 
 # Static helper notes, one per pool question.
 QUESTION_GUIDE = [
-    ("1. Longest-named goalscorer (letters)",
+    ("1. Number of letters in the longest goalscorer's name",
      "First name + surname; particles (De, van, Mac) count, plain middle names don't, "
      "hyphen double-barrels count - Trent Alexander-Arnold = 20. Only goalscorers count."
      "</p><p><i>See the “Q1 - longest names in the 2026 squads” section below (plus the longest-named "
@@ -554,7 +554,7 @@ more once-only scorelines - and some very rare ones may now repeat.</p>
 
 
 QLABELS = {
-    "q1_longest_name_letters": "Longest-named scorer (letters)", "q2_own_goals": "Own goals",
+    "q1_longest_name_letters": "Longest goalscorer's name (letters)", "q2_own_goals": "Own goals",
     "q3_red_cards": "Red cards", "q4_pen_shootouts": "Penalty shootouts",
     "q5_final_goals": "Goals in the final", "q6_continent": "Winning continent",
     "q7_group_fewest_goals": "Group with fewest goals", "q8_youngest_age": "Youngest scorer age",

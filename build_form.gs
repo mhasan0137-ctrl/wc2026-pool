@@ -10,7 +10,7 @@ function buildPool() {
 
   form.addTextItem().setTitle('Your name').setRequired(true);
 
-  form.addTextItem().setTitle('Q1. Letters in the longest goalscorer name (first + surname; Trent Alexander-Arnold = 20)').setRequired(true);
+  form.addTextItem().setTitle('Q1. Number of letters in the longest goalscorer\'s name (first + surname; Trent Alexander-Arnold = 20)').setRequired(true);
   form.addTextItem().setTitle('Q2. Total own goals in the tournament (50 pts)').setRequired(true);
   form.addTextItem().setTitle('Q3. Total red cards (50 pts)').setRequired(true);
   form.addTextItem().setTitle('Q4. Penalty shootouts - matches decided on pens (50 pts)').setRequired(true);

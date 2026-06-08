@@ -15,7 +15,7 @@ up across all questions into one leaderboard, prizes to the top.
 
 | # | Question | Type | Pts | Your answer |
 |---|----------|------|-----|-------------|
-| 1 | **Letters in the longest name** of any goalscorer - first name + surname; particles (De/van/Mac) count, plain middle names don't, hyphen double-barrels count *(Trent Alexander-Arnold = 20)* | closest number | 100 | ______ |
+| 1 | **Number of letters in the longest goalscorer's name** - first name + surname; particles (De/van/Mac) count, plain middle names don't, hyphen double-barrels count *(Trent Alexander-Arnold = 20)* | closest number | 100 | ______ |
 | 2 | **Own goals** in the tournament | closest number | 50 | ______ |
 | 3 | **Red cards** in the tournament | closest number | 50 | ______ |
 | 4 | **Penalty shootouts** (how many matches decided on pens) | closest number | 50 | ______ |
