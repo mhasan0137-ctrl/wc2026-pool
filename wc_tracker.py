@@ -565,8 +565,8 @@ QLABELS = {
     "q11_total_goals_band": "Total goals", "q12_best_match_pnl_band": "Best match net P&L",
     "q13_most_traded_band": "Most traded (turnover)",
 }
-DEMO_NAMES = ["Alex", "Priya", "Sam", "Jordan", "Mia", "Tom", "Aisha", "Ben",
-              "Chloe", "Raj", "Ellie", "Marcus"]
+DEMO_NAMES = ["Player A", "Player B", "Player C", "Player D", "Player E", "Player F",
+              "Player G", "Player H", "Player I", "Player J", "Player K", "Player L"]
 DEMO_OPTIONS = {
     "q1_longest_name_letters": [str(x) for x in range(18, 25)],
     "q2_own_goals": [str(x) for x in range(4, 20)],
