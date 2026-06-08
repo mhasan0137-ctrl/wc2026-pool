@@ -132,6 +132,8 @@ def aggregate(matches):
     return {
         "matches_played": len(played),
         "matches_total": len(matches),
+        "group_played": sum(1 for m in played if m.get("group")),
+        "group_total": sum(1 for m in matches if m.get("group")),
         "all_groups": sorted({m["group"] for m in matches if m.get("group")}),
         "total_goals": total_goals,
         "avg_goals_per_match": round(total_goals / len(played), 2) if played else 0,
@@ -701,7 +703,12 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None):
  a{{color:#2563eb}} code{{background:#f2f4f7;padding:.05rem .3rem;border-radius:4px}}
 </style></head><body>
 <h1>⚽ WC 2026 Office Pool</h1>
-<p class="sub">Auto-updated {updated} · {agg['matches_played']}/{agg['matches_total']} matches played · <a href="guide.html">📊 question guide &amp; stats</a></p>
+<p class="sub">Auto-updated {updated} · <a href="guide.html">📊 question guide &amp; stats</a></p>
+<div class="cards">
+ <div class="card"><div class="n">{agg['matches_played']}/{agg['matches_total']}</div><div class="l">Matches played</div></div>
+ <div class="card"><div class="n">{agg['group_played']}/{agg['group_total']}</div><div class="l">Group-stage games</div></div>
+ <div class="card"><div class="n">{agg['matches_played'] - agg['group_played']}/{agg['matches_total'] - agg['group_total']}</div><div class="l">Knockout games</div></div>
+</div>
 
 <h2>🏆 Leaderboard {'(preview)' if is_demo else ''}</h2>
 {demo_note}
