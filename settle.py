@@ -67,7 +67,7 @@ def _age_days(s):
 
 
 def _norm(s):
-    return str(s).strip().lower().replace(" ", "")
+    return str(s).strip().lower().replace(" ", "").replace("£", "").replace(",", "")
 
 
 def _scoreline_key(s):
