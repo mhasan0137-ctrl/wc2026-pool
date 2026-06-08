@@ -259,9 +259,9 @@ QUESTION_GUIDE = [
      "between ~<b>2</b> and ~<b>16</b> (the recent norm is nearer ~6–7)."
      "</p><p><i>See the “Recent tournaments at a glance” and “Per game → what it means for 2026 (104 games)” tables below (red-cards row).</i>"),
     ("4. Penalty shootouts",
-     "Based on recent tournaments, over 104 games this might land around ~<b>6–8</b> — but that's a floor: "
-     "the new Round of 32 doubles the knockout games, so realistically nearer ~<b>8–10</b>."
-     "</p><p><i>See the “Recent tournaments at a glance” and “Per game → what it means for 2026 (104 games)” tables below (penalty-shootouts row + floor note).</i>"),
+     "Recent tournaments had <b>3–5</b>. 2026 has <b>double the knockout games</b> (32 vs 16), so just double "
+     "it: expect ~<b>6–10</b>."
+     "</p><p><i>See the “Recent tournaments at a glance” and “Per game → what it means for 2026 (104 games)” tables below (penalty-shootouts row).</i>"),
     ("5. Goals in the final",
      "A coin-flip — and <b>shootout kicks count here</b>. If the final is settled in play it's typically "
      "<b>1–6</b> goals; if it goes to penalties, add the shootout kicks scored (often ~6–10 more) on top."
@@ -402,7 +402,8 @@ def write_guide():
     g_lo, g_hi = rng(0)
     og_lo, og_hi = rng(1)
     rc_lo, rc_hi = rng(2)
-    sh_lo, sh_hi = rng(3)
+    sh_counts = [s for (_, _, _, _, _, s, _) in TOURNAMENT_STATS if isinstance(s, int)]
+    sh_lo, sh_hi = min(sh_counts), max(sh_counts)
     proj_rows = [
         ("Total goals", f"{g_lo:.2f} – {g_hi:.2f} / game (trending up at WCs)",
          f"~{round(g_lo * 104)} – {round(g_hi * 104)} — <b>≈285 expected</b>"),
@@ -410,8 +411,8 @@ def write_guide():
          f"~{round(og_lo * 104)} – {round(og_hi * 104)}"),
         ("Red cards", f"{rc_lo:.2f} – {rc_hi:.2f} / game (VAR-era WCs ~0.06)",
          f"~{round(rc_lo * 104)} – {round(rc_hi * 104)}"),
-        ("Penalty shootouts", f"{sh_lo:.3f} – {sh_hi:.3f} / game",
-         f"~{round(sh_lo * 104)} – {round(sh_hi * 104)}"),
+        ("Penalty shootouts", f"{sh_lo}–{sh_hi} per tournament (in 16 KO games)",
+         f"~{sh_lo * 2}–{sh_hi * 2} — <b>double</b> (2026 has 32 KO games)"),
     ]
     projections = tbl(["Metric", "Historical range (per game)", "Range over 2026 (104 games)"], proj_rows)
     confeds = tbl(["Confederation", "Teams", "Who"],
@@ -507,9 +508,8 @@ explicitly counts shootout kicks if the final goes to penalties.</div>
 <p class="sub">📈 Goals/game has generally crept up at World Cups (2.27 in 1990 → ~2.65–2.69 lately), so
 <b>~285 total goals</b> is a sensible central call for 104 games — and the all-time record of 172 (set in a
 64-game tournament) is nowhere near the right anchor.</p>
-<p class="sub">⚠️ Shootouts only happen in the knockouts, so the per-<i>total</i>-game figure above (~6–8) <b>undercounts</b>:
-2026 is more knockout-heavy — <b>32 knockout games</b> (double the old 16). On a per-<i>knockout</i>-game basis
-(~0.20–0.31 recently) over those 32 games, expect ~<b>8</b> (roughly a <b>6–10</b> spread).</p>
+<p class="sub">⚠️ Shootouts only happen in the knockouts. 2026 has <b>32 knockout games — double the old 16</b>, so just
+double the recent count: <b>3–5 → ~6–10</b>.</p>
 
 <h2>Q1 — longest names in the 2026 squads <span class="mark">★★</span></h2>
 {longest_block}
