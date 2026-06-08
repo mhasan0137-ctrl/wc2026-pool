@@ -40,7 +40,15 @@ QUESTIONS = [
     ("q12_best_match_pnl_band", "pick"),
     ("q13_most_traded_band", "pick"),
 ]
-POT = 100
+DEFAULT_POT = 100
+# Per-question point pots (default 100 unless listed here).
+POINTS = {
+    "q2_own_goals": 50,
+    "q3_red_cards": 50,
+    "q4_pen_shootouts": 50,
+    "q5_final_goals": 50,
+    "q8_youngest_age": 25,
+}
 
 
 def _num(s):
@@ -74,6 +82,7 @@ def compute_standings(pred_rows, result):
     for r in pred_rows:                 # everyone appears, even on 0
         points[r["name"]] += 0.0
     for col, kind in QUESTIONS:
+        pot = POINTS.get(col, DEFAULT_POT)
         actual = (result or {}).get(col, "")
         if actual in (None, "", "?"):
             continue  # not settled yet
@@ -88,7 +97,7 @@ def compute_standings(pred_rows, result):
                 continue
             best = min(abs(v - target) for _, v in scored)
             winners = [n for n, v in scored if abs(v - target) == best]
-            share = POT / len(winners)
+            share = pot / len(winners)
             for n in winners:
                 points[n] += share
                 detail[n][col] = round(share, 1)
@@ -97,7 +106,7 @@ def compute_standings(pred_rows, result):
             tgt = _norm(actual)
             winners = [n for n, v in picks if _norm(v) == tgt]
             if winners:
-                share = POT / len(winners)
+                share = pot / len(winners)
                 for n in winners:
                     points[n] += share
                     detail[n][col] = round(share, 1)
@@ -112,7 +121,7 @@ def compute_standings(pred_rows, result):
                 if k in once:
                     pickers[k].append(n)
             if pickers:
-                share = POT / len(pickers)            # split across winning scorelines
+                share = pot / len(pickers)            # split across winning scorelines
                 for k, names in pickers.items():
                     per = share / len(names)          # then within each scoreline
                     for n in names:

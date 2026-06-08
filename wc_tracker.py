@@ -132,6 +132,7 @@ def aggregate(matches):
     return {
         "matches_played": len(played),
         "matches_total": len(matches),
+        "all_groups": sorted({m["group"] for m in matches if m.get("group")}),
         "total_goals": total_goals,
         "avg_goals_per_match": round(total_goals / len(played), 2) if played else 0,
         "highest_scoring": high,
@@ -250,19 +251,19 @@ QUESTION_GUIDE = [
      "hyphen double-barrels count - Trent Alexander-Arnold = 20. Only goalscorers count."
      "</p><p><i>See the “Q1 - longest names in the 2026 squads” section below (plus the longest-named "
      "goalscorers from recent tournaments).</i>"),
-    ("2. Own goals in the tournament",
+    ("2. Own goals in the tournament (50 pts)",
      "Wildly swingy and impossible to call precisely. Based on recent tournaments, over 104 games the total "
      "might land somewhere between ~<b>3</b> and ~<b>22</b>. <i>(Excludes shootouts.)</i>"
      "</p><p><i>See the “Recent tournaments at a glance” and “Per game → what it means for 2026 (104 games)” tables below (own-goals row).</i>"),
-    ("3. Red cards in the tournament",
+    ("3. Red cards in the tournament (50 pts)",
      "VAR keeps modern World Cups low. Based on recent tournaments, over 104 games it might land somewhere "
      "between ~<b>2</b> and ~<b>16</b> (the recent norm is nearer ~6-7)."
      "</p><p><i>See the “Recent tournaments at a glance” and “Per game → what it means for 2026 (104 games)” tables below (red-cards row).</i>"),
-    ("4. Penalty shootouts",
+    ("4. Penalty shootouts (50 pts)",
      "Recent tournaments had <b>3-5</b>. 2026 has <b>double the knockout games</b> (32 vs 16), so just double "
      "it: expect ~<b>6-10</b>."
      "</p><p><i>See the “Recent tournaments at a glance” and “Per game → what it means for 2026 (104 games)” tables below (penalty-shootouts row).</i>"),
-    ("5. Goals in the final",
+    ("5. Goals in the final (50 pts)",
      "A coin-flip - and <b>shootout kicks count here</b>. If the final is settled in play it's typically "
      "<b>1-6</b> goals; if it goes to penalties, add the shootout kicks scored (often ~6-10 more) on top."
      "</p><p><i>See the “Recent tournaments at a glance” table below (Final column - it now includes the "
@@ -274,7 +275,7 @@ QUESTION_GUIDE = [
     ("7. Group with fewest total goals",
      "12 groups of 4 (six games each). Defensive / 'group of death' style groups bottom out low; "
      "watch for a group stacked with cagey, low-scoring teams."),
-    ("8. Youngest goalscorer (age)",
+    ("8. Youngest goalscorer (age) - 25 pts",
      "Give it as years + days. Based on recent tournaments the youngest scorer is usually around <b>18-19</b> "
      "(as low as ~16 at Euro '24)."
      "</p><p><i>See the “Q8 - youngest scorer in each of the last 6 tournaments” section below (and the youngest 2026 squad players).</i>"),
@@ -596,27 +597,35 @@ def _total_goals_band(n):
 
 def build_live_results(agg, live_feed):
     """
-    Provisional results for the LIVE leaderboard, per the agreed per-question rules:
-      1 live · 2,3,4 per-game(×104) · 5,6 hold-until-final · 7,8,9,10 live · 11 per-game
-      12,13 manual (from live_feed.csv). Questions with no data yet are simply not scored.
-      (Q3 red cards, Q8 youngest scorer, Q10 fastest-second need the API key / manual feed.)
+    Current LIVE snapshot for the leaderboard + outcomes table. Reflects what's known
+    SO FAR (0 before kickoff), not projections. Anything not yet determinable is left
+    absent (renders as '-').
+      2 own goals / 3 red cards / 4 shootouts: running counts (0 now)
+      1 longest scorer, 9 scorelines-once, 11 total-goals band: appear once games are played
+      5 final goals, 6 continent, 8 youngest age, 10 fastest goal: from live_feed when known
+      12 net P&L, 13 turnover: from live_feed, default £0k / £0m
     """
     from longest_names_wiki import name_letters
-    res = {}
+    lf = {k: v for k, v in (live_feed or {}).items() if v not in ("", None)}
     gp = agg["matches_played"]
-    if agg["scorers"]:                                            # 1 longest-named scorer (live)
+    res = {
+        "q2_own_goals": agg["own_goals"],
+        "q3_red_cards": lf.get("q3_red_cards", 0),
+        "q4_pen_shootouts": len(agg["penalty_shootouts"]),
+        "q12_best_match_pnl_band": lf.get("q12_best_match_pnl_band", "£0k"),
+        "q13_most_traded_band": lf.get("q13_most_traded_band", "£0m"),
+    }
+    if agg["scorers"]:                       # 1 longest-named scorer so far
         res["q1_longest_name_letters"] = max(name_letters(n)[0] for (n, _t) in agg["scorers"])
-    if gp:                                                        # 2 own goals (per game)
-        res["q2_own_goals"] = round(agg["own_goals"] / gp * 104)
-    if gp:                                                        # 4 penalty shootouts (per game)
-        res["q4_pen_shootouts"] = round(len(agg["penalty_shootouts"]) / gp * 104)
-    if agg["group_goals"]:                                        # 7 group fewest (live)
-        res["q7_group_fewest_goals"] = min(agg["group_goals"], key=agg["group_goals"].get)
-    if gp:                                                        # 9 scoreline once (live)
-        res["q9_scoreline_once"] = ";".join(k for k, v in agg["scoreline_counts"].items() if v == 1)
-    if gp:                                                        # 11 total goals (per game -> band)
-        res["q11_total_goals_band"] = _total_goals_band(round(agg["total_goals"] / gp * 104))
-    res.update({k: v for k, v in (live_feed or {}).items() if v not in ("", None)})  # 12,13 + manual
+    if gp:                                   # 9 scorelines that have happened exactly once so far
+        once = ";".join(k for k, v in agg["scoreline_counts"].items() if v == 1)
+        if once:
+            res["q9_scoreline_once"] = once
+    if gp:                                   # 11 total goals so far -> band
+        res["q11_total_goals_band"] = _total_goals_band(agg["total_goals"])
+    for k in ("q5_final_goals", "q6_continent", "q8_youngest_age", "q10_fastest_goal_band"):
+        if lf.get(k):                        # held until the final / manual feed
+            res[k] = lf[k]
     return res
 
 
@@ -636,19 +645,7 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None):
     """Render a single self-contained index.html for GitHub Pages."""
     outcomes = outcomes or {}
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    h = agg["highest_scoring"]
     standings = standings or []
-    group_rows = sorted(agg["group_goals"].items(), key=lambda kv: kv[1])  # fewest first (Q7)
-    scorer_src = (
-        [(p["player"], p["team"], p["goals"]) for p in players[:10]]
-        if players else
-        [(n, t, g) for (n, t), g in
-         sorted(agg["scorers"].items(), key=lambda kv: -kv[1])[:10]]
-    )
-
-    def rows(items, cells):
-        return "\n".join("<tr>" + "".join(f"<td>{c}</td>" for c in cells(x))
-                         + "</tr>" for x in items)
 
     lb_rows = "\n".join(
         f'<tr><td>{i}</td><td>{n}</td><td>{p:g}</td></tr>'
@@ -657,18 +654,18 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None):
                  '<b>projected</b> final outcomes (e.g. ~285 total goals) - to show how the leaderboard works. '
                  'Drop real entries into <code>predictions.csv</code> and fill <code>results.csv</code> as the '
                  'tournament settles, and this becomes the real thing.</div>') if is_demo else ""
-    proj_rows = "\n".join(
-        f"<tr><td>{QLABELS[k]}</td><td>{outcomes.get(k) or '-'}</td></tr>" for k in QLABELS)
-    outcomes_heading = ("Projected outcomes (what the leaderboard scores against)" if is_demo
-                        else "Outcomes so far (live - drives the leaderboard)")
-    outcomes_sub = ("Central calls from the guide - they'll be replaced by the real results as games are played."
-                    if is_demo else
-                    "Live: ❶ longest scorer · ❷❹⓫ projected from per-game pace · ❼❾ current leader · "
-                    "❺❻ wait for the final · ❸❽❿ need the API key or manual feed · ⓬⓭ from live_feed.csv.")
-    group_tbl = (rows(group_rows, lambda kv: (kv[0], kv[1]))
-                 if group_rows else '<tr><td colspan="2">no matches played yet</td></tr>')
-    scorer_tbl = (rows(scorer_src, lambda x: (x[0], x[1], x[2]))
-                  if scorer_src else '<tr><td colspan="3">no goals yet</td></tr>')
+    def outcome_cell(k):
+        if k == "q7_group_fewest_goals":          # show every group + its goals so far
+            gg = agg["group_goals"]
+            items = sorted(((g, gg.get(g, 0)) for g in agg["all_groups"]), key=lambda x: x[1])
+            return " · ".join(f"{g.replace('Group ', '')}:{v}" for g, v in items) or "-"
+        v = outcomes.get(k)
+        return v if v not in (None, "") else "-"
+
+    proj_rows = "\n".join(f"<tr><td>{QLABELS[k]}</td><td>{outcome_cell(k)}</td></tr>" for k in QLABELS)
+    outcomes_heading = "Results so far (live - drives the leaderboard)"
+    outcomes_sub = ("Everything the leaderboard scores on. Counts are live; '-' = not determinable yet "
+                    "(needs the final, a scorer, or a manual feed). Group goals shows every group, fewest first.")
 
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -700,27 +697,46 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None):
 {proj_rows}
 </table>
 
-<h2>Live so far</h2>
-<div class="cards">
- <div class="card"><div class="n">{agg['total_goals']}</div><div class="l">Total goals (avg {agg['avg_goals_per_match']}/match)</div></div>
- <div class="card"><div class="n">{len(agg['five_plus_games'])}</div><div class="l">Games with 5+ goals</div></div>
- <div class="card"><div class="n">{len(agg['penalty_shootouts'])}</div><div class="l">Penalty shootouts</div></div>
- <div class="card"><div class="n">{h['goals'] if h['match'] else 0}</div><div class="l">Highest match: {h['match'] or '-'}</div></div>
-</div>
-
-<h2>Group goals (Q7 - fewest first)</h2>
-<table><tr><th>Group</th><th>Goals</th></tr>
-{group_tbl}
-</table>
-
-<h2>Top scorers</h2>
-<table><tr><th>Player</th><th>Team</th><th>Goals</th></tr>
-{scorer_tbl}
-</table>
-
-<p><a href="fixtures.csv">fixtures.csv</a> · <a href="standings.csv">standings.csv</a> · <a href="scorers_openfootball.csv">scorers.csv</a></p>
+<p><a href="shares.html">🔢 point shares per question</a> · <a href="guide.html">📊 guide &amp; stats</a></p>
+<p class="sub">Every number on this page comes from the {len(QLABELS)} pool questions only.
+<a href="fixtures.csv">fixtures.csv</a> · <a href="standings.csv">standings.csv</a></p>
 </body></html>"""
     (OUT / "index.html").write_text(html)
+
+
+def write_shares(standings, outcomes):
+    """Per-question point-shares page: for each question, the pot, the result so far,
+    and how its points are currently split across players."""
+    import settle
+    outcomes = outcomes or {}
+    secs = []
+    for col, _kind in settle.QUESTIONS:
+        pot = settle.POINTS.get(col, settle.DEFAULT_POT)
+        result = outcomes.get(col)
+        result = result if result not in (None, "") else "not settled yet"
+        shares = sorted(((n, d[col]) for (n, _t, d) in standings if col in d), key=lambda x: -x[1])
+        body = "".join(f"<tr><td>{n}</td><td>{s:g}</td></tr>" for n, s in shares) \
+            or '<tr><td colspan="2">nobody scoring this yet</td></tr>'
+        secs.append(f'<h2>{QLABELS.get(col, col)} <span class="pot">{pot} pts</span></h2>'
+                    f'<p class="sub">Result so far: <b>{result}</b></p>'
+                    f'<table><tr><th>Player</th><th>Points</th></tr>{body}</table>')
+    html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WC 2026 Pool - Point shares per question</title>
+<style>
+ body{{font:15px/1.5 system-ui,sans-serif;max-width:760px;margin:2rem auto;padding:0 1rem;color:#1a1a1a}}
+ h1{{margin-bottom:.2rem}} h2{{margin-top:1.8rem;font-size:1.1rem}} .sub{{color:#666;margin-top:.1rem}}
+ .pot{{background:#eef2ff;color:#4338ca;border-radius:6px;padding:.05rem .4rem;font-size:.8rem;vertical-align:middle}}
+ table{{border-collapse:collapse;width:100%;margin:.4rem 0 1rem}}
+ th,td{{text-align:left;padding:.35rem .6rem;border-bottom:1px solid #e3e6ea}}
+ th{{background:#fafbfc}} td:not(:first-child){{text-align:right}} a{{color:#2563eb}}
+</style></head><body>
+<h1>🔢 Point shares per question</h1>
+<p class="sub">How each question's pot is currently split, given the results so far.
+<a href="index.html">← leaderboard</a></p>
+{''.join(secs)}
+</body></html>"""
+    (OUT / "shares.html").write_text(html)
 
 
 def main():
@@ -825,7 +841,7 @@ def main():
 
     # Leaderboard. Real predictions -> LIVE results (per-question rules) + manual live_feed.csv
     # + results.csv overrides. No predictions yet -> seeded demo scored vs projected outcomes.
-    standings, is_demo, outcomes = [], False, PROJECTED_RESULTS
+    standings, is_demo, outcomes = [], False, {}
     try:
         import settle
         root = Path(__file__).parent
@@ -837,24 +853,25 @@ def main():
                     return (list(csv.DictReader(f)) or [{}])[0]
             return {}
 
+        # Current live snapshot drives BOTH the outcomes table and the leaderboard.
+        outcomes = build_live_results(agg, _one_row("live_feed.csv"))
+        outcomes.update({k: v for k, v in _one_row("results.csv").items() if v not in ("", None)})
         if (root / "predictions.csv").exists():
             with open(root / "predictions.csv") as f:
                 preds = [r for r in csv.DictReader(f) if not r["name"].startswith("EXAMPLE_ROW")]
-            outcomes = build_live_results(agg, _one_row("live_feed.csv"))
-            outcomes.update({k: v for k, v in _one_row("results.csv").items() if v not in ("", None)})
-            standings = settle.compute_standings(preds, outcomes)
         else:
-            standings = settle.compute_standings(make_demo_predictions(), PROJECTED_RESULTS)
-            is_demo = True
+            preds, is_demo = make_demo_predictions(), True
+        standings = settle.compute_standings(preds, outcomes)
         write_csv(OUT / "standings.csv",
                   [(i, n, p) for i, (n, p, _) in enumerate(standings, 1)], ["rank", "name", "points"])
-        print(f"Standings: {len(standings)} entries" + (" (demo preview)" if is_demo else " (live)"))
+        write_shares(standings, outcomes)
+        print(f"Standings: {len(standings)} entries" + (" (demo names)" if is_demo else ""))
     except Exception as e:
         print(f"(standings skipped: {e})")
 
     write_html(agg, players, standings, is_demo, outcomes)
     write_guide()
-    print(f"\nWrote CSVs + index.html + guide.html to {OUT}/")
+    print(f"\nWrote CSVs + index.html + guide.html + shares.html to {OUT}/")
 
 
 if __name__ == "__main__":
