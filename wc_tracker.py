@@ -279,7 +279,9 @@ QUESTION_GUIDE = [
      "watch for a group stacked with cagey, low-scoring teams."),
     ("8. Youngest goalscorer (age) - 25 pts",
      "Give it as years + days. Based on recent tournaments the youngest scorer is usually around <b>18-19</b> "
-     "(as low as ~16 at Euro '24)."
+     "(as low as ~16 at Euro '24). <b>Hint:</b> Lamine Yamal (Spain) will be <b>18</b> (turning 19 mid-tournament) "
+     "and is near-certain to play and score - so ~<b>18y</b> is a strong anchor, unless a 17-year-old like "
+     "Gilberto Mora (Mexico) nets first."
      "</p><p><i>See the “Q8 - youngest scorer in each of the last 6 tournaments” section below (and the youngest 2026 squad players).</i>"),
     ("9. Pick a scoreline that happens exactly once",
      "Common scorelines (1-0, 2-1, 1-1) recur many times; rarer ones (4-3, 5-2, 3-3) often happen 0 or 1 "
