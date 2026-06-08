@@ -184,8 +184,8 @@ def write_csv(path, rows, header):
 TOURNAMENT_STATS = [
     ("WC 2014 (Brazil)", 64, 171, 5, 10, 4, "Germany 1–0 Argentina (a.e.t.) — 1"),
     ("WC 2018 (Russia)", 64, 169, 12, 4, 4, "France 4–2 Croatia — 6"),
-    ("WC 2022 (Qatar)", 64, 172, 2, 4, 5, "Argentina 3–3 France* — 6"),
-    ("Euro 2020", 51, 142, 11, 1, 4, "Italy 1–1 England* — 2"),
+    ("WC 2022 (Qatar)", 64, 172, 2, 4, 5, "Argentina 3–3 France, 4–2 pens — 12"),
+    ("Euro 2020", 51, 142, 11, 1, 4, "Italy 1–1 England, 3–2 pens — 7"),
     ("Euro 2024", 51, 117, 10, 6, 3, "Spain 2–1 England — 3"),
     ("WC 2026 ← you're predicting", 104, "?", "?", "?", "?", "? (the final)"),
 ]
@@ -248,36 +248,36 @@ QUESTION_GUIDE = [
     ("1. Longest-named goalscorer (letters)",
      "First name + surname; particles (De, van, Mac) count, plain middle names don't, "
      "hyphen double-barrels count — Trent Alexander-Arnold = 20. Only goalscorers count."
-     "</p><p><i>See below for the top-10 longest names in the 2026 squads, and the longest-named "
-     "goalscorers from recent tournaments.</i>"),
+     "</p><p><i>See the “Q1 — longest names in the 2026 squads” section below (plus the longest-named "
+     "goalscorers from recent tournaments).</i>"),
     ("2. Own goals in the tournament",
      "Wildly swingy and impossible to call precisely. Based on recent tournaments, over 104 games the total "
      "might land somewhere between ~<b>3</b> and ~<b>22</b>. <i>(Excludes shootouts.)</i>"
-     "</p><p><i>See below for the per-game ranges (from recent tournaments) in the reference table.</i>"),
+     "</p><p><i>See the “Per game → what it means for 2026 (104 games)” table below (own-goals row).</i>"),
     ("3. Red cards in the tournament",
      "VAR keeps modern World Cups low. Based on recent tournaments, over 104 games it might land somewhere "
      "between ~<b>2</b> and ~<b>16</b> (the recent norm is nearer ~6–7)."
-     "</p><p><i>See below for the per-game range (from recent tournaments) in the reference table.</i>"),
+     "</p><p><i>See the “Per game → what it means for 2026 (104 games)” table below (red-cards row).</i>"),
     ("4. Penalty shootouts",
      "Based on recent tournaments, over 104 games this might land around ~<b>6–8</b> — but that's a floor: "
      "the new Round of 32 doubles the knockout games, so realistically nearer ~<b>8–10</b>."
-     "</p><p><i>See below for the per-game range (from recent tournaments) and the floor note.</i>"),
+     "</p><p><i>See the “Per game → what it means for 2026 (104 games)” table below (penalty-shootouts row + floor note).</i>"),
     ("5. Goals in the final",
      "A coin-flip — and <b>shootout kicks count here</b>. If the final is settled in play it's typically "
      "<b>1–6</b> goals; if it goes to penalties, add the shootout kicks scored (often ~6–10 more) on top."
-     "</p><p><i>See below for every recent final in the summary table (those marked * went to a shootout, "
-     "so you'd add its kicks).</i>"),
+     "</p><p><i>See the “Recent tournaments at a glance” table below (Final column — it now includes the "
+     "shootout kicks).</i>"),
     ("6. Winning continent",
      "Only <b>Europe (UEFA)</b> and <b>South America (CONMEBOL)</b> have <i>ever</i> won a World Cup. "
      "No African, Asian, CONCACAF or Oceanian team ever has — so 'Other' pays a fortune if it lands."
-     "</p><p><i>See below for the 48 teams by confederation and each continent's win chance.</i>"),
+     "</p><p><i>See the “Q6 — the 48 teams by confederation” section below (teams + continent win chances).</i>"),
     ("7. Group with fewest total goals",
      "12 groups of 4 (six games each). Defensive / 'group of death' style groups bottom out low; "
      "watch for a group stacked with cagey, low-scoring teams."),
     ("8. Youngest goalscorer (age)",
      "Give it as years + days. Based on recent tournaments the youngest scorer is usually around <b>18–19</b> "
      "(as low as ~16 at Euro '24)."
-     "</p><p><i>See below for the youngest scorer in each recent tournament, and the youngest players in the 2026 squads.</i>"),
+     "</p><p><i>See the “Q8 — youngest scorer in each of the last 6 tournaments” section below (and the youngest 2026 squad players).</i>"),
     ("9. Pick a scoreline that happens exactly once",
      "Common scorelines (1–0, 2–1, 1–1) recur many times; rarer ones (4–3, 5–2, 3–3) often happen 0 or 1 "
      "times. The sweet spot is a scoreline plausible enough to occur, rare enough to occur only once. "
@@ -289,17 +289,17 @@ QUESTION_GUIDE = [
      "<b>Example:</b> 5–4 happens once and only you picked it; 3–3 happens once and two others picked it → "
      "two winning scorelines, <b>50 each</b> → you take the full <b>50</b> for 5–4, the two 3–3 pickers get "
      "<b>25</b> each. (One winning scoreline + one picker → the full 100.) Shootouts don't change a "
-     "scoreline.</i></p><p><i>See below for which scorelines landed exactly once in recent tournaments.</i>"),
+     "scoreline.</i></p><p><i>See the “Q9 — scorelines that landed exactly once, recent tournaments” section below.</i>"),
     ("10. Fastest goal of the tournament (band)",
      "Pick a 10-second band for the tournament's fastest goal: <b>0–10s · 10–20s · 20–30s · 30–40s · 40–50s · "
      "50–60s · 60–70s · 70–80s · 80–90s · 90s+ (1:30+)</b>. The all-time WC record is Şükür's 10.8s (2002)."
-     "</p><p><i>See below for the fastest goal in each of the last 5 tournaments (and the band it falls in).</i>"),
+     "</p><p><i>See the “Q10 — fastest goal in the last 5 tournaments” section below (and the band each falls in).</i>"),
     ("11. Total goals in the whole tournament (band)",
      "Goals/game has trended up and there are far more games now — <b>≈285</b> is the central call. Pick a band "
      "(symmetric around 285): <b>&lt;220 · 220–240 · 240–260 · 260–270 · 270–280 · 280–290 · 290–300 · "
      "300–310 · 310–330 · 330–350 · 350+</b>. The all-time record of 172 (a 64-game number) is a terrible "
      "anchor. <i>(Excludes shootout kicks.)</i>"
-     "</p><p><i>See below for the goals-per-game range (from recent tournaments) in the projection table.</i>"),
+     "</p><p><i>See the “Per game → what it means for 2026 (104 games)” table below (total-goals row).</i>"),
     ("12. Most we make on a single group-stage match (net P&amp;L, £)",
      "💷 <b>Insider question.</b> Our trading book's <b>best single-match net P&amp;L</b> across the group "
      "stage. Pick a band — <b>&lt;£25k · £25–50k · £50–75k · £75–100k · £100–150k · £150–200k · £200k+</b>. "
@@ -391,7 +391,7 @@ def write_guide():
                              rc, pg(rc, m, 3), sh, pg(sh, m, 3), fin))
     summary = tbl(["Tournament", "Matches", "Goals", "Goals/game", "Own goals", "OG/game",
                    "Red cards", "Reds/game", "Pen shootouts", "Shootouts/game",
-                   "Final (goals in play)"], summary_rows)
+                   "Final (incl. shootout kicks — Q5)"], summary_rows)
     # Historical per-game RANGES, computed from the tournaments above, scaled to 104 games.
     numeric = [(g, og, rc, sh, m) for (_, m, g, og, rc, sh, _) in TOURNAMENT_STATS if isinstance(g, int)]
 
@@ -499,7 +499,7 @@ explicitly counts shootout kicks if the final goes to penalties.</div>
 
 <h2>Recent tournaments at a glance <span class="mark">★</span></h2>
 {summary}
-<p class="sub">* won on penalties; the shootout kicks are excluded from the goal totals shown.</p>
+<p class="sub">* final won on penalties — the Final column ADDS those shootout kicks (Q5 counts them); the Goals column does not.</p>
 
 <h2>Per game → what it means for 2026 (104 games) <span class="mark">★</span></h2>
 <p class="sub">The whole trick: take the recent <i>per-game</i> rate and stretch it over 104 games.</p>
