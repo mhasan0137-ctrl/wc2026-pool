@@ -485,8 +485,8 @@ def write_guide():
 <p class="sub">Calibrate your guesses. <a href="index.html">← back to live standings</a></p>
 
 <div class="warn"><b>Read this first:</b> 2026 has <b>104 matches</b> (48 teams), vs <b>64</b> in every
-past World Cup (and 51 at a Euro). Every tournament total scales up by roughly <b>1.6×</b> vs an old
-World Cup. Most people will anchor on 64-game numbers - don't.</div>
+past World Cup (and 51 at a Euro). Every tournament total scales up by roughly <b>1.6x</b> vs an old
+World Cup.</div>
 
 <div class="note">📌 <b>All goal counts on this page exclude penalty-shootout kicks.</b> A shootout decides
 who advances, but those penalties are <b>not</b> goals - so "goals in the final" and "total goals" only
@@ -494,7 +494,8 @@ count goals in play (including extra time). <b>The one exception is Q5</b> (goal
 explicitly counts shootout kicks if the final goes to penalties.</div>
 
 <p class="legend">Markers: <span class="mark">★</span> = stats in the reference tables below ·
-<span class="mark">★★</span> = its own detailed section below.</p>
+<span class="mark">★★</span> = its own detailed section below. Each question is worth <b>100 points</b>
+unless its heading says otherwise (e.g. 50 or 25 pts).</p>
 
 {blocks}
 
@@ -550,16 +551,6 @@ more once-only scorelines - and some very rare ones may now repeat.</p>
     (OUT / "guide.html").write_text(html)
 
 
-# Central projected final outcomes - used to PREVIEW the leaderboard before real
-# results land. Numeric ones are the guide's central calls (e.g. ~285 total goals).
-PROJECTED_RESULTS = {
-    "q1_longest_name_letters": "22", "q2_own_goals": "12", "q3_red_cards": "7",
-    "q4_pen_shootouts": "8", "q5_final_goals": "3", "q6_continent": "Europe",
-    "q7_group_fewest_goals": "Group D", "q8_youngest_age": "18y 150d",
-    "q9_scoreline_once": "3-2;4-1;5-3", "q10_fastest_goal_band": "20-30s",
-    "q11_total_goals_band": "280-290", "q12_best_match_pnl_band": "25-50k",
-    "q13_most_traded_band": "4-6m",
-}
 QLABELS = {
     "q1_longest_name_letters": "Longest-named scorer (letters)", "q2_own_goals": "Own goals",
     "q3_red_cards": "Red cards", "q4_pen_shootouts": "Penalty shootouts",
