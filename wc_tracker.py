@@ -663,6 +663,24 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None):
         return v if v not in (None, "") else "-"
 
     proj_rows = "\n".join(f"<tr><td>{QLABELS[k]}</td><td>{outcome_cell(k)}</td></tr>" for k in QLABELS)
+
+    # Live counts: total so far, avg/game, forecast over 104 games (if the pace holds).
+    gp = agg["matches_played"]
+
+    def live_count_row(label, total):
+        if gp:
+            avg = total / gp
+            return (label, total, f"{avg:.2f}", round(avg * 104))
+        return (label, total, "-", "-")
+
+    live_counts = [
+        live_count_row("Own goals (Q2)", agg["own_goals"]),
+        live_count_row("Red cards (Q3)", int(outcomes.get("q3_red_cards") or 0)),
+        live_count_row("Penalty shootouts (Q4)", len(agg["penalty_shootouts"])),
+        live_count_row("Total goals (Q11)", agg["total_goals"]),
+    ]
+    lc_rows = "\n".join(f"<tr><td>{a}</td><td>{b}</td><td>{c}</td><td>{d}</td></tr>"
+                        for a, b, c, d in live_counts)
     outcomes_heading = "Results so far (live - drives the leaderboard)"
     outcomes_sub = ("Everything the leaderboard scores on. Counts are live; '-' = not determinable yet "
                     "(needs the final, a scorer, or a manual feed). Group goals shows every group, fewest first.")
@@ -695,6 +713,13 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None):
 <p class="sub">{outcomes_sub}</p>
 <table><tr><th>Question</th><th>Result</th></tr>
 {proj_rows}
+</table>
+
+<h2>Live counts (so far - forecast)</h2>
+<p class="sub">Total so far, average per game, and the forecast if that pace holds over all 104 games.
+(Shootouts only happen in knockouts, so their forecast is a rough floor - see the guide.)</p>
+<table><tr><th>Metric</th><th>Total so far</th><th>Avg/game</th><th>Forecast (104 games)</th></tr>
+{lc_rows}
 </table>
 
 <p><a href="shares.html">🔢 point shares per question</a> · <a href="guide.html">📊 guide &amp; stats</a></p>
