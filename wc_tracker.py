@@ -253,15 +253,15 @@ QUESTION_GUIDE = [
     ("2. Own goals in the tournament",
      "Wildly swingy and impossible to call precisely. Based on recent tournaments, over 104 games the total "
      "might land somewhere between ~<b>3</b> and ~<b>22</b>. <i>(Excludes shootouts.)</i>"
-     "</p><p><i>See the “Per game → what it means for 2026 (104 games)” table below (own-goals row).</i>"),
+     "</p><p><i>See the “Recent tournaments at a glance” and “Per game → what it means for 2026 (104 games)” tables below (own-goals row).</i>"),
     ("3. Red cards in the tournament",
      "VAR keeps modern World Cups low. Based on recent tournaments, over 104 games it might land somewhere "
      "between ~<b>2</b> and ~<b>16</b> (the recent norm is nearer ~6–7)."
-     "</p><p><i>See the “Per game → what it means for 2026 (104 games)” table below (red-cards row).</i>"),
+     "</p><p><i>See the “Recent tournaments at a glance” and “Per game → what it means for 2026 (104 games)” tables below (red-cards row).</i>"),
     ("4. Penalty shootouts",
      "Based on recent tournaments, over 104 games this might land around ~<b>6–8</b> — but that's a floor: "
      "the new Round of 32 doubles the knockout games, so realistically nearer ~<b>8–10</b>."
-     "</p><p><i>See the “Per game → what it means for 2026 (104 games)” table below (penalty-shootouts row + floor note).</i>"),
+     "</p><p><i>See the “Recent tournaments at a glance” and “Per game → what it means for 2026 (104 games)” tables below (penalty-shootouts row + floor note).</i>"),
     ("5. Goals in the final",
      "A coin-flip — and <b>shootout kicks count here</b>. If the final is settled in play it's typically "
      "<b>1–6</b> goals; if it goes to penalties, add the shootout kicks scored (often ~6–10 more) on top."
@@ -299,7 +299,7 @@ QUESTION_GUIDE = [
      "(symmetric around 285): <b>&lt;220 · 220–240 · 240–260 · 260–270 · 270–280 · 280–290 · 290–300 · "
      "300–310 · 310–330 · 330–350 · 350+</b>. The all-time record of 172 (a 64-game number) is a terrible "
      "anchor. <i>(Excludes shootout kicks.)</i>"
-     "</p><p><i>See the “Per game → what it means for 2026 (104 games)” table below (total-goals row).</i>"),
+     "</p><p><i>See the “Recent tournaments at a glance” and “Per game → what it means for 2026 (104 games)” tables below (total-goals row).</i>"),
     ("12. Most we make on a single group-stage match (net P&amp;L, £)",
      "💷 <b>Insider question.</b> Our trading book's <b>best single-match net P&amp;L</b> across the group "
      "stage. Pick a band — <b>&lt;£25k · £25–50k · £50–75k · £75–100k · £100–150k · £150–200k · £200k+</b>. "
