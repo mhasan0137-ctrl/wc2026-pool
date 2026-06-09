@@ -41,6 +41,10 @@ WC_SEASON = 2026
 
 OUT = Path(__file__).parent / "out"
 
+# Entries become public only once the tournament starts, so nobody can copy.
+# First kickoff: 11 June 2026, 18:00 BST = 17:00 UTC.
+KICKOFF = datetime(2026, 6, 11, 17, 0, tzinfo=timezone.utc)
+
 
 # --------------------------------------------------------------------------
 # fetch helpers
@@ -640,11 +644,12 @@ def make_demo_predictions():
     return rows
 
 
-def write_html(agg, players, standings=None, is_demo=False, outcomes=None):
+def write_html(agg, players, standings=None, is_demo=False, outcomes=None, show_entries=False):
     """Render a single self-contained index.html for GitHub Pages."""
     outcomes = outcomes or {}
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     standings = standings or []
+    entries_nav = ' · <a href="entries.html">📝 everyone\'s entries</a>' if show_entries else ''
 
     lb_rows = "\n".join(
         f'<tr><td>{i}</td><td>{n}</td><td>{p:g}</td></tr>'
@@ -726,11 +731,44 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None):
 {lc_rows}
 </table>
 
-<p><a href="shares.html">🔢 point shares per question</a> · <a href="guide.html">📊 guide &amp; stats</a></p>
+<p><a href="shares.html">🔢 point shares per question</a>{entries_nav} · <a href="guide.html">📊 guide &amp; stats</a></p>
 <p class="sub">Every number on this page comes from the {len(QLABELS)} pool questions only.
 <a href="fixtures.csv">fixtures.csv</a> · <a href="standings.csv">standings.csv</a></p>
 </body></html>"""
     (OUT / "index.html").write_text(html)
+
+
+def write_entries(preds, show):
+    """Public 'who picked what' page. Until kickoff it shows a locked placeholder so
+    nobody can copy; afterwards it renders every entry as submitted (name x question)."""
+    if show and preds:
+        cols = list(QLABELS.keys())
+        head = "<tr><th>Name</th>" + "".join(f"<th>{QLABELS[c]}</th>" for c in cols) + "</tr>"
+        body_rows = "".join(
+            "<tr><td>" + (p.get("name") or "?") + "</td>"
+            + "".join(f"<td>{p.get(c) or '-'}</td>" for c in cols) + "</tr>"
+            for p in sorted(preds, key=lambda r: (r.get("name") or "").lower()))
+        inner = ('<p class="sub">Every entry, as submitted - find your row.</p>'
+                 f'<div class="scroll"><table>{head}{body_rows}</table></div>')
+    else:
+        inner = ('<p class="sub">Locked. Everyone\'s answers appear here once entries close '
+                 'at the first kickoff (11 June, 18:00 BST) - hidden until then so nobody can copy.</p>')
+    html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WC 2026 Pool - Entries</title>
+<style>
+ body{{font:15px/1.5 system-ui,sans-serif;max-width:1100px;margin:2rem auto;padding:0 1rem;color:#1a1a1a}}
+ h1{{margin-bottom:.2rem}} .sub{{color:#666;margin-top:.1rem}}
+ .scroll{{overflow-x:auto}}
+ table{{border-collapse:collapse;margin:.6rem 0;font-size:.9rem}}
+ th,td{{text-align:left;padding:.35rem .55rem;border-bottom:1px solid #e3e6ea;white-space:nowrap}}
+ th{{background:#fafbfc}} a{{color:#2563eb}}
+</style></head><body>
+<h1>📝 Everyone's entries</h1>
+<p class="sub"><a href="index.html">← leaderboard</a></p>
+{inner}
+</body></html>"""
+    (OUT / "entries.html").write_text(html)
 
 
 def write_shares(standings, outcomes):
@@ -871,6 +909,7 @@ def main():
     # Leaderboard. Real predictions -> LIVE results (per-question rules) + manual live_feed.csv
     # + results.csv overrides. No predictions yet -> seeded demo scored vs projected outcomes.
     standings, is_demo, outcomes = [], False, {}
+    show_entries = False
     try:
         import settle
         root = Path(__file__).parent
@@ -890,6 +929,8 @@ def main():
                 preds = [r for r in csv.DictReader(f) if not r["name"].startswith("EXAMPLE_ROW")]
         else:
             preds, is_demo = make_demo_predictions(), True
+        show_entries = (not is_demo) and (datetime.now(timezone.utc) >= KICKOFF)
+        write_entries(preds, show_entries)
         standings = settle.compute_standings(preds, outcomes)
         write_csv(OUT / "standings.csv",
                   [(i, n, p) for i, (n, p, _) in enumerate(standings, 1)], ["rank", "name", "points"])
@@ -898,9 +939,10 @@ def main():
     except Exception as e:
         print(f"(standings skipped: {e})")
 
-    write_html(agg, players, standings, is_demo, outcomes)
+    write_html(agg, players, standings, is_demo, outcomes, show_entries)
     write_guide()
-    print(f"\nWrote CSVs + index.html + guide.html + shares.html to {OUT}/")
+    entries_note = "entries.html (live)" if show_entries else "entries.html (locked until kickoff)"
+    print(f"\nWrote CSVs + index.html + guide.html + shares.html + {entries_note} to {OUT}/")
 
 
 if __name__ == "__main__":
