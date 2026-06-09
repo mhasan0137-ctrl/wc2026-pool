@@ -27,11 +27,11 @@ function buildPool() {
   form.addTextItem().setTitle('Q9. A scoreline that happens exactly once, e.g. 3-2 (reversed scores are the same)').setRequired(true);
 
   form.addMultipleChoiceItem().setTitle('Q10. Fastest goal - 10-second band')
-      .setChoiceValues(['1-10s','11-20s','21-30s','31-40s','41-50s','51-60s','61-70s','71-80s','81-90s','90s+']).setRequired(true);
+      .setChoiceValues(['0-10s','11-20s','21-30s','31-40s','41-50s','51-60s','61-70s','71-80s','81-90s','91s+']).setRequired(true);
 
   form.addMultipleChoiceItem().setTitle('Q11. Total goals - band')
-      .setChoiceValues(['<220','220-240','240-260','260-270','270-280','280-290',
-                        '290-300','300-310','310-330','330-350','350+']).setRequired(true);
+      .setChoiceValues(['<220','220-240','241-260','261-270','271-280','281-290',
+                        '291-300','301-310','311-330','331-350','>350']).setRequired(true);
 
   form.addMultipleChoiceItem().setTitle('Q12. Most we MAKE on a single group game (net P&L)')
       .setChoiceValues(['<£25k','£25-50k','£50-75k','£75-100k','£100-150k','£150-200k','£200k+']).setRequired(true);

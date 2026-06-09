@@ -185,11 +185,11 @@ def write_csv(path, rows, header):
 # Per-tournament totals. GOALS AND FINAL-GOALS EXCLUDE PENALTY-SHOOTOUT KICKS.
 # cols: label, matches, goals, own goals, red cards, penalty shootouts, final (goals in play)
 TOURNAMENT_STATS = [
-    ("WC 2014 (Brazil)", 64, 171, 5, 10, 4, "Germany 1-0 Argentina (a.e.t.) - 1"),
-    ("WC 2018 (Russia)", 64, 169, 12, 4, 4, "France 4-2 Croatia - 6"),
-    ("WC 2022 (Qatar)", 64, 172, 2, 4, 5, "Argentina 3-3 France, 4-2 pens - 12"),
-    ("Euro 2020", 51, 142, 11, 1, 4, "Italy 1-1 England, 3-2 pens - 7"),
-    ("Euro 2024", 51, 117, 10, 6, 3, "Spain 2-1 England - 3"),
+    ("WC 2014 (Brazil)", 64, 171, 5, 10, 4, "Germany 1-0 Argentina (a.e.t.) - <b>1</b>"),
+    ("WC 2018 (Russia)", 64, 169, 12, 4, 4, "France 4-2 Croatia - <b>6</b>"),
+    ("WC 2022 (Qatar)", 64, 172, 2, 4, 5, "Argentina 3-3 France, 4-2 pens - <b>12</b>"),
+    ("Euro 2020", 51, 142, 11, 1, 4, "Italy 1-1 England, 3-2 pens - <b>7</b>"),
+    ("Euro 2024", 51, 117, 10, 6, 3, "Spain 2-1 England - <b>3</b>"),
     ("WC 2026 ← you're predicting", 104, "?", "?", "?", "?", "? (the final)"),
 ]
 
@@ -250,7 +250,8 @@ FASTEST_GOALS = [
 QUESTION_GUIDE = [
     ("1. Number of letters in the longest goalscorer's name",
      "First name + surname; particles (De, van, Mac) count, plain middle names don't, "
-     "hyphen double-barrels count - Trent Alexander-Arnold = 20. Only goalscorers count."
+     "hyphen double-barrels count - Trent Alexander-Arnold = 20. Only goalscorers count. "
+     "Recent tournaments' longest-named scorers have run ~<b>20-22</b> letters (Castelletto 22), so ~<b>20</b> is a fair anchor."
      "</p><p><i>See the “Q1 - longest names in the 2026 squads” section below (plus the longest-named "
      "goalscorers from recent tournaments).</i>"),
     ("2. Own goals in the tournament (50 pts)",
@@ -275,8 +276,9 @@ QUESTION_GUIDE = [
      "No African, Asian, CONCACAF or Oceanian team ever has - so 'Other' pays a fortune if it lands."
      "</p><p><i>See the “Q6 - the 48 teams by confederation” section below (teams + continent win chances).</i>"),
     ("7. Group with fewest total goals",
-     "12 groups of 4 (six games each). Defensive / 'group of death' style groups bottom out low; "
-     "watch for a group stacked with cagey, low-scoring teams."),
+     "12 groups of 4 (six games each). Look for an <b>evenly balanced</b> group with no obvious whipping boys - "
+     "tight, cagey games keep the total down (Groups A, B or D look like candidates). A tough one to call, "
+     "so it's as much a punt as a read."),
     ("8. Youngest goalscorer (age) - 25 pts",
      "Give it as years + days. Based on recent tournaments the youngest scorer is usually around <b>18-19</b> "
      "(as low as ~16 at Euro '24). <b>Hint:</b> Lamine Yamal (Spain) will be <b>18</b> (turning 19 mid-tournament) "
@@ -296,13 +298,13 @@ QUESTION_GUIDE = [
      "<b>25</b> each. (One winning scoreline + one picker → the full 100.) Shootouts don't change a "
      "scoreline.</i></p><p><i>See the “Q9 - scorelines that landed exactly once, recent tournaments” section below.</i>"),
     ("10. Fastest goal of the tournament (band)",
-     "Pick a 10-second band for the tournament's fastest goal: <b>1-10s · 11-20s · 21-30s · 31-40s · 41-50s · "
-     "51-60s · 61-70s · 71-80s · 81-90s · 90s+ (1:30+)</b>. The all-time WC record is Şükür's 10.8s (2002)."
+     "Pick a 10-second band for the tournament's fastest goal: <b>0-10s · 11-20s · 21-30s · 31-40s · 41-50s · "
+     "51-60s · 61-70s · 71-80s · 81-90s · 91s+</b>. The all-time WC record is Şükür's 10.8s (2002)."
      "</p><p><i>See the “Q10 - fastest goal in the last 5 tournaments” section below (and the band each falls in).</i>"),
     ("11. Total goals in the whole tournament (band)",
      "Goals/game has trended up and there are far more games now - <b>≈285</b> is the central call. Pick a band "
-     "(symmetric around 285): <b>&lt;220 · 220-240 · 240-260 · 260-270 · 270-280 · 280-290 · 290-300 · "
-     "300-310 · 310-330 · 330-350 · 350+</b>. The all-time record of 172 (a 64-game number) is a terrible "
+     "(symmetric around 285): <b>&lt;220 · 220-240 · 241-260 · 261-270 · 271-280 · 281-290 · 291-300 · "
+     "301-310 · 311-330 · 331-350 · &gt;350</b>. The all-time record of 172 (a 64-game number) is a terrible "
      "anchor. <i>(Excludes shootout kicks.)</i>"
      "</p><p><i>See the “Recent tournaments at a glance” and “Per game → what it means for 2026 (104 games)” tables below (total-goals row).</i>"),
     ("12. Most we make on a single group-stage match (net P&amp;L, £)",
@@ -490,10 +492,10 @@ def write_guide():
 past World Cup (and 51 at a Euro). Every tournament total scales up by roughly <b>1.6x</b> vs an old
 World Cup.</div>
 
-<div class="note">📌 <b>All goal counts on this page exclude penalty-shootout kicks.</b> A shootout decides
-who advances, but those penalties are <b>not</b> goals - so "goals in the final" and "total goals" only
-count goals in play (including extra time). <b>The one exception is Q5</b> (goals in the final), which
-explicitly counts shootout kicks if the final goes to penalties.</div>
+<div class="note">📌 <b>Goal counts exclude penalty-shootout kicks - with one exception, Q5.</b> A shootout
+decides who advances, but those kicks aren't goals, so <b>total goals (Q11)</b> counts only goals in play
+(including extra time). <b>Q5 (goals in the final) is the exception</b> - it <b>does</b> add the shootout
+kicks when the final goes to penalties.</div>
 
 <p class="legend">Markers: <span class="mark">★</span> = stats in the reference tables below ·
 <span class="mark">★★</span> = its own detailed section below. Each question is worth <b>100 points</b>
@@ -554,13 +556,13 @@ more once-only scorelines - and some very rare ones may now repeat.</p>
 
 
 QLABELS = {
-    "q1_longest_name_letters": "Longest goalscorer's name (letters)", "q2_own_goals": "Own goals",
-    "q3_red_cards": "Red cards", "q4_pen_shootouts": "Penalty shootouts",
-    "q5_final_goals": "Goals in the final", "q6_continent": "Winning continent",
-    "q7_group_fewest_goals": "Group with fewest goals", "q8_youngest_age": "Youngest scorer age",
-    "q9_scoreline_once": "Scoreline that happens once", "q10_fastest_goal_band": "Fastest goal",
-    "q11_total_goals_band": "Total goals", "q12_best_match_pnl_band": "Best match net P&L",
-    "q13_most_traded_band": "Most traded (turnover)",
+    "q1_longest_name_letters": "Q1. Longest goalscorer's name (letters)", "q2_own_goals": "Q2. Own goals",
+    "q3_red_cards": "Q3. Red cards", "q4_pen_shootouts": "Q4. Penalty shootouts",
+    "q5_final_goals": "Q5. Goals in the final", "q6_continent": "Q6. Winning continent",
+    "q7_group_fewest_goals": "Q7. Group with fewest goals", "q8_youngest_age": "Q8. Youngest scorer age",
+    "q9_scoreline_once": "Q9. Scoreline that happens once", "q10_fastest_goal_band": "Q10. Fastest goal",
+    "q11_total_goals_band": "Q11. Total goals", "q12_best_match_pnl_band": "Q12. Highest PnL Match (Net PnL)",
+    "q13_most_traded_band": "Q13. Most traded (turnover)",
 }
 DEMO_NAMES = ["Player A", "Player B", "Player C", "Player D", "Player E", "Player F",
               "Player G", "Player H", "Player I", "Player J", "Player K", "Player L"]
@@ -575,19 +577,21 @@ DEMO_OPTIONS = {
     "q8_youngest_age": ["17y 300d", "18y 50d", "18y 150d", "18y 250d", "19y 10d"],
     "q9_scoreline_once": ["3-2", "4-1", "5-3", "4-2", "3-3", "2-0", "5-2"],
     "q10_fastest_goal_band": ["11-20s", "21-30s", "31-40s", "41-50s", "51-60s", "61-70s"],
-    "q11_total_goals_band": ["260-270", "270-280", "280-290", "290-300", "300-310"],
+    "q11_total_goals_band": ["261-270", "271-280", "281-290", "291-300", "301-310"],
     "q12_best_match_pnl_band": ["<25k", "25-50k", "50-75k", "75-100k", "100-150k"],
     "q13_most_traded_band": ["<1m", "1-2m", "2-3m", "3-4m", "4-6m", "6-8m", "8-10m"],
 }
 
 
 def _total_goals_band(n):
-    for hi, label in [(220, "<220"), (240, "220-240"), (260, "240-260"), (270, "260-270"),
-                      (280, "270-280"), (290, "280-290"), (300, "290-300"), (310, "300-310"),
-                      (330, "310-330"), (350, "330-350")]:
-        if n < hi:
+    if n < 220:
+        return "<220"
+    for hi, label in [(240, "220-240"), (260, "241-260"), (270, "261-270"), (280, "271-280"),
+                      (290, "281-290"), (300, "291-300"), (310, "301-310"), (330, "311-330"),
+                      (350, "331-350")]:
+        if n <= hi:
             return label
-    return "350+"
+    return ">350"
 
 
 def build_live_results(agg, live_feed):
@@ -678,7 +682,7 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None):
                         for a, b, c, d in live_counts)
     outcomes_heading = "Results so far (live - drives the leaderboard)"
     outcomes_sub = ("Everything the leaderboard scores on. Counts are live; '-' = not determinable yet "
-                    "(needs the final, a scorer, or a manual feed). Group goals shows every group, fewest first.")
+                    "(needs the final, a scorer, or a manual input). Group goals shows every group, fewest first.")
 
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
