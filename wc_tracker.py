@@ -31,7 +31,7 @@ import random
 import sys
 import urllib.request
 from collections import Counter, defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 OPENFOOTBALL_URL = "https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json"
@@ -41,9 +41,11 @@ WC_SEASON = 2026
 
 OUT = Path(__file__).parent / "out"
 
-# Entries become public only once the tournament starts, so nobody can copy.
-# First kickoff: 11 June 2026, 18:00 BST = 17:00 UTC.
+# Entries stay hidden until 48 hours after the tournament starts, so nobody can
+# copy and the early predictions can't be reverse-engineered from the first results.
+# First kickoff: 11 June 2026, 18:00 BST = 17:00 UTC. Reveal: 48h later.
 KICKOFF = datetime(2026, 6, 11, 17, 0, tzinfo=timezone.utc)
+REVEAL = KICKOFF + timedelta(hours=48)   # 13 June 2026, 17:00 UTC
 
 
 # --------------------------------------------------------------------------
@@ -751,8 +753,9 @@ def write_entries(preds, show):
         inner = ('<p class="sub">Every entry, as submitted - find your row.</p>'
                  f'<div class="scroll"><table>{head}{body_rows}</table></div>')
     else:
-        inner = ('<p class="sub">Locked. Everyone\'s answers appear here once entries close '
-                 'at the first kickoff (11 June, 18:00 BST) - hidden until then so nobody can copy.</p>')
+        inner = ('<p class="sub">Locked. Everyone\'s answers appear here <b>48 hours after the '
+                 'tournament kicks off</b> (from 13 June, 18:00 BST) - hidden until then so nobody '
+                 'can copy.</p>')
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>WC 2026 Pool - Entries</title>
@@ -929,7 +932,7 @@ def main():
                 preds = [r for r in csv.DictReader(f) if not r["name"].startswith("EXAMPLE_ROW")]
         else:
             preds, is_demo = make_demo_predictions(), True
-        show_entries = (not is_demo) and (datetime.now(timezone.utc) >= KICKOFF)
+        show_entries = (not is_demo) and (datetime.now(timezone.utc) >= REVEAL)
         write_entries(preds, show_entries)
         standings = settle.compute_standings(preds, outcomes)
         write_csv(OUT / "standings.csv",
@@ -941,7 +944,7 @@ def main():
 
     write_html(agg, players, standings, is_demo, outcomes, show_entries)
     write_guide()
-    entries_note = "entries.html (live)" if show_entries else "entries.html (locked until kickoff)"
+    entries_note = "entries.html (live)" if show_entries else "entries.html (locked until kickoff + 48h)"
     print(f"\nWrote CSVs + index.html + guide.html + shares.html + {entries_note} to {OUT}/")
 
 
