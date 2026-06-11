@@ -927,8 +927,14 @@ def main():
         # Current live snapshot drives BOTH the outcomes table and the leaderboard.
         outcomes = build_live_results(agg, _one_row("live_feed.csv"))
         outcomes.update({k: v for k, v in _one_row("results.csv").items() if v not in ("", None)})
-        if (root / "predictions.csv").exists():
-            with open(root / "predictions.csv") as f:
+        # Real entries live in a hidden, read-only file (.predictions.csv); fall
+        # back to the plain name, else demo. The on-site entries page stays gated
+        # until REVEAL regardless of this file being present.
+        pred_path = root / ".predictions.csv"
+        if not pred_path.exists():
+            pred_path = root / "predictions.csv"
+        if pred_path.exists():
+            with open(pred_path) as f:
                 preds = [r for r in csv.DictReader(f) if not r["name"].startswith("EXAMPLE_ROW")]
         else:
             preds, is_demo = make_demo_predictions(), True
