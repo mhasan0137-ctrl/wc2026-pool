@@ -43,6 +43,21 @@ function buildPool() {
   Logger.log('EDIT it here:   ' + form.getEditUrl());
 }
 
+/**
+ * LOCK the pool: stop the live form taking any more entries (run once the WC kicks off).
+ * 1. Paste your form's EDIT url (from buildPool's log) into FORM_URL below.
+ * 2. Pick "closePool" in the function dropdown -> Run.
+ */
+function closePool() {
+  var FORM_URL = 'PASTE_YOUR_FORM_EDIT_URL_HERE';
+  var form = FormApp.openByUrl(FORM_URL);
+  form.setAcceptingResponses(false);
+  form.setCustomClosedMessage(
+      'Entries are closed - the World Cup has kicked off. Good luck! ' +
+      'Leaderboard: https://mhasan0137-ctrl.github.io/wc2026-pool/');
+  Logger.log('Form is now CLOSED to new responses.');
+}
+
 /*
 HOW TO RUN
 1. Go to script.google.com -> New project.
