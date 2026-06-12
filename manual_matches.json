@@ -1,24 +1,80 @@
 [
   {
-    "team1": "Mexico", "team2": "South Africa",
-    "group": "Group A", "round": "Matchday 1", "date": "2026-06-11",
-    "score": {"ft": [2, 0]},
+    "team1": "Mexico",
+    "team2": "South Africa",
+    "group": "Group A",
+    "round": "Matchday 1",
+    "date": "2026-06-11",
+    "score": {
+      "ft": [
+        2,
+        0
+      ]
+    },
     "goals1": [
-      {"name": "Julián Quiñones", "minute": 9},
-      {"name": "Raúl Jiménez", "minute": 67}
+      {
+        "name": "Julián Quiñones",
+        "minute": 9
+      },
+      {
+        "name": "Raúl Jiménez",
+        "minute": 67
+      }
     ],
     "goals2": []
   },
   {
-    "team1": "South Korea", "team2": "Czech Republic",
-    "group": "Group A", "round": "Matchday 1", "date": "2026-06-11",
-    "score": {"ft": [2, 1]},
+    "team1": "South Korea",
+    "team2": "Czech Republic",
+    "group": "Group A",
+    "round": "Matchday 1",
+    "date": "2026-06-11",
+    "score": {
+      "ft": [
+        2,
+        1
+      ]
+    },
     "goals1": [
-      {"name": "Hwang In-beom", "minute": 67},
-      {"name": "Oh Hyeon-gyu", "minute": 80}
+      {
+        "name": "Hwang In-beom",
+        "minute": 67
+      },
+      {
+        "name": "Oh Hyeon-gyu",
+        "minute": 80
+      }
     ],
     "goals2": [
-      {"name": "Ladislav Krejčí", "minute": 59}
+      {
+        "name": "Ladislav Krejčí",
+        "minute": 59
+      }
+    ]
+  },
+  {
+    "team1": "Canada",
+    "team2": "Bosnia & Herzegovina",
+    "group": "Group B",
+    "round": "Matchday 1",
+    "date": "2026-06-12",
+    "score": {
+      "ft": [
+        1,
+        1
+      ]
+    },
+    "goals1": [
+      {
+        "name": "Cyle Larin",
+        "minute": 78
+      }
+    ],
+    "goals2": [
+      {
+        "name": "Jovo Lukić",
+        "minute": 21
+      }
     ]
   }
 ]
