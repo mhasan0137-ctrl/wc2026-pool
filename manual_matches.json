@@ -8,5 +8,17 @@
       {"name": "Raúl Jiménez", "minute": 67}
     ],
     "goals2": []
+  },
+  {
+    "team1": "South Korea", "team2": "Czech Republic",
+    "group": "Group A", "round": "Matchday 1", "date": "2026-06-11",
+    "score": {"ft": [2, 1]},
+    "goals1": [
+      {"name": "Hwang In-beom", "minute": 67},
+      {"name": "Oh Hyeon-gyu", "minute": 80}
+    ],
+    "goals2": [
+      {"name": "Ladislav Krejčí", "minute": 59}
+    ]
   }
 ]
