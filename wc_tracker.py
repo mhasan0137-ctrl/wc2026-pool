@@ -570,6 +570,8 @@ QLABELS = {
     "q11_total_goals_band": "Q11. Total goals", "q12_best_match_pnl_band": "Q12. Highest PnL Match (Net PnL)",
     "q13_most_traded_band": "Q13. Most traded (turnover)",
 }
+# Whole-tournament totals: their live value is a FORECAST (pace x 104), not a result.
+FORECAST_QS = {"q2_own_goals", "q3_red_cards", "q11_total_goals_band"}
 DEMO_NAMES = ["Player A", "Player B", "Player C", "Player D", "Player E", "Player F",
               "Player G", "Player H", "Player I", "Player J", "Player K", "Player L"]
 DEMO_OPTIONS = {
@@ -668,10 +670,15 @@ def build_live_results(agg, live_feed):
     from longest_names_wiki import name_letters
     lf = {k: v for k, v in (live_feed or {}).items() if v not in ("", None)}
     gp = agg["matches_played"]
+
+    def fc(n):                       # forecast over all 104 games if the current pace holds
+        return round(n / gp * 104) if gp else n
+
+    rc_so_far = int(lf.get("q3_red_cards", 0) or 0)
     res = {
-        "q2_own_goals": agg["own_goals"],
-        "q3_red_cards": lf.get("q3_red_cards", 0),
-        "q4_pen_shootouts": len(agg["penalty_shootouts"]),
+        "q2_own_goals": fc(agg["own_goals"]),       # whole-tournament totals -> forecast
+        "q3_red_cards": fc(rc_so_far),
+        "q4_pen_shootouts": len(agg["penalty_shootouts"]),  # knockout-only: raw count (forecast n/a)
         "q12_best_match_pnl_band": lf.get("q12_best_match_pnl_band", "£0k"),
         "q13_most_traded_band": lf.get("q13_most_traded_band", "£0m"),
     }
@@ -681,8 +688,8 @@ def build_live_results(agg, live_feed):
         once = ";".join(k for k, v in agg["scoreline_counts"].items() if v == 1)
         if once:
             res["q9_scoreline_once"] = once
-    if gp:                                   # 11 total goals so far -> band
-        res["q11_total_goals_band"] = _total_goals_band(agg["total_goals"])
+    if gp:                                   # 11 total goals -> FORECAST band (if pace holds)
+        res["q11_total_goals_band"] = _total_goals_band(fc(agg["total_goals"]))
     if gp and agg["all_groups"]:             # 7 group with fewest goals so far (show the standing/ties)
         gg = {g: agg["group_goals"].get(g, 0) for g in agg["all_groups"]}
         lo = min(gg.values())
@@ -732,7 +739,9 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None, show_
         v = outcomes.get(k)
         return v if v not in (None, "") else "-"
 
-    proj_rows = "\n".join(f"<tr><td>{QLABELS[k]}</td><td>{outcome_cell(k)}</td></tr>" for k in QLABELS)
+    proj_rows = "\n".join(
+        f"<tr><td>{QLABELS[k]}{' <span class=\"fc\">(forecast)</span>' if k in FORECAST_QS else ''}</td>"
+        f"<td>{outcome_cell(k)}</td></tr>" for k in QLABELS)
 
     # Live counts: total so far, avg/game, forecast over 104 games (if the pace holds).
     gp = agg["matches_played"]
@@ -752,8 +761,10 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None, show_
     lc_rows = "\n".join(f"<tr><td>{a}</td><td>{b}</td><td>{c}</td><td>{d}</td></tr>"
                         for a, b, c, d in live_counts)
     outcomes_heading = "Results so far (live - drives the leaderboard)"
-    outcomes_sub = ("Everything the leaderboard scores on. Counts are live; '-' = not determinable yet "
-                    "(needs the final, a scorer, or a manual input). Group goals shows every group, fewest first.")
+    outcomes_sub = ("Everything the leaderboard scores on. '-' = not determinable yet (needs the final, a "
+                    "scorer, or a manual input). Rows marked <b>(forecast)</b> are whole-tournament totals "
+                    "projected from the current pace (x104) - they'll swing early and settle as games play. "
+                    "Group goals shows every group, fewest first.")
 
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -850,13 +861,14 @@ def write_shares(standings, outcomes, preds=None):
         pot = settle.POINTS.get(col, settle.DEFAULT_POT)
         result = outcomes.get(col)
         result = result if result not in (None, "") else "not settled yet"
+        label = "Predicted result (forecast if the pace holds)" if col in FORECAST_QS else "Result so far"
         shares = sorted(((n, d[col]) for (n, _t, d) in standings if col in d), key=lambda x: -x[1])
         body = "".join(
             f"<tr><td>{n}</td><td>{(pred_by_name.get(n, {}).get(col) or '-')}</td><td>{s:g}</td></tr>"
             for n, s in shares) \
             or '<tr><td colspan="3">nobody scoring this yet</td></tr>'
         secs.append(f'<h2>{QLABELS.get(col, col)} <span class="pot">{pot} pts</span></h2>'
-                    f'<p class="sub">Result so far: <b>{result}</b></p>'
+                    f'<p class="sub">{label}: <b>{result}</b></p>'
                     f'<table><tr><th>Player</th><th>Predicted</th><th>Points</th></tr>{body}</table>')
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
