@@ -600,6 +600,61 @@ def _total_goals_band(n):
     return ">350"
 
 
+def parse_amount(s):
+    """'120k' -> 120000, '8.5m' -> 8500000, '£1,200,000' -> 1200000, '' -> None."""
+    s = (s or "").strip().lower().replace("£", "").replace(",", "").replace(" ", "")
+    if not s:
+        return None
+    mult = 1
+    if s.endswith("k"):
+        mult, s = 1_000, s[:-1]
+    elif s.endswith("m"):
+        mult, s = 1_000_000, s[:-1]
+    try:
+        return float(s) * mult
+    except ValueError:
+        return None
+
+
+def _pnl_band(x):       # Q12 net P&L on a single game -> form band (exact strings)
+    for hi, lab in [(25_000, "<£25k"), (50_000, "£25-50k"), (75_000, "£50-75k"),
+                    (100_000, "£75-100k"), (150_000, "£100-150k"), (200_000, "£150-200k")]:
+        if x < hi:
+            return lab
+    return "£200k+"
+
+
+def _turnover_band(x):  # Q13 turnover on a single game -> form band (exact strings)
+    for hi, lab in [(1_000_000, "<£1m"), (2_000_000, "£1-2m"), (3_000_000, "£2-3m"),
+                    (4_000_000, "£3-4m"), (6_000_000, "£4-6m"), (8_000_000, "£6-8m"),
+                    (10_000_000, "£8-10m"), (15_000_000, "£10-15m")]:
+        if x < hi:
+            return lab
+    return "£15m+"
+
+
+def read_pnl_bands(root):
+    """Read pnl.csv (one row per game: date,match,net_pnl,turnover) and band the
+    BEST net P&L (Q12) and the MOST traded (Q13). Blank/unparseable rows are skipped."""
+    p = root / "pnl.csv"
+    if not p.exists():
+        return {}
+    pnls, turns = [], []
+    with open(p, encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            a, b = parse_amount(r.get("net_pnl")), parse_amount(r.get("turnover"))
+            if a is not None:
+                pnls.append(a)
+            if b is not None:
+                turns.append(b)
+    out = {}
+    if pnls:
+        out["q12_best_match_pnl_band"] = _pnl_band(max(pnls))
+    if turns:
+        out["q13_most_traded_band"] = _turnover_band(max(turns))
+    return out
+
+
 def build_live_results(agg, live_feed):
     """
     Current LIVE snapshot for the leaderboard + outcomes table. Reflects what's known
@@ -925,7 +980,10 @@ def main():
             return {}
 
         # Current live snapshot drives BOTH the outcomes table and the leaderboard.
-        outcomes = build_live_results(agg, _one_row("live_feed.csv"))
+        # Q12/Q13 are derived from per-game pnl.csv (best P&L / most traded) when present.
+        lf = _one_row("live_feed.csv")
+        lf.update(read_pnl_bands(root))
+        outcomes = build_live_results(agg, lf)
         outcomes.update({k: v for k, v in _one_row("results.csv").items() if v not in ("", None)})
         # Real entries live in a hidden, read-only file (.predictions.csv); fall
         # back to the plain name, else demo. The on-site entries page stays gated
