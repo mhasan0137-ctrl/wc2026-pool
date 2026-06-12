@@ -652,9 +652,20 @@ def read_pnl_bands(root):
     out = {}
     if pnls:
         out["q12_best_match_pnl_band"] = _pnl_band(max(pnls))
+        out["q12_amount"] = _fmt_amount(max(pnls))
     if turns:
         out["q13_most_traded_band"] = _turnover_band(max(turns))
+        out["q13_amount"] = _fmt_amount(max(turns))
     return out
+
+
+def _fmt_amount(x):
+    """Rounded money label: 5916344 -> '£5.9m', 63403 -> '£63.4k'."""
+    if abs(x) >= 1_000_000:
+        return f"£{x / 1_000_000:.1f}m"
+    if abs(x) >= 1_000:
+        return f"£{x / 1_000:.1f}k"
+    return f"£{x:.0f}"
 
 
 def build_live_results(agg, live_feed):
@@ -681,6 +692,8 @@ def build_live_results(agg, live_feed):
         "q4_pen_shootouts": len(agg["penalty_shootouts"]),  # knockout-only: raw count (forecast n/a)
         "q12_best_match_pnl_band": lf.get("q12_best_match_pnl_band", "£0k"),
         "q13_most_traded_band": lf.get("q13_most_traded_band", "£0m"),
+        "q12_amount": lf.get("q12_amount"),         # rounded actual best PnL (display only)
+        "q13_amount": lf.get("q13_amount"),         # rounded actual most-traded (display only)
         "_q3_red_cards_raw": rc_so_far,             # raw count so the live-counts table forecasts once
     }
     if agg["scorers"]:                       # 1 longest-named scorer so far
@@ -744,7 +757,11 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None, show_
             items = sorted(((g, gg.get(g, 0)) for g in agg["all_groups"]), key=lambda x: x[1])
             return " · ".join(f"{g.replace('Group ', '')}:{v}" for g, v in items) or "-"
         v = outcomes.get(k)
-        return v if v not in (None, "") else "-"
+        if v in (None, ""):
+            return "-"
+        amt = outcomes.get({"q12_best_match_pnl_band": "q12_amount",
+                            "q13_most_traded_band": "q13_amount"}.get(k))
+        return f"{v} ({amt})" if amt else v
 
     proj_rows = "\n".join(
         f"<tr><td>{QLABELS[k]}{' <span class=\"fc\">(forecast)</span>' if k in FORECAST_QS else ''}</td>"
@@ -872,6 +889,10 @@ def write_shares(standings, outcomes, preds=None):
         if col == "q7_group_fewest_goals" and result and ";" in str(result):   # tie -> readable
             gs = [x.replace("Group ", "") for x in str(result).split(";")]
             result = f"{len(gs)}-way tie for fewest: {', '.join(gs)}"
+        amt = outcomes.get({"q12_best_match_pnl_band": "q12_amount",
+                            "q13_most_traded_band": "q13_amount"}.get(col))
+        if amt and result != "not settled yet":          # show the rounded actual next to the band
+            result = f"{result} ({amt})"
         label = "Predicted result (forecast if the pace holds)" if col in FORECAST_QS else "Result so far"
         extra = f' <span class="note">({notes[col]})</span>' if col in notes else ""
         shares = sorted(((n, d[col]) for (n, _t, d) in standings if col in d), key=lambda x: -x[1])
