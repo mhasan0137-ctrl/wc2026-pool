@@ -1,0 +1,12 @@
+[
+  {
+    "team1": "Mexico", "team2": "South Africa",
+    "group": "Group A", "round": "Matchday 1", "date": "2026-06-11",
+    "score": {"ft": [2, 0]},
+    "goals1": [
+      {"name": "Julián Quiñones", "minute": 9},
+      {"name": "Raúl Jiménez", "minute": 67}
+    ],
+    "goals2": []
+  }
+]

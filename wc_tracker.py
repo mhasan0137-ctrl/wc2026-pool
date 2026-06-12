@@ -829,22 +829,26 @@ def write_entries(preds, show):
     (OUT / "entries.html").write_text(html)
 
 
-def write_shares(standings, outcomes):
+def write_shares(standings, outcomes, preds=None):
     """Per-question point-shares page: for each question, the pot, the result so far,
-    and how its points are currently split across players."""
+    and how its points are currently split across players - with what each scoring
+    player actually predicted."""
     import settle
     outcomes = outcomes or {}
+    pred_by_name = {r.get("name"): r for r in (preds or [])}
     secs = []
     for col, _kind in settle.QUESTIONS:
         pot = settle.POINTS.get(col, settle.DEFAULT_POT)
         result = outcomes.get(col)
         result = result if result not in (None, "") else "not settled yet"
         shares = sorted(((n, d[col]) for (n, _t, d) in standings if col in d), key=lambda x: -x[1])
-        body = "".join(f"<tr><td>{n}</td><td>{s:g}</td></tr>" for n, s in shares) \
-            or '<tr><td colspan="2">nobody scoring this yet</td></tr>'
+        body = "".join(
+            f"<tr><td>{n}</td><td>{(pred_by_name.get(n, {}).get(col) or '-')}</td><td>{s:g}</td></tr>"
+            for n, s in shares) \
+            or '<tr><td colspan="3">nobody scoring this yet</td></tr>'
         secs.append(f'<h2>{QLABELS.get(col, col)} <span class="pot">{pot} pts</span></h2>'
                     f'<p class="sub">Result so far: <b>{result}</b></p>'
-                    f'<table><tr><th>Player</th><th>Points</th></tr>{body}</table>')
+                    f'<table><tr><th>Player</th><th>Predicted</th><th>Points</th></tr>{body}</table>')
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>WC 2026 Pool - Point shares per question</title>
@@ -864,11 +868,36 @@ def write_shares(standings, outcomes):
     (OUT / "shares.html").write_text(html)
 
 
+def _merge_manual_matches(matches, root):
+    """Inject locally-entered games from manual_matches.json so the live counts /
+    scoring reflect reality before openfootball posts them. Fills a known fixture's
+    score+goals in place; appends if unknown. Once openfootball has the game as
+    PLAYED, the manual copy is ignored (openfootball wins)."""
+    p = root / "manual_matches.json"
+    if not p.exists():
+        return
+    try:
+        manual = json.load(open(p, encoding="utf-8"))
+    except Exception as e:
+        print(f"(manual_matches.json skipped: {e})")
+        return
+    by_pair = {}
+    for m in matches:
+        by_pair.setdefault((m.get("team1"), m.get("team2")), m)
+    for mm in manual:
+        existing = by_pair.get((mm.get("team1"), mm.get("team2")))
+        if existing is None:
+            matches.append(mm)
+        elif not is_played(existing):
+            existing.update(mm)
+
+
 def main():
     OUT.mkdir(exist_ok=True)
     want_players = "--players" in sys.argv
 
     matches = load_openfootball()
+    _merge_manual_matches(matches, Path(__file__).parent)
     agg = aggregate(matches)
 
     # fixtures.csv -- everything, played or not
@@ -1001,7 +1030,7 @@ def main():
         standings = settle.compute_standings(preds, outcomes)
         write_csv(OUT / "standings.csv",
                   [(i, n, p) for i, (n, p, _) in enumerate(standings, 1)], ["rank", "name", "points"])
-        write_shares(standings, outcomes)
+        write_shares(standings, outcomes, preds)
         print(f"Standings: {len(standings)} entries" + (" (demo names)" if is_demo else ""))
     except Exception as e:
         print(f"(standings skipped: {e})")
