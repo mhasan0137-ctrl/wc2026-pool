@@ -24,7 +24,8 @@ from pathlib import Path
 HERE = Path(__file__).parent
 OUT = HERE / "out"
 
-# (column, kind). kind: num | age | pick | scoreline
+# (column, kind). kind: num | age | pick | scoreline | band
+# band = ordered ranges scored by CLOSEST band (split ties), not exact match.
 QUESTIONS = [
     ("q1_longest_name_letters", "num"),
     ("q2_own_goals", "num"),
@@ -35,11 +36,22 @@ QUESTIONS = [
     ("q7_group_fewest_goals", "pick"),
     ("q8_youngest_age", "age"),
     ("q9_scoreline_once", "scoreline"),
-    ("q10_fastest_goal_band", "pick"),
-    ("q11_total_goals_band", "pick"),
-    ("q12_best_match_pnl_band", "pick"),
-    ("q13_most_traded_band", "pick"),
+    ("q10_fastest_goal_band", "band"),
+    ("q11_total_goals_band", "band"),
+    ("q12_best_match_pnl_band", "band"),
+    ("q13_most_traded_band", "band"),
 ]
+# Ordered band options (must match the form), for closest-band scoring.
+BANDS = {
+    "q10_fastest_goal_band": ["0-10s", "11-20s", "21-30s", "31-40s", "41-50s", "51-60s",
+                              "61-70s", "71-80s", "81-90s", "91s+"],
+    "q11_total_goals_band": ["<220", "220-240", "241-260", "261-270", "271-280", "281-290",
+                             "291-300", "301-310", "311-330", "331-350", ">350"],
+    "q12_best_match_pnl_band": ["<£25k", "£25-50k", "£50-75k", "£75-100k", "£100-150k",
+                                "£150-200k", "£200k+"],
+    "q13_most_traded_band": ["<£1m", "£1-2m", "£2-3m", "£3-4m", "£4-6m", "£6-8m", "£8-10m",
+                             "£10-15m", "£15m+"],
+}
 DEFAULT_POT = 100
 # Per-question point pots (default 100 unless listed here).
 POINTS = {
@@ -129,6 +141,23 @@ def compute_standings(pred_rows, result):
                     for n in names:
                         points[n] += per
                         detail[n][col] = round(per, 1)
+
+        elif kind == "band":
+            # Ordered ranges: score the CLOSEST band(s) to the actual, splitting ties.
+            order = [_norm(b) for b in BANDS.get(col, [])]
+            tgt = _norm(actual)
+            if not order or tgt not in order:
+                continue
+            ti = order.index(tgt)
+            scored = [(n, abs(order.index(_norm(v)) - ti)) for n, v in picks if _norm(v) in order]
+            if not scored:
+                continue
+            best = min(d for _, d in scored)
+            winners = [n for n, d in scored if d == best]
+            share = pot / len(winners)
+            for n in winners:
+                points[n] += share
+                detail[n][col] = round(share, 1)
 
     table = sorted(((n, round(p, 1), detail[n]) for n, p in points.items()),
                    key=lambda x: -x[1])
