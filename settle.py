@@ -103,8 +103,10 @@ def compute_standings(pred_rows, result):
                 detail[n][col] = round(share, 1)
 
         elif kind == "pick":
-            tgt = _norm(actual)
-            winners = [n for n, v in picks if _norm(v) == tgt]
+            # actual may be a single value, or several tied values "A;B;C" (e.g. Q7
+            # group-fewest tie) - anyone who picked any of them shares the pot.
+            accept = {_norm(x) for x in str(actual).split(";") if x.strip()}
+            winners = [n for n, v in picks if _norm(v) in accept]
             if winners:
                 share = pot / len(winners)
                 for n in winners:

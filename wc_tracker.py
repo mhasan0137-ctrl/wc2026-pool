@@ -681,6 +681,7 @@ def build_live_results(agg, live_feed):
         "q4_pen_shootouts": len(agg["penalty_shootouts"]),  # knockout-only: raw count (forecast n/a)
         "q12_best_match_pnl_band": lf.get("q12_best_match_pnl_band", "£0k"),
         "q13_most_traded_band": lf.get("q13_most_traded_band", "£0m"),
+        "_q3_red_cards_raw": rc_so_far,             # raw count so the live-counts table forecasts once
     }
     if agg["scorers"]:                       # 1 longest-named scorer so far
         res["q1_longest_name_letters"] = max(name_letters(n)[0] for (n, _t) in agg["scorers"])
@@ -690,15 +691,21 @@ def build_live_results(agg, live_feed):
             res["q9_scoreline_once"] = once
     if gp:                                   # 11 total goals -> FORECAST band (if pace holds)
         res["q11_total_goals_band"] = _total_goals_band(fc(agg["total_goals"]))
-    if gp and agg["all_groups"]:             # 7 group with fewest goals so far (show the standing/ties)
+    if gp and agg["all_groups"]:             # 7 group with fewest goals so far (tie -> all share)
         gg = {g: agg["group_goals"].get(g, 0) for g in agg["all_groups"]}
         lo = min(gg.values())
         fewest = sorted(g for g, v in gg.items() if v == lo)
-        if len(fewest) == 1:
-            res["q7_group_fewest_goals"] = fewest[0]                 # unique -> scores
-        else:                                                       # tie -> show it, no points yet
-            res["q7_group_fewest_goals"] = (f"{len(fewest)}-way tie on {lo} ("
-                                            + ", ".join(g.replace("Group ", "") for g in fewest) + ")")
+        res["q7_group_fewest_goals"] = ";".join(fewest)   # one group, or all tied-fewest (split)
+
+    # Per-game projection notes for the forecast questions (shown on the shares page).
+    notes = {}
+    if gp:
+        for col, n_so_far, unit in (("q2_own_goals", agg["own_goals"], "own goals"),
+                                     ("q3_red_cards", rc_so_far, "red cards"),
+                                     ("q11_total_goals_band", agg["total_goals"], "goals")):
+            notes[col] = (f"{n_so_far} {unit} in {gp} game{'s' if gp != 1 else ''} = "
+                          f"{n_so_far / gp:.2g}/game -> {fc(n_so_far)} projected over 104")
+    res["_forecast_notes"] = notes
     for k in ("q5_final_goals", "q6_continent", "q8_youngest_age", "q10_fastest_goal_band"):
         if lf.get(k):                        # held until the final / manual feed
             res[k] = lf[k]
@@ -754,7 +761,7 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None, show_
 
     live_counts = [
         live_count_row("Own goals (Q2)", agg["own_goals"]),
-        live_count_row("Red cards (Q3)", int(outcomes.get("q3_red_cards") or 0)),
+        live_count_row("Red cards (Q3)", int(outcomes.get("_q3_red_cards_raw") or 0)),
         live_count_row("Penalty shootouts (Q4)", len(agg["penalty_shootouts"])),
         live_count_row("Total goals (Q11)", agg["total_goals"]),
     ]
@@ -856,19 +863,24 @@ def write_shares(standings, outcomes, preds=None):
     import settle
     outcomes = outcomes or {}
     pred_by_name = {r.get("name"): r for r in (preds or [])}
+    notes = outcomes.get("_forecast_notes", {})
     secs = []
     for col, _kind in settle.QUESTIONS:
         pot = settle.POINTS.get(col, settle.DEFAULT_POT)
         result = outcomes.get(col)
         result = result if result not in (None, "") else "not settled yet"
+        if col == "q7_group_fewest_goals" and result and ";" in str(result):   # tie -> readable
+            gs = [x.replace("Group ", "") for x in str(result).split(";")]
+            result = f"{len(gs)}-way tie for fewest: {', '.join(gs)}"
         label = "Predicted result (forecast if the pace holds)" if col in FORECAST_QS else "Result so far"
+        extra = f' <span class="note">({notes[col]})</span>' if col in notes else ""
         shares = sorted(((n, d[col]) for (n, _t, d) in standings if col in d), key=lambda x: -x[1])
         body = "".join(
             f"<tr><td>{n}</td><td>{(pred_by_name.get(n, {}).get(col) or '-')}</td><td>{s:g}</td></tr>"
             for n, s in shares) \
             or '<tr><td colspan="3">nobody scoring this yet</td></tr>'
         secs.append(f'<h2>{QLABELS.get(col, col)} <span class="pot">{pot} pts</span></h2>'
-                    f'<p class="sub">{label}: <b>{result}</b></p>'
+                    f'<p class="sub">{label}: <b>{result}</b>{extra}</p>'
                     f'<table><tr><th>Player</th><th>Predicted</th><th>Points</th></tr>{body}</table>')
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
