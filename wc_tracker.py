@@ -683,6 +683,15 @@ def build_live_results(agg, live_feed):
             res["q9_scoreline_once"] = once
     if gp:                                   # 11 total goals so far -> band
         res["q11_total_goals_band"] = _total_goals_band(agg["total_goals"])
+    if gp and agg["all_groups"]:             # 7 group with fewest goals so far (show the standing/ties)
+        gg = {g: agg["group_goals"].get(g, 0) for g in agg["all_groups"]}
+        lo = min(gg.values())
+        fewest = sorted(g for g, v in gg.items() if v == lo)
+        if len(fewest) == 1:
+            res["q7_group_fewest_goals"] = fewest[0]                 # unique -> scores
+        else:                                                       # tie -> show it, no points yet
+            res["q7_group_fewest_goals"] = (f"{len(fewest)}-way tie on {lo} ("
+                                            + ", ".join(g.replace("Group ", "") for g in fewest) + ")")
     for k in ("q5_final_goals", "q6_continent", "q8_youngest_age", "q10_fastest_goal_band"):
         if lf.get(k):                        # held until the final / manual feed
             res[k] = lf[k]
