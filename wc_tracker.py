@@ -946,18 +946,22 @@ def main():
               "player fetch, using openfootball scorers instead.")
         want_players = False
     if want_players:
-        players = fetch_players()
-        players.sort(key=lambda p: (-p["goals"], -p["assists"]))
-        write_csv(
-            OUT / "players_apifootball.csv",
-            [[p["player"], p["team"], p["goals"], p["assists"],
-              p["minutes"], p["yellow"], p["red"]] for p in players],
-            ["player", "team", "goals", "assists", "minutes", "yellow", "red"],
-        )
-        total_reds = sum(p["red"] for p in players)
-        print(f"\nAPI-Football: {len(players)} players, total red cards (from "
-              f"scorers list - not all players): {total_reds}")
-        print("   -> wrote players_apifootball.csv")
+        try:                                  # never let an API-Football hiccup block the build
+            players = fetch_players()
+            players.sort(key=lambda p: (-p["goals"], -p["assists"]))
+            write_csv(
+                OUT / "players_apifootball.csv",
+                [[p["player"], p["team"], p["goals"], p["assists"],
+                  p["minutes"], p["yellow"], p["red"]] for p in players],
+                ["player", "team", "goals", "assists", "minutes", "yellow", "red"],
+            )
+            total_reds = sum(p["red"] for p in players)
+            print(f"\nAPI-Football: {len(players)} players, total red cards (from "
+                  f"scorers list - not all players): {total_reds}")
+            print("   -> wrote players_apifootball.csv")
+        except Exception as e:
+            print(f"(API-Football fetch skipped: {e}) - building with openfootball data")
+            players = []
 
     # Refresh longest-names + youngest-members from Wikipedia squads (keyless). Best-effort.
     try:
