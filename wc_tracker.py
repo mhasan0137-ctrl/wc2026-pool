@@ -709,6 +709,7 @@ def build_live_results(agg, live_feed):
         lo = min(gg.values())
         fewest = sorted(g for g, v in gg.items() if v == lo)
         res["q7_group_fewest_goals"] = ";".join(fewest)   # one group, or all tied-fewest (split)
+        res["_q7_fewest_goals"] = lo                      # goal count of the fewest group(s)
 
     # Per-game projection notes for the forecast questions (shown on the shares page).
     notes = {}
@@ -888,14 +889,20 @@ def write_shares(standings, outcomes, preds=None):
         result = result if result not in (None, "") else "not settled yet"
         if col == "q7_group_fewest_goals" and result and ";" in str(result):   # tie -> readable
             gs = [x.replace("Group ", "") for x in str(result).split(";")]
-            result = f"{len(gs)}-way tie for fewest: {', '.join(gs)}"
+            n_goals = outcomes.get("_q7_fewest_goals", 0)
+            result = f"{len(gs)}-way tie on {n_goals} goals each: {', '.join(gs)}"
         amt = outcomes.get({"q12_best_match_pnl_band": "q12_amount",
                             "q13_most_traded_band": "q13_amount"}.get(col))
         if amt and result != "not settled yet":          # show the rounded actual next to the band
             result = f"{result} ({amt})"
         label = "Predicted result (forecast if the pace holds)" if col in FORECAST_QS else "Result so far"
         extra = f' <span class="note">({notes[col]})</span>' if col in notes else ""
-        shares = sorted(((n, d[col]) for (n, _t, d) in standings if col in d), key=lambda x: -x[1])
+        # Q7: order by predicted group; otherwise by points (highest first).
+        if col == "q7_group_fewest_goals":
+            shares = sorted(((n, d[col]) for (n, _t, d) in standings if col in d),
+                            key=lambda x: (pred_by_name.get(x[0], {}).get(col, ""), x[0]))
+        else:
+            shares = sorted(((n, d[col]) for (n, _t, d) in standings if col in d), key=lambda x: -x[1])
         body = "".join(
             f"<tr><td>{n}</td><td>{(pred_by_name.get(n, {}).get(col) or '-')}</td><td>{s:g}</td></tr>"
             for n, s in shares) \
