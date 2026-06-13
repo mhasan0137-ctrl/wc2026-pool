@@ -114,5 +114,30 @@
         "minute": 71
       }
     ]
+  },
+  {
+    "team1": "Qatar",
+    "team2": "Switzerland",
+    "group": "Group B",
+    "round": "Matchday 1",
+    "date": "2026-06-13",
+    "score": {
+      "ft": [
+        1,
+        1
+      ]
+    },
+    "goals1": [
+      {
+        "name": "Boualem Khoukhi",
+        "minute": "90+4"
+      }
+    ],
+    "goals2": [
+      {
+        "name": "Breel Embolo",
+        "minute": 17
+      }
+    ]
   }
 ]
