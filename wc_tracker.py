@@ -106,6 +106,7 @@ def aggregate(matches):
     team_against = defaultdict(int)
     group_goals = defaultdict(int)
     scorers = defaultdict(int)
+    og_scorers = []
     pen_shootouts = []
     own_goals = 0
     scoreline_counts = Counter()
@@ -119,6 +120,8 @@ def aggregate(matches):
             for gg in m.get(gk) or []:
                 if isinstance(gg, dict) and gg.get("owngoal"):
                     own_goals += 1
+                    if gg.get("name"):
+                        og_scorers.append((gg["name"], gg.get("team", "?")))
         team_for[m["team1"]] += a
         team_for[m["team2"]] += b
         team_against[m["team1"]] += b
@@ -150,6 +153,7 @@ def aggregate(matches):
         "team_against": dict(team_against),
         "group_goals": dict(group_goals),
         "scorers": scorers,
+        "og_scorers": og_scorers,
         "own_goals": own_goals,
         "scoreline_counts": dict(scoreline_counts),
     }
@@ -696,8 +700,9 @@ def build_live_results(agg, live_feed):
         "q13_amount": lf.get("q13_amount"),         # rounded actual most-traded (display only)
         "_q3_red_cards_raw": rc_so_far,             # raw count so the live-counts table forecasts once
     }
-    if agg["scorers"]:                       # 1 longest-named scorer so far
-        res["q1_longest_name_letters"] = max(name_letters(n)[0] for (n, _t) in agg["scorers"])
+    _names = [n for (n, _t) in agg["scorers"]] + [n for (n, _t) in agg.get("og_scorers", [])]
+    if _names:                               # 1 longest-named scorer (incl. own-goalers)
+        res["q1_longest_name_letters"] = max(name_letters(n)[0] for n in _names)
     if gp:                                   # 9 scorelines that have happened exactly once so far
         once = ";".join(k for k, v in agg["scoreline_counts"].items() if v == 1)
         if once:
