@@ -139,5 +139,30 @@
         "minute": 17
       }
     ]
+  },
+  {
+    "team1": "Brazil",
+    "team2": "Morocco",
+    "group": "Group C",
+    "round": "Matchday 1",
+    "date": "2026-06-13",
+    "score": {
+      "ft": [
+        1,
+        1
+      ]
+    },
+    "goals1": [
+      {
+        "name": "Vinícius Júnior",
+        "minute": 32
+      }
+    ],
+    "goals2": [
+      {
+        "name": "Ismael Saibari",
+        "minute": 21
+      }
+    ]
   }
 ]
