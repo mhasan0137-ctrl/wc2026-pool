@@ -129,8 +129,10 @@
     },
     "goals1": [
       {
-        "name": "Boualem Khoukhi",
-        "minute": "90+4"
+        "name": "Miro Muheim",
+        "minute": "90+4",
+        "owngoal": true,
+        "team": "Switzerland"
       }
     ],
     "goals2": [
@@ -138,7 +140,8 @@
         "name": "Breel Embolo",
         "minute": 17
       }
-    ]
+    ],
+    "override": true
   },
   {
     "team1": "Brazil",

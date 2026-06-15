@@ -993,7 +993,9 @@ def _merge_manual_matches(matches, root):
     """Inject locally-entered games from manual_matches.json so the live counts /
     scoring reflect reality before openfootball posts them. Fills a known fixture's
     score+goals in place; appends if unknown. Once openfootball has the game as
-    PLAYED, the manual copy is ignored (openfootball wins)."""
+    PLAYED, the manual copy is ignored (openfootball wins) UNLESS the manual entry
+    sets "override": true (to correct an openfootball mislabel, e.g. a goal that was
+    actually an own goal)."""
     p = root / "manual_matches.json"
     if not p.exists():
         return
@@ -1009,7 +1011,7 @@ def _merge_manual_matches(matches, root):
         existing = by_pair.get((mm.get("team1"), mm.get("team2")))
         if existing is None:
             matches.append(mm)
-        elif not is_played(existing):
+        elif mm.get("override") or not is_played(existing):
             existing.update(mm)
 
 
