@@ -804,8 +804,9 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None, show_
     standings = standings or []
     entries_nav = ' · <a href="entries.html">📝 everyone\'s entries</a>' if show_entries else ''
 
+    medals = {1: " 👑", 2: " 🥈", 3: " 🥉"}   # 1st / 2nd / 3rd place
     lb_rows = "\n".join(
-        f'<tr><td>{i}</td><td>{n}</td><td>{p:g}</td></tr>'
+        f'<tr><td>{i}</td><td>{n}{medals.get(i, "")}</td><td>{p:g}</td></tr>'
         for i, (n, p, _) in enumerate(standings, 1)) or '<tr><td colspan="3">-</td></tr>'
     demo_note = ('<div class="note">👀 <b>Preview only.</b> These are <b>placeholder names</b> scored against '
                  '<b>projected</b> final outcomes (e.g. ~285 total goals) - to show how the leaderboard works. '
