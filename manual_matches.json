@@ -173,7 +173,7 @@
     "date": "2026-06-14",
     "score": {
       "ft": [
-        3,
+        5,
         1
       ]
     },
@@ -189,6 +189,14 @@
       {
         "name": "Viktor Gyökeres",
         "minute": 59
+      },
+      {
+        "name": "Mattias Svanberg",
+        "minute": 84
+      },
+      {
+        "name": "Yasin Ayari",
+        "minute": "90+6"
       }
     ],
     "goals2": [
