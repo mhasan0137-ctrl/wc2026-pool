@@ -164,5 +164,38 @@
         "minute": 21
       }
     ]
+  },
+  {
+    "team1": "Sweden",
+    "team2": "Tunisia",
+    "group": "Group F",
+    "round": "Matchday 1",
+    "date": "2026-06-14",
+    "score": {
+      "ft": [
+        3,
+        1
+      ]
+    },
+    "goals1": [
+      {
+        "name": "Yasin Ayari",
+        "minute": 6
+      },
+      {
+        "name": "Alexander Isak",
+        "minute": 29
+      },
+      {
+        "name": "Viktor Gyökeres",
+        "minute": 59
+      }
+    ],
+    "goals2": [
+      {
+        "name": "Omar Rekik",
+        "minute": 42
+      }
+    ]
   }
 ]
