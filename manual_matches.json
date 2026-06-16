@@ -241,5 +241,38 @@
         "minute": 54
       }
     ]
+  },
+  {
+    "team1": "France",
+    "team2": "Senegal",
+    "group": "Group I",
+    "round": "Matchday 1",
+    "date": "2026-06-16",
+    "score": {
+      "ft": [
+        3,
+        1
+      ]
+    },
+    "goals1": [
+      {
+        "name": "Kylian Mbappé",
+        "minute": 66
+      },
+      {
+        "name": "Bradley Barcola",
+        "minute": 82
+      },
+      {
+        "name": "Kylian Mbappé",
+        "minute": "90+6"
+      }
+    ],
+    "goals2": [
+      {
+        "name": "Ibrahim Mbaye",
+        "minute": "90+5"
+      }
+    ]
   }
 ]
