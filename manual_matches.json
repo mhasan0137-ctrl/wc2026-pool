@@ -208,5 +208,38 @@
         "minute": 43
       }
     ]
+  },
+  {
+    "team1": "Iran",
+    "team2": "New Zealand",
+    "group": "Group G",
+    "round": "Matchday 1",
+    "date": "2026-06-15",
+    "score": {
+      "ft": [
+        2,
+        2
+      ]
+    },
+    "goals1": [
+      {
+        "name": "Ramin Rezaeian",
+        "minute": 32
+      },
+      {
+        "name": "Mohammad Mohebi",
+        "minute": 64
+      }
+    ],
+    "goals2": [
+      {
+        "name": "Elijah Just",
+        "minute": 7
+      },
+      {
+        "name": "Elijah Just",
+        "minute": 54
+      }
+    ]
   }
 ]
