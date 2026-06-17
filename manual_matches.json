@@ -274,5 +274,36 @@
         "minute": "90+5"
       }
     ]
+  },
+  {
+    "team1": "Austria",
+    "team2": "Jordan",
+    "group": "Group J",
+    "round": "Matchday 1",
+    "date": "2026-06-16",
+    "score": {
+      "ft": [
+        2,
+        1
+      ]
+    },
+    "goals1": [
+      {
+        "name": "Romano Schmid",
+        "minute": 21
+      },
+      {
+        "name": "Yazan Alarab",
+        "minute": 76,
+        "owngoal": true,
+        "team": "Jordan"
+      }
+    ],
+    "goals2": [
+      {
+        "name": "Ali Olwan",
+        "minute": 50
+      }
+    ]
   }
 ]
