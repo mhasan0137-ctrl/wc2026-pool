@@ -283,7 +283,7 @@
     "date": "2026-06-16",
     "score": {
       "ft": [
-        2,
+        3,
         1
       ]
     },
@@ -297,6 +297,11 @@
         "minute": 76,
         "owngoal": true,
         "team": "Jordan"
+      },
+      {
+        "name": "Marko Arnautović",
+        "minute": "90+11",
+        "penalty": true
       }
     ],
     "goals2": [
