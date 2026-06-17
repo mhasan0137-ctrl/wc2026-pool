@@ -827,6 +827,8 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None, show_
     proj_rows = "\n".join(
         f"<tr><td>{QLABELS[k]}{' <span class=\"fc\">(forecast)</span>' if k in FORECAST_QS else ''}</td>"
         f"<td>{outcome_cell(k)}</td></tr>" for k in QLABELS)
+    tbc_note = ('<p class="sub"><small><b>*</b> figure still to be confirmed.</small></p>'
+                if outcomes and any('*' in str(outcomes.get(k, '')) for k in ('q12_amount', 'q13_amount')) else '')
 
     # Live counts: total so far, avg/game, forecast over 104 games (if the pace holds).
     gp = agg["matches_played"]
@@ -885,6 +887,7 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None, show_
 <table><tr><th>Question</th><th>Result</th></tr>
 {proj_rows}
 </table>
+{tbc_note}
 
 <h2>Live counts (so far - forecast)</h2>
 <p class="sub">Total so far, average per game, and the forecast if that pace holds over all 104 games.
