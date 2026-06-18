@@ -369,5 +369,45 @@
         "penalty": true
       }
     ]
+  },
+  {
+    "team1": "Switzerland",
+    "team2": "Bosnia & Herzegovina",
+    "group": "Group B",
+    "round": "Matchday 2",
+    "date": "2026-06-18",
+    "score": {
+      "ft": [
+        4,
+        1
+      ]
+    },
+    "goals1": [
+      {
+        "name": "Johan Manzambi",
+        "minute": 74
+      },
+      {
+        "name": "Johan Manzambi",
+        "minute": 90
+      },
+      {
+        "name": "Rubén Vargas",
+        "minute": 84
+      },
+      {
+        "name": "Granit Xhaka",
+        "minute": 90,
+        "offset": 7,
+        "penalty": true
+      }
+    ],
+    "goals2": [
+      {
+        "name": "Ermin Mahmić",
+        "minute": 90,
+        "offset": 3
+      }
+    ]
   }
 ]
