@@ -310,5 +310,38 @@
         "minute": 50
       }
     ]
+  },
+  {
+    "team1": "Uzbekistan",
+    "team2": "Colombia",
+    "group": "Group K",
+    "round": "Matchday 1",
+    "date": "2026-06-17",
+    "score": {
+      "ft": [
+        1,
+        3
+      ]
+    },
+    "goals1": [
+      {
+        "name": "Abbosbek Fayzullaev",
+        "minute": 60
+      }
+    ],
+    "goals2": [
+      {
+        "name": "Daniel Muñoz",
+        "minute": 40
+      },
+      {
+        "name": "Luis Díaz",
+        "minute": 65
+      },
+      {
+        "name": "Jaminton Campaz",
+        "minute": "90+9"
+      }
+    ]
   }
 ]
