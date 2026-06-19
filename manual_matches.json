@@ -472,5 +472,30 @@
       }
     ],
     "goals2": []
+  },
+  {
+    "team1": "USA",
+    "team2": "Australia",
+    "group": "Group D",
+    "round": "Matchday 2",
+    "date": "2026-06-19",
+    "score": {
+      "ft": [
+        2,
+        0
+      ]
+    },
+    "goals1": [
+      {
+        "name": "Cameron Burgess",
+        "minute": 11,
+        "owngoal": true
+      },
+      {
+        "name": "Alex Freeman",
+        "minute": 43
+      }
+    ],
+    "goals2": []
   }
 ]
