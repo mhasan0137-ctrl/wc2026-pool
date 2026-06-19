@@ -115,7 +115,24 @@ def compute_standings(pred_rows, result):
                 detail[n][col] = round(share, 1)
 
         elif kind == "pick":
-            # actual may be a single value, or several tied values "A;B;C" (e.g. Q7
+            # Q7 cascade: the winner is whoever picked the group with the FEWEST goals
+            # AMONG THE GROUPS ACTUALLY PREDICTED. If someone picked the true fewest group
+            # they win as normal; if nobody did, it cascades to the next-fewest group that
+            # someone picked (and so on). Ties at that goal count share.
+            gg = (result or {}).get("_q7_group_goals") if col == "q7_group_fewest_goals" else None
+            if gg:
+                ng = {_norm(g): v for g, v in gg.items()}
+                scored = [(n, ng.get(_norm(v))) for n, v in picks]
+                scored = [(n, v) for n, v in scored if v is not None]
+                if scored:
+                    lo = min(v for _, v in scored)
+                    winners = [n for n, v in scored if v == lo]
+                    share = pot / len(winners)
+                    for n in winners:
+                        points[n] += share
+                        detail[n][col] = round(share, 1)
+                continue
+            # actual may be a single value, or several tied values "A;B;C" (e.g. a
             # group-fewest tie) - anyone who picked any of them shares the pot.
             accept = {_norm(x) for x in str(actual).split(";") if x.strip()}
             winners = [n for n, v in picks if _norm(v) in accept]

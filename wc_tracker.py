@@ -769,6 +769,8 @@ def build_live_results(agg, live_feed):
         fewest = sorted(g for g, v in gg.items() if v == lo)
         res["q7_group_fewest_goals"] = ";".join(fewest)   # one group, or all tied-fewest (split)
         res["_q7_fewest_goals"] = lo                      # goal count of the fewest group(s)
+        res["_q7_group_goals"] = gg                       # every group's goal count, so if nobody
+        #   picked the fewest group the settler can cascade to the fewest group anyone DID pick.
 
     # Per-game projection notes for the forecast questions (shown on the shares page).
     notes = {}
@@ -950,10 +952,24 @@ def write_shares(standings, outcomes, preds=None):
         pot = settle.POINTS.get(col, settle.DEFAULT_POT)
         result = outcomes.get(col)
         result = result if result not in (None, "") else "not settled yet"
-        if col == "q7_group_fewest_goals" and result and ";" in str(result):   # tie -> readable
-            gs = [x.replace("Group ", "") for x in str(result).split(";")]
+        if col == "q7_group_fewest_goals" and outcomes.get(col):
+            gg = outcomes.get("_q7_group_goals") or {}
             n_goals = outcomes.get("_q7_fewest_goals", 0)
-            result = f"{len(gs)}-way tie on {n_goals} goals each: {', '.join(gs)}"
+            tf = str(outcomes.get(col))
+            if ";" in tf:                                # tie -> readable
+                gs = [x.replace("Group ", "") for x in tf.split(";")]
+                result = f"{len(gs)}-way tie on {n_goals} goals each: {', '.join(gs)}"
+            else:
+                result = f"{tf} ({n_goals} goals)"
+            # If nobody picked the true fewest group, say it cascades to the fewest PICKED.
+            pg = {(r.get(col) or "").strip(): gg.get((r.get(col) or "").strip())
+                  for r in (preds or []) if (r.get(col) or "").strip() in gg}
+            if pg:
+                lo = min(pg.values())
+                if lo > n_goals:
+                    wg = ", ".join(sorted(g.replace("Group ", "") for g, v in pg.items() if v == lo))
+                    result += (f" — nobody picked it, so it cascades to the fewest PICKED group"
+                               f"{'s' if wg.count(',') else ''}: {wg} ({lo} goals)")
         amt = outcomes.get({"q12_best_match_pnl_band": "q12_amount",
                             "q13_most_traded_band": "q13_amount"}.get(col))
         if amt and result != "not settled yet":          # show the rounded actual next to the band
