@@ -409,5 +409,48 @@
         "offset": 3
       }
     ]
+  },
+  {
+    "team1": "Canada",
+    "team2": "Qatar",
+    "group": "Group B",
+    "round": "Matchday 2",
+    "date": "2026-06-18",
+    "score": {
+      "ft": [
+        6,
+        0
+      ]
+    },
+    "goals1": [
+      {
+        "name": "Cyle Larin",
+        "minute": 16
+      },
+      {
+        "name": "Jonathan David",
+        "minute": 29
+      },
+      {
+        "name": "Jonathan David",
+        "minute": 45,
+        "offset": 3
+      },
+      {
+        "name": "Nathan Saliba",
+        "minute": 64
+      },
+      {
+        "name": "Jonathan David",
+        "minute": 90,
+        "offset": 2
+      },
+      {
+        "name": "Mohamed Manai",
+        "minute": 75,
+        "owngoal": true
+      }
+    ],
+    "goals2": []
   }
 ]
