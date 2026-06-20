@@ -546,5 +546,25 @@
       }
     ],
     "goals2": []
+  },
+  {
+    "team1": "Turkey",
+    "team2": "Paraguay",
+    "group": "Group D",
+    "round": "Matchday 2",
+    "date": "2026-06-19",
+    "score": {
+      "ft": [
+        0,
+        1
+      ]
+    },
+    "goals1": [],
+    "goals2": [
+      {
+        "name": "Matías Galarza",
+        "minute": 2
+      }
+    ]
   }
 ]
