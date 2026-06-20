@@ -497,5 +497,25 @@
       }
     ],
     "goals2": []
+  },
+  {
+    "team1": "Scotland",
+    "team2": "Morocco",
+    "group": "Group C",
+    "round": "Matchday 2",
+    "date": "2026-06-19",
+    "score": {
+      "ft": [
+        0,
+        1
+      ]
+    },
+    "goals1": [],
+    "goals2": [
+      {
+        "name": "Ismael Saibari",
+        "minute": 2
+      }
+    ]
   }
 ]
