@@ -165,8 +165,35 @@ def compute_standings(pred_rows, result):
             tgt = _norm(actual)
             if not order or tgt not in order:
                 continue
-            ti = order.index(tgt)
-            scored = [(n, abs(order.index(_norm(v)) - ti)) for n, v in picks if _norm(v) in order]
+            # Q10 waterfall by EXACT SECONDS distance to each band's range when the seconds
+            # are known (so a 64s goal is nearer 51-60s than 71-80s, not an even band-index tie).
+            secs = (result or {}).get("_q10_seconds") if col == "q10_fastest_goal_band" else None
+            if secs is not None:
+                def _rng(lab):
+                    s = lab.lower().replace("s", "").replace(" ", "")
+                    if "+" in s:
+                        return (float(s.replace("+", "")), float("inf"))
+                    if "-" in s:
+                        a, b = s.split("-", 1)
+                        return (float(a), float(b))
+                    return None
+                rng = {}
+                for b in BANDS.get(col, []):
+                    try:
+                        rng[_norm(b)] = _rng(b)
+                    except ValueError:
+                        rng[_norm(b)] = None
+                def _sdist(v):
+                    r = rng.get(_norm(v))
+                    if not r:
+                        return None
+                    lo, hi = r
+                    return 0.0 if lo <= secs <= hi else (secs - hi if secs > hi else lo - secs)
+                scored = [(n, _sdist(v)) for n, v in picks]
+                scored = [(n, d) for n, d in scored if d is not None]
+            else:
+                ti = order.index(tgt)
+                scored = [(n, abs(order.index(_norm(v)) - ti)) for n, v in picks if _norm(v) in order]
             if not scored:
                 continue
             best = min(d for _, d in scored)

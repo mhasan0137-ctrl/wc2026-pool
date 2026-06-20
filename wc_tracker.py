@@ -784,6 +784,9 @@ def build_live_results(agg, live_feed):
     for k in ("q5_final_goals", "q6_continent", "q8_youngest_age", "q10_fastest_goal_band"):
         if lf.get(k):                        # held until the final / manual feed
             res[k] = lf[k]
+    _s = str(lf.get("q10_seconds", "")).strip()    # exact fastest-goal seconds -> seconds-distance waterfall
+    if _s.isdigit():
+        res["_q10_seconds"] = int(_s)
     return res
 
 
