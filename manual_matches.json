@@ -517,5 +517,34 @@
         "minute": 2
       }
     ]
+  },
+  {
+    "team1": "Brazil",
+    "team2": "Haiti",
+    "group": "Group C",
+    "round": "Matchday 2",
+    "date": "2026-06-19",
+    "score": {
+      "ft": [
+        3,
+        0
+      ]
+    },
+    "goals1": [
+      {
+        "name": "Matheus Cunha",
+        "minute": 23
+      },
+      {
+        "name": "Matheus Cunha",
+        "minute": 36
+      },
+      {
+        "name": "Vinícius Júnior",
+        "minute": 45,
+        "offset": 3
+      }
+    ],
+    "goals2": []
   }
 ]
