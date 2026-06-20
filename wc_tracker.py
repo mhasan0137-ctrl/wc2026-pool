@@ -806,10 +806,18 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None, show_
     standings = standings or []
     entries_nav = ' · <a href="entries.html">📝 everyone\'s entries</a>' if show_entries else ''
 
+    # Joint (competition) places: players level on points share a place (1, 2=, 2=, 4...).
+    # Medals go by PLACE, to everyone on it: joint 2nd = two silvers, joint 3rd = three bronzes.
     medals = {1: " 👑", 2: " 🥈", 3: " 🥉"}   # 1st / 2nd / 3rd place
+    _pts = [round(p, 4) for (n, p, _) in standings]
+    def _rank(p):
+        return 1 + sum(1 for q in _pts if q > round(p, 4))
+    def _tie(p):
+        return sum(1 for q in _pts if q == round(p, 4))
     lb_rows = "\n".join(
-        f'<tr><td>{i}</td><td>{n}{medals.get(i, "")}</td><td>{p:g}</td></tr>'
-        for i, (n, p, _) in enumerate(standings, 1)) or '<tr><td colspan="3">-</td></tr>'
+        f'<tr><td>{_rank(p)}{"=" if _tie(p) > 1 else ""}</td>'
+        f'<td>{n}{medals.get(_rank(p), "")}</td><td>{p:g}</td></tr>'
+        for (n, p, _) in standings) or '<tr><td colspan="3">-</td></tr>'
     demo_note = ('<div class="note">👀 <b>Preview only.</b> These are <b>placeholder names</b> scored against '
                  '<b>projected</b> final outcomes (e.g. ~285 total goals) - to show how the leaderboard works. '
                  'Drop real entries into <code>predictions.csv</code> and fill <code>results.csv</code> as the '
@@ -1175,7 +1183,9 @@ def main():
         write_entries(preds, show_entries)
         standings = settle.compute_standings(preds, outcomes)
         write_csv(OUT / "standings.csv",
-                  [(i, n, p) for i, (n, p, _) in enumerate(standings, 1)], ["rank", "name", "points"])
+                  [(f'{1 + sum(1 for _, q, _ in standings if round(q,4) > round(p,4))}'
+                    + ('=' if sum(1 for _, q, _ in standings if round(q,4) == round(p,4)) > 1 else ''), n, p)
+                   for (n, p, _) in standings], ["rank", "name", "points"])
         write_shares(standings, outcomes, preds)
         print(f"Standings: {len(standings)} entries" + (" (demo names)" if is_demo else ""))
     except Exception as e:
