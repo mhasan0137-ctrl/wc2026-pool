@@ -717,5 +717,20 @@
       }
     ],
     "goals2": []
+  },
+  {
+    "team1": "Belgium",
+    "team2": "Iran",
+    "group": "Group G",
+    "round": "Matchday 2",
+    "date": "2026-06-21",
+    "score": {
+      "ft": [
+        0,
+        0
+      ]
+    },
+    "goals1": [],
+    "goals2": []
   }
 ]
