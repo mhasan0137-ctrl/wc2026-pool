@@ -652,5 +652,37 @@
     },
     "goals1": [],
     "goals2": []
+  },
+  {
+    "team1": "Tunisia",
+    "team2": "Japan",
+    "group": "Group F",
+    "round": "Matchday 2",
+    "date": "2026-06-21",
+    "score": {
+      "ft": [
+        0,
+        4
+      ]
+    },
+    "goals1": [],
+    "goals2": [
+      {
+        "name": "Daichi Kamada",
+        "minute": 4
+      },
+      {
+        "name": "Ayase Ueda",
+        "minute": 31
+      },
+      {
+        "name": "Junya Itō",
+        "minute": 69
+      },
+      {
+        "name": "Ayase Ueda",
+        "minute": 83
+      }
+    ]
   }
 ]
