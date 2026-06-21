@@ -637,5 +637,20 @@
         "minute": 30
       }
     ]
+  },
+  {
+    "team1": "Ecuador",
+    "team2": "Curaçao",
+    "group": "Group E",
+    "round": "Matchday 2",
+    "date": "2026-06-20",
+    "score": {
+      "ft": [
+        0,
+        0
+      ]
+    },
+    "goals1": [],
+    "goals2": []
   }
 ]
