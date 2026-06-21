@@ -684,5 +684,38 @@
         "minute": 83
       }
     ]
+  },
+  {
+    "team1": "Spain",
+    "team2": "Saudi Arabia",
+    "group": "Group H",
+    "round": "Matchday 2",
+    "date": "2026-06-21",
+    "score": {
+      "ft": [
+        4,
+        0
+      ]
+    },
+    "goals1": [
+      {
+        "name": "Lamine Yamal",
+        "minute": 10
+      },
+      {
+        "name": "Mikel Oyarzabal",
+        "minute": 21
+      },
+      {
+        "name": "Mikel Oyarzabal",
+        "minute": 24
+      },
+      {
+        "name": "Hassan Al-Tambakti",
+        "minute": 49,
+        "owngoal": true
+      }
+    ],
+    "goals2": []
   }
 ]
