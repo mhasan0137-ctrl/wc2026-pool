@@ -732,5 +732,38 @@
     },
     "goals1": [],
     "goals2": []
+  },
+  {
+    "team1": "New Zealand",
+    "team2": "Egypt",
+    "group": "Group G",
+    "round": "Matchday 2",
+    "date": "2026-06-21",
+    "score": {
+      "ft": [
+        1,
+        3
+      ]
+    },
+    "goals1": [
+      {
+        "name": "Finn Surman",
+        "minute": 15
+      }
+    ],
+    "goals2": [
+      {
+        "name": "Mostafa Ziko",
+        "minute": 58
+      },
+      {
+        "name": "Mohamed Salah",
+        "minute": 67
+      },
+      {
+        "name": "Trézéguet",
+        "minute": 82
+      }
+    ]
   }
 ]
