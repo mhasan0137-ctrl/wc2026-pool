@@ -765,5 +765,30 @@
         "minute": 82
       }
     ]
+  },
+  {
+    "team1": "Argentina",
+    "team2": "Austria",
+    "group": "Group J",
+    "round": "Matchday 2",
+    "date": "2026-06-22",
+    "score": {
+      "ft": [
+        2,
+        0
+      ]
+    },
+    "goals1": [
+      {
+        "name": "Lionel Messi",
+        "minute": 38
+      },
+      {
+        "name": "Lionel Messi",
+        "minute": 90,
+        "offset": 5
+      }
+    ],
+    "goals2": []
   }
 ]
