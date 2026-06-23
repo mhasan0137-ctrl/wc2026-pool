@@ -790,5 +790,71 @@
       }
     ],
     "goals2": []
+  },
+  {
+    "team1": "France",
+    "team2": "Iraq",
+    "group": "Group I",
+    "round": "Matchday 2",
+    "date": "2026-06-22",
+    "score": {
+      "ft": [
+        3,
+        0
+      ]
+    },
+    "goals1": [
+      {
+        "name": "Kylian Mbappé",
+        "minute": 14
+      },
+      {
+        "name": "Kylian Mbappé",
+        "minute": 54
+      },
+      {
+        "name": "Ousmane Dembélé",
+        "minute": 66
+      }
+    ],
+    "goals2": []
+  },
+  {
+    "team1": "Norway",
+    "team2": "Senegal",
+    "group": "Group I",
+    "round": "Matchday 2",
+    "date": "2026-06-22",
+    "score": {
+      "ft": [
+        3,
+        2
+      ]
+    },
+    "goals1": [
+      {
+        "name": "Marcus Holmgren Pedersen",
+        "minute": 43
+      },
+      {
+        "name": "Erling Haaland",
+        "minute": 48
+      },
+      {
+        "name": "Erling Haaland",
+        "minute": 58
+      }
+    ],
+    "goals2": [
+      {
+        "name": "Ismaïla Sarr",
+        "minute": 53
+      },
+      {
+        "name": "Ismaïla Sarr",
+        "minute": 90,
+        "offset": 3
+      }
+    ]
   }
 ]
