@@ -922,5 +922,20 @@
    }
   ],
   "goals2": []
+ },
+ {
+  "team1": "England",
+  "team2": "Ghana",
+  "group": "Group L",
+  "round": "Matchday 2",
+  "date": "2026-06-23",
+  "score": {
+   "ft": [
+    0,
+    0
+   ]
+  },
+  "goals1": [],
+  "goals2": []
  }
 ]
