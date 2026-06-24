@@ -957,5 +957,25 @@
     "minute": 54
    }
   ]
+ },
+ {
+  "team1": "Colombia",
+  "team2": "DR Congo",
+  "group": "Group K",
+  "round": "Matchday 2",
+  "date": "2026-06-23",
+  "score": {
+   "ft": [
+    1,
+    0
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Daniel Muñoz",
+    "minute": 76
+   }
+  ],
+  "goals2": []
  }
 ]
