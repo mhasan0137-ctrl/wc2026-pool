@@ -937,5 +937,25 @@
   },
   "goals1": [],
   "goals2": []
+ },
+ {
+  "team1": "Panama",
+  "team2": "Croatia",
+  "group": "Group L",
+  "round": "Matchday 2",
+  "date": "2026-06-23",
+  "score": {
+   "ft": [
+    0,
+    1
+   ]
+  },
+  "goals1": [],
+  "goals2": [
+   {
+    "name": "Ante Budimir",
+    "minute": 54
+   }
+  ]
  }
 ]
