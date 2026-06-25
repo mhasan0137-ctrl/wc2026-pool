@@ -1114,35 +1114,6 @@
   ]
  },
  {
-  "team1": "Mexico",
-  "team2": "Czech Republic",
-  "group": "Group A",
-  "round": "Matchday 3",
-  "date": "2026-06-24",
-  "score": {
-   "ft": [
-    3,
-    0
-   ]
-  },
-  "goals1": [
-   {
-    "name": "Mateo Chávez",
-    "minute": 55
-   },
-   {
-    "name": "Julián Quiñones",
-    "minute": 61
-   },
-   {
-    "name": "Álvaro Fidalgo",
-    "minute": 90,
-    "offset": 4
-   }
-  ],
-  "goals2": []
- },
- {
   "team1": "South Africa",
   "team2": "South Korea",
   "group": "Group A",
