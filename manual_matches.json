@@ -1132,5 +1132,25 @@
    }
   ],
   "goals2": []
+ },
+ {
+  "team1": "Uruguay",
+  "team2": "Spain",
+  "group": "Group H",
+  "round": "Matchday 3",
+  "date": "2026-06-26",
+  "score": {
+   "ft": [
+    0,
+    1
+   ]
+  },
+  "goals1": [],
+  "goals2": [
+   {
+    "name": "Álex Baena",
+    "minute": 42
+   }
+  ]
  }
 ]
