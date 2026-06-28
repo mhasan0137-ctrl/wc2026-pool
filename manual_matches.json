@@ -1152,5 +1152,40 @@
     "minute": 42
    }
   ]
+ },
+ {
+  "team1": "DR Congo",
+  "team2": "Uzbekistan",
+  "group": "Group K",
+  "round": "Matchday 3",
+  "date": "2026-06-27",
+  "score": {
+   "ft": [
+    3,
+    1
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Yoane Wissa",
+    "minute": 68,
+    "penalty": true
+   },
+   {
+    "name": "Fiston Mayele",
+    "minute": 78
+   },
+   {
+    "name": "Yoane Wissa",
+    "minute": 90,
+    "offset": 1
+   }
+  ],
+  "goals2": [
+   {
+    "name": "Eldor Shomurodov",
+    "minute": 10
+   }
+  ]
  }
 ]
