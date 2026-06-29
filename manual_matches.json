@@ -1187,5 +1187,33 @@
     "minute": 10
    }
   ]
+ },
+ {
+  "team1": "Germany",
+  "team2": "Paraguay",
+  "round": "Round of 32",
+  "date": "2026-06-29",
+  "score": {
+   "ft": [
+    1,
+    1
+   ],
+   "pen": [
+    3,
+    4
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Kai Havertz",
+    "minute": 54
+   }
+  ],
+  "goals2": [
+   {
+    "name": "Julio Enciso",
+    "minute": 42
+   }
+  ]
  }
 ]
