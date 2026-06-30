@@ -766,6 +766,8 @@ def build_live_results(agg, live_feed):
         once = ";".join(k for k, v in agg["scoreline_counts"].items() if v == 1)
         if once:
             res["q9_scoreline_once"] = once
+        res["_q9_scoreline_counts"] = agg["scoreline_counts"]   # full counts -> settler can cascade
+        #   (once-only normally wins; if nobody picked a once-only it cascades to twice, etc.)
     if gp:                                   # 11 total goals -> FORECAST band (if pace holds)
         res["q11_total_goals_band"] = _total_goals_band(fc(agg["total_goals"]))
     if gp and agg["all_groups"]:             # 7 group with fewest goals so far (tie -> all share)

@@ -96,7 +96,9 @@ def compute_standings(pred_rows, result):
     for col, kind in QUESTIONS:
         pot = POINTS.get(col, DEFAULT_POT)
         actual = (result or {}).get(col, "")
-        if actual in (None, "", "?"):
+        # Q9 can still score before any once-only scoreline exists (it cascades to twice, etc.)
+        # provided we have the scoreline counts - so don't skip it just because `actual` is blank.
+        if actual in (None, "", "?") and not (col == "q9_scoreline_once" and (result or {}).get("_q9_scoreline_counts")):
             continue  # not settled yet
         picks = [(r["name"], r.get(col, "")) for r in pred_rows if r.get(col, "") not in ("", None)]
 
@@ -143,7 +145,30 @@ def compute_standings(pred_rows, result):
                     detail[n][col] = round(share, 1)
 
         elif kind == "scoreline":
-            # actual = once-only scorelines, e.g. "3-2;4-1". Winning picks = picks in that set.
+            # Cascade: the winning scorelines are those that have occurred the FEWEST times
+            # among scorelines someone actually picked. Normally that's the once-only ones,
+            # but if NOBODY picked a once-only scoreline it moves on to the ones that happened
+            # twice, then three times, and so on (mirrors the Q7 group-goals cascade).
+            counts = (result or {}).get("_q9_scoreline_counts")
+            if counts:
+                ck = {_scoreline_key(k): v for k, v in counts.items()}
+                occ = [(n, _scoreline_key(v)) for n, v in picks]
+                occ = [(n, k, ck.get(k, 0)) for n, k in occ if k]
+                occ = [(n, k, c) for n, k, c in occ if c >= 1]   # only scorelines that actually happened
+                if occ:
+                    lo = min(c for _, _, c in occ)               # rarest occurrence level anyone picked
+                    pickers = defaultdict(list)
+                    for n, k, c in occ:
+                        if c == lo:
+                            pickers[k].append(n)
+                    share = pot / len(pickers)
+                    for k, names in pickers.items():
+                        per = share / len(names)
+                        for n in names:
+                            points[n] += per
+                            detail[n][col] = round(per, 1)
+                continue
+            # fallback (final settlement via results.csv): actual = once-only scorelines.
             once = {_scoreline_key(x) for x in str(actual).replace(",", ";").split(";")}
             once.discard(None)
             pickers = defaultdict(list)
