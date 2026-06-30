@@ -1215,5 +1215,34 @@
     "minute": 42
    }
   ]
+ },
+ {
+  "team1": "Netherlands",
+  "team2": "Morocco",
+  "round": "Round of 32",
+  "date": "2026-06-29",
+  "score": {
+   "ft": [
+    1,
+    1
+   ],
+   "pen": [
+    2,
+    3
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Cody Gakpo",
+    "minute": 72
+   }
+  ],
+  "goals2": [
+   {
+    "name": "Issa Diop",
+    "minute": 90,
+    "offset": 1
+   }
+  ]
  }
 ]
