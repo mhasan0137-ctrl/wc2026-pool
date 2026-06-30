@@ -580,7 +580,7 @@ QLABELS = {
     "q13_most_traded_band": "Q13. Most traded (turnover)",
 }
 # Whole-tournament totals: their live value is a FORECAST (pace x 104), not a result.
-FORECAST_QS = {"q2_own_goals", "q3_red_cards", "q11_total_goals_band"}
+FORECAST_QS = {"q2_own_goals", "q3_red_cards", "q4_pen_shootouts", "q11_total_goals_band"}
 DEMO_NAMES = ["Player A", "Player B", "Player C", "Player D", "Player E", "Player F",
               "Player G", "Player H", "Player I", "Player J", "Player K", "Player L"]
 DEMO_OPTIONS = {
@@ -740,11 +740,16 @@ def build_live_results(agg, live_feed):
     def fc(n):                       # forecast over all 104 games if the current pace holds
         return round(n / gp * 104) if gp else n
 
+    ko_played = agg["matches_played"] - agg["group_played"]   # knockout games played so far
+    ko_total = agg["matches_total"] - agg["group_total"]      # 32 knockout games in total
+    def fc_ko(n):                    # forecast over ALL knockout games from the knockout-stage pace
+        return round(n / ko_played * ko_total) if ko_played else n
+
     rc_so_far = int(lf.get("q3_red_cards", 0) or 0)
     res = {
         "q2_own_goals": fc(agg["own_goals"]),       # whole-tournament totals -> forecast
         "q3_red_cards": fc(rc_so_far),
-        "q4_pen_shootouts": len(agg["penalty_shootouts"]),  # knockout-only: raw count (forecast n/a)
+        "q4_pen_shootouts": fc_ko(len(agg["penalty_shootouts"])),  # knockout-only -> forecast over 32 KO games
         "q12_best_match_pnl_band": lf.get("q12_best_match_pnl_band", "£0k"),
         "q13_most_traded_band": lf.get("q13_most_traded_band", "£0m"),
         "q12_amount": lf.get("q12_amount"),         # rounded actual best PnL (display only)
@@ -780,6 +785,11 @@ def build_live_results(agg, live_feed):
                                      ("q11_total_goals_band", agg["total_goals"], "goals")):
             notes[col] = (f"{n_so_far} {unit} in {gp} game{'s' if gp != 1 else ''} = "
                           f"{n_so_far / gp:.2g}/game -> {fc(n_so_far)} projected over 104")
+    if ko_played:                    # Q4 forecasts over the 32 KNOCKOUT games (shootouts can't happen in groups)
+        ns = len(agg["penalty_shootouts"])
+        notes["q4_pen_shootouts"] = (f"{ns} shootout{'s' if ns != 1 else ''} in {ko_played} knockout "
+                                     f"game{'s' if ko_played != 1 else ''} = {ns / ko_played:.2g}/game "
+                                     f"-> {fc_ko(ns)} projected over {ko_total}")
     res["_forecast_notes"] = notes
     for k in ("q5_final_goals", "q6_continent", "q8_youngest_age", "q10_fastest_goal_band"):
         if lf.get(k):                        # held until the final / manual feed
