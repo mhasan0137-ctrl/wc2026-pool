@@ -1272,5 +1272,32 @@
     "minute": 86
    }
   ]
+ },
+ {
+  "team1": "France",
+  "team2": "Sweden",
+  "round": "Round of 32",
+  "date": "2026-06-30",
+  "score": {
+   "ft": [
+    3,
+    0
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Kylian Mbappé",
+    "minute": 45
+   },
+   {
+    "name": "Bradley Barcola",
+    "minute": 53
+   },
+   {
+    "name": "Kylian Mbappé",
+    "minute": 74
+   }
+  ],
+  "goals2": []
  }
 ]
