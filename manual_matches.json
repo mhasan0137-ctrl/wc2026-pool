@@ -1350,5 +1350,42 @@
     "minute": 7
    }
   ]
+ },
+ {
+  "team1": "Belgium",
+  "team2": "Senegal",
+  "round": "Round of 32",
+  "date": "2026-07-01",
+  "score": {
+   "ft": [
+    3,
+    2
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Romelu Lukaku",
+    "minute": 86
+   },
+   {
+    "name": "Youri Tielemans",
+    "minute": 89
+   },
+   {
+    "name": "Youri Tielemans",
+    "minute": 125,
+    "penalty": true
+   }
+  ],
+  "goals2": [
+   {
+    "name": "Habib Diarra",
+    "minute": 25
+   },
+   {
+    "name": "Ismaïla Sarr",
+    "minute": 51
+   }
+  ]
  }
 ]
