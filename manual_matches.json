@@ -1299,5 +1299,28 @@
    }
   ],
   "goals2": []
+ },
+ {
+  "team1": "Mexico",
+  "team2": "Ecuador",
+  "round": "Round of 32",
+  "date": "2026-06-30",
+  "score": {
+   "ft": [
+    2,
+    0
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Julián Quiñones",
+    "minute": 22
+   },
+   {
+    "name": "Raúl Jiménez",
+    "minute": 31
+   }
+  ],
+  "goals2": []
  }
 ]
