@@ -1322,5 +1322,33 @@
    }
   ],
   "goals2": []
+ },
+ {
+  "team1": "England",
+  "team2": "DR Congo",
+  "round": "Round of 32",
+  "date": "2026-07-01",
+  "score": {
+   "ft": [
+    2,
+    1
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Harry Kane",
+    "minute": 75
+   },
+   {
+    "name": "Harry Kane",
+    "minute": 86
+   }
+  ],
+  "goals2": [
+   {
+    "name": "Brian Cipenga",
+    "minute": 7
+   }
+  ]
  }
 ]
