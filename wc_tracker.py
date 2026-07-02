@@ -113,7 +113,7 @@ def aggregate(matches):
     scoreline_counts = Counter()
 
     for m in played:
-        a, b = m["score"]["ft"]
+        a, b = m["score"].get("et") or m["score"]["ft"]   # final score incl. extra time
         g = a + b
         total_goals += g
         scoreline_counts["-".join(map(str, sorted((a, b))))] += 1
@@ -1070,8 +1070,8 @@ def main():
         OUT / "fixtures.csv",
         [[m.get("round", ""), m.get("date", ""), m.get("group", ""),
           m["team1"], m["team2"],
-          (m["score"]["ft"][0] if is_played(m) else ""),
-          (m["score"]["ft"][1] if is_played(m) else "")]
+          ((m["score"].get("et") or m["score"]["ft"])[0] if is_played(m) else ""),
+          ((m["score"].get("et") or m["score"]["ft"])[1] if is_played(m) else "")]
          for m in matches],
         ["round", "date", "group", "team1", "team2", "score1", "score2"],
     )
