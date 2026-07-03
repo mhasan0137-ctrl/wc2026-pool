@@ -1414,5 +1414,28 @@
    }
   ],
   "goals2": []
+ },
+ {
+  "team1": "Switzerland",
+  "team2": "Algeria",
+  "round": "Round of 32",
+  "date": "2026-07-02",
+  "score": {
+   "ft": [
+    2,
+    0
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Breel Embolo",
+    "minute": 10
+   },
+   {
+    "name": "Dan Ndoye",
+    "minute": 46
+   }
+  ],
+  "goals2": []
  }
 ]
