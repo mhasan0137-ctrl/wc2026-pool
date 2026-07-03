@@ -1387,5 +1387,32 @@
     "minute": 51
    }
   ]
+ },
+ {
+  "team1": "Spain",
+  "team2": "Austria",
+  "round": "Round of 32",
+  "date": "2026-07-02",
+  "score": {
+   "ft": [
+    3,
+    0
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Mikel Oyarzabal",
+    "minute": 36
+   },
+   {
+    "name": "Pedro Porro",
+    "minute": 66
+   },
+   {
+    "name": "Mikel Oyarzabal",
+    "minute": 89
+   }
+  ],
+  "goals2": []
  }
 ]
