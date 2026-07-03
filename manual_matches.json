@@ -1437,5 +1437,34 @@
    }
   ],
   "goals2": []
+ },
+ {
+  "team1": "Australia",
+  "team2": "Egypt",
+  "round": "Round of 32",
+  "date": "2026-07-03",
+  "score": {
+   "ft": [
+    1,
+    1
+   ],
+   "pen": [
+    2,
+    4
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Mohamed Hany",
+    "minute": 55,
+    "owngoal": true
+   }
+  ],
+  "goals2": [
+   {
+    "name": "Emam Ashour",
+    "minute": 13
+   }
+  ]
  }
 ]
