@@ -858,7 +858,17 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None, show_
     # Live counts: total so far, avg/game, forecast over 104 games (if the pace holds).
     gp = agg["matches_played"]
 
-    def live_count_row(label, total):
+    ko_played = agg["matches_played"] - agg["group_played"]   # knockout games so far
+    ko_total = agg["matches_total"] - agg["group_total"]      # 32 knockout games in total
+
+    def live_count_row(label, total, ko_only=False):
+        # ko_only: shootouts can only occur in knockout games, so forecast over the 32 KO
+        # games from the knockout-stage pace, not over all 104 games.
+        if ko_only:
+            if ko_played:
+                rate = total / ko_played
+                return (label, total, f"{rate:.2f}/ko", round(rate * ko_total))
+            return (label, total, "-", "-")
         if gp:
             avg = total / gp
             return (label, total, f"{avg:.2f}", round(avg * 104))
@@ -867,7 +877,7 @@ def write_html(agg, players, standings=None, is_demo=False, outcomes=None, show_
     live_counts = [
         live_count_row("Own goals (Q2)", agg["own_goals"]),
         live_count_row("Red cards (Q3)", int(outcomes.get("_q3_red_cards_raw") or 0)),
-        live_count_row("Penalty shootouts (Q4)", len(agg["penalty_shootouts"])),
+        live_count_row("Penalty shootouts (Q4)", len(agg["penalty_shootouts"]), ko_only=True),
         live_count_row("Total goals (Q11)", agg["total_goals"]),
     ]
     lc_rows = "\n".join(f"<tr><td>{a}</td><td>{b}</td><td>{c}</td><td>{d}</td></tr>"
