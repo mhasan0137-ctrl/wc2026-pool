@@ -1526,5 +1526,32 @@
    }
   ],
   "goals2": []
+ },
+ {
+  "team1": "Canada",
+  "team2": "Morocco",
+  "round": "Round of 16",
+  "date": "2026-07-04",
+  "score": {
+   "ft": [
+    0,
+    3
+   ]
+  },
+  "goals1": [],
+  "goals2": [
+   {
+    "name": "Azzedine Ounahi",
+    "minute": 50
+   },
+   {
+    "name": "Azzedine Ounahi",
+    "minute": 82
+   },
+   {
+    "name": "Soufiane Rahimi",
+    "minute": "90+8"
+   }
+  ]
  }
 ]
