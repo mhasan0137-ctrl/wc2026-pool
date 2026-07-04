@@ -1466,5 +1466,65 @@
     "minute": 13
    }
   ]
+ },
+ {
+  "team1": "Argentina",
+  "team2": "Cape Verde",
+  "round": "Round of 32",
+  "date": "2026-07-03",
+  "score": {
+   "ft": [
+    1,
+    1
+   ],
+   "et": [
+    3,
+    2
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Lionel Messi",
+    "minute": 29
+   },
+   {
+    "name": "Lisandro Martínez",
+    "minute": 92
+   },
+   {
+    "name": "Diney Borges",
+    "minute": 111,
+    "owngoal": true
+   }
+  ],
+  "goals2": [
+   {
+    "name": "Deroy Duarte",
+    "minute": 59
+   },
+   {
+    "name": "Sidny Lopes Cabral",
+    "minute": 103
+   }
+  ]
+ },
+ {
+  "team1": "Colombia",
+  "team2": "Ghana",
+  "round": "Round of 32",
+  "date": "2026-07-03",
+  "score": {
+   "ft": [
+    1,
+    0
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Jhon Arias",
+    "minute": 14
+   }
+  ],
+  "goals2": []
  }
 ]
