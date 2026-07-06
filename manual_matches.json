@@ -1573,5 +1573,72 @@
     "penalty": true
    }
   ]
+ },
+ {
+  "team1": "Brazil",
+  "team2": "Norway",
+  "round": "Round of 16",
+  "date": "2026-07-05",
+  "score": {
+   "ft": [
+    1,
+    2
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Neymar Júnior",
+    "minute": "90+10",
+    "penalty": true
+   }
+  ],
+  "goals2": [
+   {
+    "name": "Erling Haaland",
+    "minute": 79
+   },
+   {
+    "name": "Erling Haaland",
+    "minute": 90
+   }
+  ]
+ },
+ {
+  "team1": "Mexico",
+  "team2": "England",
+  "round": "Round of 16",
+  "date": "2026-07-05",
+  "score": {
+   "ft": [
+    2,
+    3
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Julián Quiñones",
+    "minute": 42
+   },
+   {
+    "name": "Raúl Jiménez",
+    "minute": 69,
+    "penalty": true
+   }
+  ],
+  "goals2": [
+   {
+    "name": "Jude Bellingham",
+    "minute": 36
+   },
+   {
+    "name": "Jude Bellingham",
+    "minute": 38
+   },
+   {
+    "name": "Harry Kane",
+    "minute": 60,
+    "penalty": true
+   }
+  ]
  }
 ]
