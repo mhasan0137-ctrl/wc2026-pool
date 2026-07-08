@@ -1731,5 +1731,23 @@
     "minute": 67
    }
   ]
+ },
+ {
+  "team1": "Switzerland",
+  "team2": "Colombia",
+  "round": "Round of 16",
+  "date": "2026-07-07",
+  "score": {
+   "ft": [
+    0,
+    0
+   ],
+   "pen": [
+    4,
+    3
+   ]
+  },
+  "goals1": [],
+  "goals2": []
  }
 ]
