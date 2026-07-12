@@ -1800,5 +1800,37 @@
     "minute": 41
    }
   ]
+ },
+ {
+  "team1": "Norway",
+  "team2": "England",
+  "round": "Quarter-final",
+  "date": "2026-07-11",
+  "score": {
+   "ft": [
+    1,
+    1
+   ],
+   "et": [
+    1,
+    2
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Andreas Schjelderup",
+    "minute": 36
+   }
+  ],
+  "goals2": [
+   {
+    "name": "Jude Bellingham",
+    "minute": 45
+   },
+   {
+    "name": "Jude Bellingham",
+    "minute": 93
+   }
+  ]
  }
 ]
