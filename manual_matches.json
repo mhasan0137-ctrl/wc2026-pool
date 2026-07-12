@@ -1832,5 +1832,41 @@
     "minute": 93
    }
   ]
+ },
+ {
+  "team1": "Argentina",
+  "team2": "Switzerland",
+  "round": "Quarter-final",
+  "date": "2026-07-11",
+  "score": {
+   "ft": [
+    1,
+    1
+   ],
+   "et": [
+    3,
+    1
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Alexis Mac Allister",
+    "minute": 10
+   },
+   {
+    "name": "Julián Álvarez",
+    "minute": 112
+   },
+   {
+    "name": "Lautaro Martínez",
+    "minute": 120
+   }
+  ],
+  "goals2": [
+   {
+    "name": "Dan Ndoye",
+    "minute": 67
+   }
+  ]
  }
 ]
