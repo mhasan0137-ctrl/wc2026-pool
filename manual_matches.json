@@ -1868,5 +1868,28 @@
     "minute": 67
    }
   ]
+ },
+ {
+  "team1": "France",
+  "team2": "Spain",
+  "round": "Semi-final",
+  "date": "2026-07-14",
+  "score": {
+   "ft": [
+    0,
+    2
+   ]
+  },
+  "goals1": [],
+  "goals2": [
+   {
+    "name": "Mikel Oyarzabal",
+    "minute": 22
+   },
+   {
+    "name": "Pedro Porro",
+    "minute": 58
+   }
+  ]
  }
 ]
