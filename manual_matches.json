@@ -1891,5 +1891,33 @@
     "minute": 58
    }
   ]
+ },
+ {
+  "team1": "England",
+  "team2": "Argentina",
+  "round": "Semi-final",
+  "date": "2026-07-15",
+  "score": {
+   "ft": [
+    1,
+    2
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Anthony Gordon",
+    "minute": 55
+   }
+  ],
+  "goals2": [
+   {
+    "name": "Enzo Fernández",
+    "minute": 85
+   },
+   {
+    "name": "Lautaro Martínez",
+    "minute": 90
+   }
+  ]
  }
 ]
