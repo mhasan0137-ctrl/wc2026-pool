@@ -1919,5 +1919,61 @@
     "minute": 90
    }
   ]
+ },
+ {
+  "team1": "France",
+  "team2": "England",
+  "round": "Match for third place",
+  "date": "2026-07-18",
+  "score": {
+   "ft": [
+    4,
+    6
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Kylian Mbappé",
+    "minute": 48
+   },
+   {
+    "name": "Bradley Barcola",
+    "minute": 54
+   },
+   {
+    "name": "Kylian Mbappé",
+    "minute": 66
+   },
+   {
+    "name": "Ousmane Dembélé",
+    "minute": 90
+   }
+  ],
+  "goals2": [
+   {
+    "name": "Declan Rice",
+    "minute": 3
+   },
+   {
+    "name": "Ezri Konsa",
+    "minute": 18
+   },
+   {
+    "name": "Bukayo Saka",
+    "minute": 37
+   },
+   {
+    "name": "Bukayo Saka",
+    "minute": 45
+   },
+   {
+    "name": "Bukayo Saka",
+    "minute": 87
+   },
+   {
+    "name": "Jude Bellingham",
+    "minute": 90
+   }
+  ]
  }
 ]
