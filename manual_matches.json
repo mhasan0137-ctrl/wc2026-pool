@@ -1975,5 +1975,28 @@
     "minute": 90
    }
   ]
+ },
+ {
+  "team1": "Spain",
+  "team2": "Argentina",
+  "round": "Final",
+  "date": "2026-07-19",
+  "score": {
+   "ft": [
+    0,
+    0
+   ],
+   "et": [
+    1,
+    0
+   ]
+  },
+  "goals1": [
+   {
+    "name": "Ferran Torres",
+    "minute": 106
+   }
+  ],
+  "goals2": []
  }
 ]
